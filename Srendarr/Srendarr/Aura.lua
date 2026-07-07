@@ -253,14 +253,14 @@ do ------------------------
                                     if cdId == tId then
                                         if abilityCooldowns[cdId] ~= nil then
                                             local abID = cdId + 5000000
-                                            local currentTime = GetGameTimeMillis() / 1000
+                                            local readyTime = GetGameTimeMillis() / 1000
                                             local abName = (abilityCooldowns[cdId].altName ~= nil) and abilityCooldowns[cdId].altName or GetAbilityName(cdId)
                                             local abIcon = (abilityCooldowns[cdId].altIcon ~= nil) and abilityCooldowns[cdId].altIcon or GetAbilityIcon(cdId)
                                             if filteredAuras['player'] ~= nil then
                                                 if not filteredAuras['player'][abID] then
                                                     if auraLookup['player'][abID] then auraLookup['player'][abID]:Release() end
-                                                    local isProminent = (Srendarr.prominentIDs[abilityId] ~= nil) and true or false -- only need to check main prominent table since gear cooldowns in Srendarr can only be player cast (Phinix)
-                                                    Srendarr.PassToDisplayFrame(false, GROUP_CDBAR, AURA_TYPE_PASSIVE, abName, 'player', currentTime, currentTime, abIcon, BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, abID, 0, true, isProminent, true)
+                                                    local isProminent = (Srendarr.prominentIDs[cdId] ~= nil) and true or false -- only need to check main prominent table since gear cooldowns in Srendarr can only be player cast (Phinix)
+                                                    Srendarr.PassToDisplayFrame(false, GROUP_CDBAR, AURA_TYPE_PASSIVE, abName, 'player', readyTime, readyTime, abIcon, BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, abID, 0, true, isProminent, true)
                                                 end
                                             end
                                         end
@@ -506,11 +506,11 @@ do ------------------------
         end
 
         -- used to add stacks to name of auras that have them (Phinix)
-        local stackString = ((stackingAuras[abilityOffset]) or (self.stacks > 0)) and '\(' .. tostring(self.stacks) .. '\)' or ''
+        local stackString = ((stackingAuras[abilityOffset]) or (self.stacks > 0)) and '(' .. tostring(self.stacks) .. ')' or ''
 
-        if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(self.stacks) .. '\%|r' end -- Bahsei's Mania
+        if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(self.stacks) .. '%|r' end -- Bahsei's Mania
 
-        auraLookup[unitTag][abilityID] = self                                                             -- add self to the aura lookup reference
+        auraLookup[unitTag][abilityID] = self                                                            -- add self to the aura lookup reference
 
         if (displayDB[displayID].style == AURA_STYLE_MINI) then
             if (self.cdBG) then self.cdBG:SetHidden(true) end
@@ -558,7 +558,7 @@ do ------------------------
             end
         end
 
-        local aName = ((isCDBar) and (Srendarr.db.gearProcCDText)) and self.auraName .. ' ' .. '\(' .. tostring(abilityCooldowns[abilityOffset].CD) .. 's\)' or self.auraName
+        local aName = ((isCDBar) and (Srendarr.db.gearProcCDText)) and self.auraName .. ' (' .. tostring(abilityCooldowns[abilityOffset].CD) .. 's)' or self.auraName
         if self.auraStyle == AURA_STYLE_GROUPB or self.auraStyle == AURA_STYLE_GROUPD then
             self.name:SetText('')
         else
@@ -661,7 +661,7 @@ do ------------------------
         end
 
         if (self.auraStyle == AURA_STYLE_ICON) and (showAbilityID) then
-            tText = (tText ~= '') and tText .. ' \(' .. stackString .. '\)' or stackString
+            tText = (tText ~= '') and tText .. ' (' .. stackString .. ')' or stackString
         end
         self.timer:SetText(tText)
 
@@ -686,15 +686,15 @@ function Aura:Update(start, finish, stacks, refresh)
     local aId = self.abilityID
     local abilityOffset = (aId - 5000000 > 0) and aId - 5000000 or (aId - 4000000 > 0) and aId - 4000000 or (aId - 3000000 > 0) and aId - 3000000 or (aId - 2000000 > 0) and aId - 2000000 or (aId - 1000000 > 0) and aId - 1000000 or aId
 
-    if grimBase[abilityOffset] then nStacks = Srendarr.db.grimTracker[abilityOffset].stacks end   -- Grim Focus (Phinix)
+    if grimBase[abilityOffset] then nStacks = Srendarr.db.grimTracker[abilityOffset].stacks end  -- Grim Focus (Phinix)
 
-    if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(nStacks) .. '\%|r' end -- Bahsei's Mania
+    if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(nStacks) .. '%|r' end -- Bahsei's Mania
 
     ----------------------------------------------------------------------------------------------------------------------------------- for stacking auras only (Phinix)
     self.stacks = nStacks
 
     if stackingAuras[abilityOffset] then
-        stackString = '\(' .. tostring(nStacks) .. '\)'           -- used to add stacks to name of auras that have them (Phinix)
+        stackString = '(' .. tostring(nStacks) .. ')'             -- used to add stacks to name of auras that have them (Phinix)
 
         if stackingAuras[abilityOffset].base and not refresh then -- reset timer with each stack change if aura requires (Phinix)
             sStart = start
@@ -716,7 +716,7 @@ function Aura:Update(start, finish, stacks, refresh)
         end
     elseif self.stacks > 0 then -- catch when the game sends stacks for an aura that Srendarr doesn't have a specific definition for (Phinix)
         if abilityOffset ~= bData.ID then
-            stackString = '\(' .. tostring(nStacks) .. '\)'
+            stackString = '(' .. tostring(nStacks) .. ')'
         end
     end
 
@@ -779,7 +779,7 @@ function Aura:Update(start, finish, stacks, refresh)
         tText = FormatTime(finish - currentTime, Srendarr.db.auraGroups[self.auraGroup])
     end
     if (self.auraStyle == AURA_STYLE_ICON) and (showAbilityID) then
-        tText = (tText ~= '') and tText .. ' \(' .. stackString .. '\)' or stackString
+        tText = (tText ~= '') and tText .. ' (' .. stackString .. ')' or stackString
     end
     self.timer:SetText(tText)
 
