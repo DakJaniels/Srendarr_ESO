@@ -81,6 +81,8 @@ Srendarr.auraPolling = true
 local gearSwapDelay = false
 local POrderData = Srendarr.POrderData
 local BahseiData = Srendarr.BahseiData
+local AURA_TYPE_TIMED = Srendarr.AURA_TYPE_TIMED
+local DEBUFF_TYPE_TIMED = Srendarr.DEBUFF_TYPE_TIMED
 
 ------------------------------------------------------------------------------------------------------------------------------
 -- ADDON INITIALIZATION
@@ -286,7 +288,7 @@ do
     function Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
         local GetGameTimeMillis = GetGameTimeMilliseconds
         local PassToAuraHandler = Srendarr.PassToAuraHandler
-        local auraName, finish, icon, effectType, abilityType, abilityID
+        local auraName, _, finish, stack, icon, effectType, abilityType, abilityID, castByPlayer
         if numAuras > 0 then -- unit has auras, repopulate
             local ts = GetGameTimeMillis() / 1000
             for i = 1, numAuras do
@@ -327,7 +329,6 @@ do
             fs:SetAnchor(BOTTOMLEFT, control, TOPLEFT, gBX, gBY)
             fd:SetAnchor(TOPLEFT, control, TOPRIGHT, gDX, gDY)
             Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
-            return
         end
         local function defaultRaid() ----------------------------------------------------------------------- Default raid frame configuration
             local groupSlot = tostring(unitTag:gsub('%a', ''))
@@ -335,7 +336,6 @@ do
             fs:SetAnchor(TOPLEFT, control, TOPRIGHT, rBX, rBY + 1)
             fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, rDX, rDY - 3)
             Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
-            return
         end
 
         if groupSize <= sGroupMax then
@@ -811,6 +811,7 @@ do
 
     function Srendarr.OnEquipChange(bagId, slotId, delayed, sUpdate)
         if (bagId and bagId == 0) and (slotId and (slotId == 13 or slotId == 14)) then return end -- ignore poison slot procs (Phinix)
+        if Srendarr.SampleAurasActive then return end                                             -- settings preview uses synthetic auras; full resync would remove them (Phinix)
 
         local RotPOEquipped = false
         if (delayed) or (not gearSwapDelay) then
@@ -1456,7 +1457,7 @@ do
         local foundID = false
         if numAuras > 0 then -- player has auras, scan and send to handle
             for i = 1, numAuras do
-                auraName, start, finish, _, stacks, icon, _, effectType, abilityType, _, abilityId, _, castByPlayer = GetUnitBuffInfo('player', i)
+                local auraName, start, finish, _, stacks, icon, _, effectType, abilityType, _, abilityId, _, castByPlayer = GetUnitBuffInfo('player', i)
                 if abilityId == aId then
                     foundID = true
                     d(zo_strformat('<<t:1>>', auraName) .. ': stacks = ' .. tostring(stacks))
