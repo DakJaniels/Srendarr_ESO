@@ -1423,6 +1423,9 @@ do ------------------------
     local specialRelease = Srendarr.specialRelease
 
     local function EventToChat(e, result, isError, aName, aGraphic, aActionSlotType, sName, sType, tName, tType, hitValue, pType, dType, elog, sUnitId, tUnitId, abilityId)
+        if (aName == '' or aName == nil) and abilityId then
+            aName = (specialNames[abilityId] ~= nil) and specialNames[abilityId].name or ZOSName(abilityId)
+        end
         if (aName ~= '' and aName ~= nil) or Srendarr.db.showNoNames then
             if Srendarr.db.onlyPlayerDebug and zo_strlower(sName) ~= zo_strlower(playerName) then return end
             if zo_strlower(sName) == zo_strlower(playerName) then sName = 'Player' end

@@ -9,7 +9,8 @@
 [*]Fixed gear cooldown tracker prominent assignment for set procs.
 [*]Fixed Healing Seed duration tracking for the base ability.
 [*]Updated database of Major/Minor effects.
-[*]Fixed recent aura list refresh and ID header display in aura assignment settings.[/list]
+[*]Fixed recent aura list refresh and ID header display in aura assignment settings.
+[*]Fixed combat event debug logging to resolve ability names from ability ID when the game sends an empty name.[/list]
 
 [b]v2.5.46 ~Mandemikc (7 July 2026)[/b]
 [list][*]Updated API for Update 50.
