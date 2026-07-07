@@ -1,0 +1,13 @@
+{
+    "xml.format.splitAttributes": "alignWithFirstAttr",
+    "xml.fileAssociations": [
+        {
+            "pattern": "**/bindings.xml",
+            "systemId": "https://raw.githubusercontent.com/DakJaniels/esoui_gui_xsd/main/esobindings.xsd"
+        },
+        {
+            "pattern": "**/*.xml",
+            "systemId": "https://raw.githubusercontent.com/DakJaniels/esoui_gui_xsd/main/esoui_gui_xml.xsd"
+        }
+    ],
+}
