@@ -1,3 +1,16 @@
+[b]v2.5.47 ~DakJaniels (7 July 2026)[/b]
+[list][*]Updated for API support to include 101051.
+[*]Raised minimum library versions: LibMediaProvider and LibAddonMenu-2.0.
+[*]Fixed LuiExtended integration for group and raid aura frame anchoring.
+[*]Fixed LuiExtended raid aura anchoring when using custom raid unit frames.
+[*]Fixed right-click cancel on player auras to respect clickable-off effects only.
+[*]Fixed settings "Show Example Auras" preview being cleared by equipment changes and combat opacity during preview.
+[*]Fixed prominent Major/Minor aura timers not updating when refreshed by another player’s cast.
+[*]Fixed gear cooldown tracker prominent assignment for set procs.
+[*]Fixed Healing Seed duration tracking for the base ability.
+[*]Updated database of Major/Minor effects.
+[*]Fixed recent aura list refresh and ID header display in aura assignment settings.[/list]
+
 [b]v2.5.46 ~Mandemikc (7 July 2026)[/b]
 [list][*]Updated API for Update 50.
 [*]Fixed error caused by action slot ability data returning nil under some conditions.
