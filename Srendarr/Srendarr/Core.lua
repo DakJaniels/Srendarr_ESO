@@ -1473,7 +1473,7 @@ do
         local c = WM:CreateControl(nil, parent, cType)
         c:SetDrawLayer(DL_OVERLAY)
         c:SetDrawLevel(level)
-        return c, c
+        return c
     end
 
     function Srendarr:GetGroupBuffTab()

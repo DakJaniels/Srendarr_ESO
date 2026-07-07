@@ -379,41 +379,41 @@ local function OnMouseExit(self)
 end
 
 local function CreateDragOverlay(self)
-    local ctrl, anim
+    local anim
 
     local drag = AddControl(self, CT_TEXTURE, 3)
     drag:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
     drag:SetAnchor(CENTER)
     drag:SetTexture([[/esoui/art/actionbar/abilityframe64_up.dds]]) -- border (and root)
     -- OVERLAY ICON
-    drag.icon, ctrl = AddControl(drag, CT_TEXTURE, 2)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetTexture [[/esoui/art/icons/ability_restorationstaff_001.dds]]
+    drag.icon = AddControl(drag, CT_TEXTURE, 2)
+    drag.icon:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    drag.icon:SetAnchor(CENTER)
+    drag.icon:SetTexture [[/esoui/art/icons/ability_restorationstaff_001.dds]]
     -- MOUSEOVER HIGHLIGHT
-    drag.highlight, ctrl = AddControl(drag, CT_TEXTURE, 4)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetTexture([[/esoui/art/actionbar/actionslot_toggledon.dds]])
-    ctrl:SetColor(1, 0.82, 0)
-    ctrl:SetHidden(true)
+    drag.highlight = AddControl(drag, CT_TEXTURE, 4)
+    drag.highlight:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    drag.highlight:SetAnchor(CENTER)
+    drag.highlight:SetTexture([[/esoui/art/actionbar/actionslot_toggledon.dds]])
+    drag.highlight:SetColor(1, 0.82, 0)
+    drag.highlight:SetHidden(true)
     -- LABEL
-    drag.label, ctrl = AddControl(drag, CT_LABEL, 4)
-    ctrl:SetFont('ZoFontWinH1')
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetVerticalAlignment(1)
-    ctrl:SetHorizontalAlignment(1)
-    ctrl:SetColor(0.64, 0.52, 0, 1)
-    ctrl:SetText(self.displayID)
+    drag.label = AddControl(drag, CT_LABEL, 4)
+    drag.label:SetFont('ZoFontWinH1')
+    drag.label:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    drag.label:SetAnchor(CENTER)
+    drag.label:SetVerticalAlignment(1)
+    drag.label:SetHorizontalAlignment(1)
+    drag.label:SetColor(0.64, 0.52, 0, 1)
+    drag.label:SetText(self.displayID)
     -- AURA OUTLINES
     drag.auraOutlines = {}
     for x = 1, 4 do
-        drag.auraOutlines[x], ctrl = AddControl(drag, CT_BACKDROP, 1)
-        ctrl:SetHeight(AURA_HEIGHT)
-        ctrl:SetCenterColor(0, 0.5, 0.7, 0.24 / x)
-        ctrl:SetEdgeColor(0, 0.5, 0.7, 0.32 / x)
-        ctrl:SetEdgeTexture('', 8, 1, 0)
+        drag.auraOutlines[x] = AddControl(drag, CT_BACKDROP, 1)
+        drag.auraOutlines[x]:SetHeight(AURA_HEIGHT)
+        drag.auraOutlines[x]:SetCenterColor(0, 0.5, 0.7, 0.24 / x)
+        drag.auraOutlines[x]:SetEdgeColor(0, 0.5, 0.7, 0.32 / x)
+        drag.auraOutlines[x]:SetEdgeTexture('', 8, 1, 0)
     end
     -- ANIMATION
     drag.timeline = ANIMATION_MANAGER:CreateTimeline()
