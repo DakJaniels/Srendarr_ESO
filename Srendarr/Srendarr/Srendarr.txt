@@ -1,10 +1,11 @@
 ## Title: |c67b1e9S|c4779ce'rendarr|r
 ## Description: Adds graphical tracking of buffs and debuffs on both yourself and others in a manner that meshes with the stock interface theme.
-## Version: 2.5.46
+## Version: 2.5.47
+## AddOnVersion: 2547
 ## Author: |c66ccffPhinix|r, Kith, & |cEFEBBEGarkin|r, Mandemikc
-## APIVersion: 101050
+## APIVersion: 101050 101051
 ## SavedVariables: SrendarrDB
-## DependsOn: LibMediaProvider-1.0>=13 LibAddonMenu-2.0>=30
+## DependsOn: LibMediaProvider>=38 LibAddonMenu-2.0>=43
 ## OptionalDependsOn: FoundryTacticalCombat LuiExtended BanditsUserInterface AUI
 
 
