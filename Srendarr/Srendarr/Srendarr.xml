@@ -76,8 +76,6 @@
           <Anchor point="TOPRIGHT"
                   relativeTo="$(parent)"
                   relativePoint="TOPRIGHT" />
-          <Controls>
-          </Controls>
         </Control>
         <Label name="$(parent)ShowIDs"
                font="ZoFontWinH5"
