@@ -282,17 +282,14 @@ local function AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, ef
         addRecentAura(Srendarr.recentGroundAOE, auraName, abilityId, L.DropAuraTargetAOE, icon, L.DropAuraTargetAOE) -- catch recently seen auras (Phinix)
         displayFrameRef[GROUP_PLAYER_GROUND]:AddAuraToDisplay(flagBurst, GROUP_PLAYER_GROUND, AURA_TYPE_TIMED, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityId, nStacks, false, pCast)
     end
-    return
 end
 
 Srendarr.PassToAuraHandler = function (flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityId, castByPlayer, stacks, isCooldown, isProminent, isSpecial, pType, pFrame)
     AuraHandler(flagBurst, auraName, unitTag, start, finish, icon, effectType, abilityType, abilityId, castByPlayer, stacks, isCooldown, isProminent, isSpecial, pType, pFrame)
-    return
 end
 
 Srendarr.PassToDisplayFrame = function (flagBurst, bar, bType, aName, unitTag, start, finish, icon, eType, aType, abilityId, stacks, isActionBar, isProminent, pCast)
     displayFrameRef[bar]:AddAuraToDisplay(flagBurst, bar, bType, aName, unitTag, start, finish, icon, eType, aType, abilityId, stacks, isActionBar, isProminent, pCast)
-    return
 end
 
 function Srendarr:GetProminentTable(abilityId, unitTag)
@@ -512,7 +509,6 @@ do ------------------------
     local GetNumBuffs = GetNumBuffs
     local GetUnitBuffInfo = GetUnitBuffInfo
     local NUM_DISPLAY_FRAMES = Srendarr.NUM_DISPLAY_FRAMES
-    local auraLookup = Srendarr.auraLookup
     local alternateAura = Srendarr.alternateAura
     local ignoreStacks = Srendarr.ignoreStacks
     local grimBase = Srendarr.grimBase
@@ -521,7 +517,7 @@ do ------------------------
         Srendarr.GroupEnabled = true
 
         -- JoGroup uses custom sorting which is currently not supported
-        if JoGroup then
+        if _G['JoGroup'] then
             Srendarr.GroupEnabled = false
         end
 
@@ -532,12 +528,14 @@ do ------------------------
     end
 
     Srendarr.OnPlayerActivatedAlive = function ()
+        if Srendarr.SampleAurasActive then return end
+
         playerName = zo_strformat('<<t:1>>', GetUnitName('player'))
         local activeAuras = {}
         local sourceCast
         local numAuras
         local skipOtherProminent
-        local auraName, start, finish, icon, effectType, abilityType, abilityId, castByPlayer
+        local _, auraName, start, finish, stacks, icon, effectType, abilityType, abilityId, castByPlayer
         local equippedSets = Srendarr.equippedSets
         local abilityBarSets = Srendarr.abilityBarSets
         local abilityCooldowns = Srendarr.abilityCooldowns
@@ -649,7 +647,7 @@ do ------------------------
         end
 
         -- special case for passive Major Gallop the game doesn't track on the player (Phinix)
-        local MGpurchased, MGrank
+        local _, MGpurchased, MGrank
         _, _, _, _, _, MGpurchased, _, MGrank = GetSkillAbilityInfo(SKILL_TYPE_AVA, 1, 6) -- name, texture, earnedRank, passive, ultimate, purchased, progressionIndex, rank
 
         if (MGpurchased) and MGrank >= 1 then
@@ -676,7 +674,6 @@ end
 -- EVENT: EVENT_PLAYER_DEAD
 do ------------------------
     local NUM_DISPLAY_FRAMES = Srendarr.NUM_DISPLAY_FRAMES
-    local auraLookup = Srendarr.auraLookup
 
     Srendarr.OnPlayerDead = function ()
         for _, auras in pairs(auraLookup) do -- iterate all aura lookups
@@ -776,21 +773,17 @@ end
 -- ------------------------
 -- EVENT: EVENT_ACTION_SLOT_ABILITY_USED
 do ------------------------
-    local GetGameTimeMillis = GetGameTimeMilliseconds
     local GetLatency = GetLatency
     local slotData = Srendarr.slotData
     local barCastAuras = Srendarr.barCastAuras
-    local auraLookup = Srendarr.auraLookup
 
     Srendarr.OnActionSlotAbilityUsed = function (e, slotID)
         local slotAbilityName, currentTime, duration
+        local data = slotData[slotID]
 
         if (slotID < 3 or slotID > 8) then return end -- abort if not a main ability (or ultimate)
 
-        local data = slotData[slotID]
-        if (data == nil or data.abilityName == nil) then return end
-
-        slotAbilityName = zo_strformat('<<t:1>>', data.abilityName)
+        slotAbilityName = zo_strformat('<<t:1>>', slotData[slotID].abilityName)
 
         if barCastAuras[slotAbilityName] == nil then return end -- no fake aura needed for this ability (majority case)
 
@@ -804,13 +797,13 @@ do ------------------------
         local pFrame = 0
         local pType
 
-        local function GetProminentTable(unit, aId)
+        local function GetProminentTable(prominentUnitTag, prominentAbilityId)
             local tTable
-            if unit == 'player' and Srendarr.prominentPlayer[aId] ~= nil then
+            if prominentUnitTag == 'player' and Srendarr.prominentPlayer[prominentAbilityId] ~= nil then
                 tTable = Srendarr.prominentPlayer
-            elseif unit == 'reticleover' and Srendarr.prominentTarget[aId] ~= nil then
+            elseif prominentUnitTag == 'reticleover' and Srendarr.prominentTarget[prominentAbilityId] ~= nil then
                 tTable = Srendarr.prominentTarget
-            elseif unit == 'groundaoe' and Srendarr.prominentAOE[aId] ~= nil then
+            elseif prominentUnitTag == 'groundaoe' and Srendarr.prominentAOE[prominentAbilityId] ~= nil then
                 tTable = Srendarr.prominentAOE
             end
             return tTable
@@ -840,7 +833,7 @@ do ------------------------
             unit,
             currentTime,
             currentTime + duration + (GetLatency() / 1000), -- + cooldown? GetSlotCooldownInfo(slotID)
-            data.abilityIcon,
+            slotData[slotID].abilityIcon,
             BUFF_EFFECT_TYPE_BUFF,
             ABILITY_TYPE_NONE,
             slotAbility,
@@ -883,7 +876,7 @@ do ------------------------
     local function GetUnitHasAbilityID(unit, abilityId)
         local numAuras = GetNumBuffs(unit)
         for i = 1, numAuras do
-            local checkId
+            local _, checkId
             _, _, _, _, _, _, _, _, _, _, checkId = GetUnitBuffInfo('reticleover', i)
             if checkId == abilityId then
                 return true
@@ -989,7 +982,7 @@ do ------------------------
                                 return
                             elseif (pCast) and (sourceCast ~= 1) then
                                 -- allow effects that don't stack from multiple sources to release to avoid not knowing when critical buffs/debuffs are missing (Phinix)
-                                if ((IsMajorEffect(abilityId)) or (IsMinorEffect(abilityId))) and (change == EFFECT_RESULT_FADED) then
+                                if ((IsMajorEffect(abilityId)) or (IsMinorEffect(abilityId))) then
                                     updateTimer(abilityId, unitName, finish)
                                     isProminent = true
                                 else
@@ -1025,7 +1018,7 @@ do ------------------------
                 end
 
                 for i = 1, numAuras do
-                    local auraName, start, finish, stacks, icon, effectType, abilityType, abilityId, castByPlayer
+                    local _, auraName, start, finish, stacks, icon, effectType, abilityType, abilityId, castByPlayer
                     auraName, start, finish, _, stacks, icon, _, effectType, abilityType, _, abilityId, _, castByPlayer = GetUnitBuffInfo('reticleover', i)
                     -- 	local buffName, timeStarted, timeEnding, buffSlot, stackCount, iconFilename, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff, castByPlayer = GetUnitBuffInfo(unitTag, i)
 
@@ -1089,7 +1082,6 @@ do ------------------------
 
     Srendarr.PassReticleChange = function ()
         OnTargetChanged()
-        return
     end
 
     Srendarr.OnTargetChanged = OnTargetChanged
@@ -1113,11 +1105,8 @@ do ------------------------
     local specialProcs = Srendarr.specialProcs
     local enchantProcs = Srendarr.enchantProcs
     local sampleAuraData = Srendarr.sampleAuraData
-    local auraLookup = Srendarr.auraLookup
-    local IsGroupUnit = Srendarr.IsGroupUnit
     local OffBalance = Srendarr.OffBalance
     local grimBase = Srendarr.grimBase
-    local pillagersID = Srendarr.pillagersID
     local releaseTriggers = Srendarr.releaseTriggers
     local ignoreStacks = Srendarr.ignoreStacks
     local cruxId = Srendarr.cruxId
@@ -1133,7 +1122,7 @@ do ------------------------
         -- check if the aura is on either the player or a group member, or a target or ground aoe -- the description check filters a lot of extra auras attached to many ground effects
         if (unitTag == 'player' or unitTag == 'reticleover') then
             unitTagt = unitTag
-        elseif IsGroupUnit(unitTag) then
+        elseif Srendarr.IsGroupUnit(unitTag) then
             unitTagt = unitTag
             unitIsGroup = true
         elseif (abilityType == ABILITY_TYPE_AREAEFFECT and (GetAbilityDescription(abilityId) ~= '' or sampleAuraData[abilityId] ~= nil or abilityId == Srendarr.castBarID)) then
@@ -1168,7 +1157,7 @@ do ------------------------
         if ((isPlayerSource) and (not alteredAuraData[abilityId] and barCastAuras[ZOSName(abilityId)] ~= nil)) then return end -- ignore game default tracking of player bar abilities we've modified (Phinix)
 
         local aName = zo_strformat('<<t:1>>', auraName)
-        local fName = zo_strformat('<<t:1>>', unitName)
+        local fName = (unitName ~= nil) and zo_strformat('<<t:1>>', unitName) or ''
         if aName == OffBalance.obN2 then aName = OffBalance.obN1 end
         if specialNames[abilityId] ~= nil then aName = specialNames[abilityId].name end       -- handle renaming auras as required (Phinix)
         local typeSwitch = (debuffAuras[abilityId]) and BUFF_EFFECT_TYPE_DEBUFF or effectType -- fix for debuffs game tracks as buffs (Phinix)
@@ -1377,9 +1366,9 @@ do ------------------------
                         local cdTag = (abilityCooldowns[abilityId].unitTag ~= nil) and abilityCooldowns[abilityId].unitTag or unitTagt
                         local cdIcon = (abilityCooldowns[abilityId].altIcon ~= nil) and abilityCooldowns[abilityId].altIcon or GetAbilityIcon(abilityId)
                         local currentTime = GetGameTimeMillis() / 1000
-                        stopTime = (cdTime == 0) and currentTime or currentTime + cdTime + (GetLatency() / 1000) -- use duration 0 to indicate this is a toggle/passive not timer
+                        local stopTime = (cdTime == 0) and currentTime or currentTime + cdTime + (GetLatency() / 1000) -- use duration 0 to indicate this is a toggle/passive not timer
 
-                        if auraLookup['player'][abID] then                                                       -- handles switching passive "ready" state cooldowns on the active tracking bar to countdown timers (Phinix)
+                        if auraLookup['player'][abID] then                                                             -- handles switching passive "ready" state cooldowns on the active tracking bar to countdown timers (Phinix)
                             auraLookup['player'][abID].loopTexture:SetHidden(true)
                             auraLookup['player'][abID].loop:Stop()
                             auraLookup['player'][abID].isPlaying = false
@@ -1417,8 +1406,7 @@ do ------------------------
     local TYPE_RELEASE = Srendarr.TYPE_RELEASE
     local TYPE_TARGET_DEBUFF = Srendarr.TYPE_TARGET_DEBUFF
     local TYPE_TARGET_AURA = Srendarr.TYPE_TARGET_AURA
-    local TYPE_ALT_COMBAT = Srendarr.TYPE_ALT_COMBAT
-    local GetGameTimeMillis = GetGameTimeMilliseconds
+    local TYPE_CASTBAR = Srendarr.TYPE_CASTBAR
     local GetLatency = GetLatency
     local enchantProcs = Srendarr.enchantProcs
     local specialProcs = Srendarr.specialProcs
@@ -1428,7 +1416,6 @@ do ------------------------
     local abilityCooldowns = Srendarr.abilityCooldowns
     local castbarCancel = Srendarr.castbarCancel
     local castBarDelayAuras = Srendarr.castBarDelayAuras
-    local auraLookup = Srendarr.auraLookup
     local GrimStackCheck = Srendarr.GrimStackCheck
     local grimBase = Srendarr.grimBase
     local OffBalance = Srendarr.OffBalance
@@ -1469,6 +1456,7 @@ do ------------------------
             local numAuras = GetNumBuffs('player')
             if numAuras > 0 then -- player has auras, scan and send to handle
                 for i = 1, numAuras do
+                    local _, caName, caStart, caFinish, caStacks, caIcon, caEType, caAType, caAId, caPCast
                     caName, caStart, caFinish, _, caStacks, caIcon, _, caEType, caAType, _, caAId, _, caPCast = GetUnitBuffInfo('player', i)
                     if caAId == abilityId then
                         for _, auras in pairs(auraLookup) do         -- iterate all aura lookups
@@ -1604,7 +1592,7 @@ do ------------------------
             local fOBImmunityID = OffBalance.ID
             local obCD = OffBalance.CD
             local fTable = (groupType ~= 2) and GetProminentTable(dbTag, fOBImmunityID) or nil
-            local aType = (pTable == Srendarr.prominentAOE) and ABILITY_TYPE_AREAEFFECT or ABILITY_TYPE_NONE
+            local aType = (fTable == Srendarr.prominentAOE) and ABILITY_TYPE_AREAEFFECT or ABILITY_TYPE_NONE
             local fProminent = ((Srendarr.prominentIDs[fOBImmunityID] ~= nil) and (fTable ~= nil and fTable[fOBImmunityID] ~= nil)) and true or false
             local timeOffset = GetAbilityDuration(abilityId) / 1000
             local fAuraName = zo_strformat('<<t:1>>', GetAbilityName(OffBalance.nameID))
@@ -1692,16 +1680,16 @@ do ------------------------
                     ------------------------------------------------------------------------------------------------------------------------------------------------------
                     -- handle only show player target debuff settings (Phinix)
                     ------------------------------------------------------------------------------------------------------------------------------------------------------
-                    local function addFakes(aId, stopTime, currentTime, dbIcon, tName, aName)
-                        if auraLookup['reticleover'][aId] then
-                            auraLookup['reticleover'][aId]:Update(currentTime, stopTime, 0, true)
+                    local function addFakes(fakeAbilityId, fakeStopTime, fakeCurrentTime, fakeDbIcon, fakeTargetName, fakeAuraName)
+                        if auraLookup['reticleover'][fakeAbilityId] then
+                            auraLookup['reticleover'][fakeAbilityId]:Update(fakeCurrentTime, fakeStopTime, 0, true)
                         end
-                        trackTargets[aId] = trackTargets[aId] or {}
-                        trackTargets[aId][tName] = stopTime                                                                                     -- simply unit name tracking, more is not possible
-                        fakeTargetsDB[aId] = { duration = stopTime - currentTime, icon = dbIcon, type = BUFF_EFFECT_TYPE_DEBUFF, name = aName } -- dynamically add to fake target debuff table in order to keep player only timer on non-stacking auras when looking away and back at targets (Phinix)
+                        trackTargets[fakeAbilityId] = trackTargets[fakeAbilityId] or {}
+                        trackTargets[fakeAbilityId][fakeTargetName] = fakeStopTime                                                                                           -- simply unit name tracking, more is not possible
+                        fakeTargetsDB[fakeAbilityId] = { duration = fakeStopTime - fakeCurrentTime, icon = fakeDbIcon, type = BUFF_EFFECT_TYPE_DEBUFF, name = fakeAuraName } -- dynamically add to fake target debuff table in order to keep player only timer on non-stacking auras when looking away and back at targets (Phinix)
                     end
-                    if isPlayerSource then                                                                                                      -- handle maintaining player only timer when looking away and back at targets with non-stacking Prominent auras (Phinix)
-                        if stopTime ~= currentTime then                                                                                         -- only track auras that actually have a timer duration to avoid problems
+                    if isPlayerSource then                                                                                                                                   -- handle maintaining player only timer when looking away and back at targets with non-stacking Prominent auras (Phinix)
+                        if stopTime ~= currentTime then                                                                                                                      -- only track auras that actually have a timer duration to avoid problems
                             addFakes(abilityId, stopTime, currentTime, dbIcon, tName, aName)
                         end
                     end
