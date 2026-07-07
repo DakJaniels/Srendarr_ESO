@@ -1,6 +1,8 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
 local L = Srendarr:GetLocale()
 local LMP = LibMediaProvider
+--- @class Srendarr_CastBar
 local Cast = _G['Srendarr_CastBar']
 
 -- UPVALUES --

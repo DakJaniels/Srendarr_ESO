@@ -1,4 +1,6 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
+--- @class Srendarr_CastBar
 local Cast = _G['Srendarr_CastBar']
 local L = Srendarr:GetLocale()
 

@@ -1,4 +1,5 @@
-local Srendarr = _G['Srendarr']
+--- @class Srendarr
+local Srendarr = _G['Srendarr'] -- grab addon table from global
 local L = {}
 
 ------------------------------------------------------------------------------------------------------------------

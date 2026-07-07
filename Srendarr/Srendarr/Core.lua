@@ -33,7 +33,9 @@
 	https://account.elderscrollsonline.com/add-on-terms
 ]]
 --
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
+--- @class Srendarr_CastBar
 local Cast = _G['Srendarr_CastBar']
 local L = Srendarr:GetLocale()
 local ZOSName = function (abilityID) return zo_strformat('<<t:1>>', GetAbilityName(abilityID)) end
