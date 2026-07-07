@@ -102,6 +102,7 @@ Srendarr.TYPE_RELEASE = 4
 Srendarr.TYPE_TARGET_DEBUFF = 5
 Srendarr.TYPE_TARGET_AURA = 6
 Srendarr.TYPE_GRIM = 7
+Srendarr.TYPE_CASTBAR = 8
 
 Srendarr.AURA_HEIGHT = 40
 
