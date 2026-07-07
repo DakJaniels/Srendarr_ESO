@@ -195,17 +195,22 @@ local function OnMouseExit()
 end
 
 local function OnMouseUp(aura, button, upInside)
-    if button == 2 and (upInside) then -- right-click cancel eligible auras (Phinix)
-        local abilityID = aura.abilityID
+    if button ~= MOUSE_BUTTON_INDEX_RIGHT or not upInside then
+        return
+    end
+    if aura.unitTag ~= 'player' then -- right-click cancel eligible auras (Phinix)
+        return
+    end
 
-        local numAuras = GetNumBuffs('player')
-        for i = 1, numAuras do
-            -- 	local buffName, startTime, endTime, buffSlot, stackCount, iconFile, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff = GetUnitBuffInfo("player", i)
-            local _, _, _, buffSlot, _, _, _, _, _, _, abilityIDb, canClickOff = GetUnitBuffInfo('player', i)
-            if abilityIDb == abilityID then
-                CancelBuff(buffSlot)
-                auraLookup['player'][abilityID]:Release()
-            end
+    local abilityID = aura.abilityID
+    local numAuras = GetNumBuffs('player')
+    for i = 1, numAuras do
+        -- 	local buffName, startTime, endTime, buffSlot, stackCount, iconFile, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff = GetUnitBuffInfo("player", i)
+        local _, _, _, buffSlot, _, _, _, _, _, _, abilityId, canClickOff = GetUnitBuffInfo('player', i)
+        if abilityId == abilityID and canClickOff then
+            CancelBuff(buffSlot)
+            aura:Release()
+            break
         end
     end
 end
