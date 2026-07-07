@@ -1,0 +1,1597 @@
+[b]v2.5.46 ~Mandemikc (7 July 2026)[/b]
+[list][*]Updated API for Update 50.
+[*]Fixed error caused by action slot ability data returning nil under some conditions.
+[*]Fixed action slot proc handling to use the correct slot data lookup.
+[*]Fixed possible nil errors when checking LUI Extended settings.
+[*]Fixed possible nil errors when checking Foundry Tactical Combat settings.
+[*]Updated addon metadata and version references.
+[*]Updated author information.[/list]
+
+[b]v2.5.45 ~Phinix (3-26-2025)[/b]
+[list][*]Fixed Arcanist channeled abilities not canceling cast bar on blocking.
+[*]Fixed Scribing cast time abilities not canceling cast bar on blocking.
+[*]Fixed Grace of Gloom set not using correct 20s cooldown.
+[*]Updated for Fallen Banners.
+[*]Updated database of Major/Minor effects.
+[*]Added cooldown tracking support for the following sets: 
+[list][*]Black-Glove Grounding
+[*]Blackfeather Flight
+[*]Cinders of Anthelmir
+[*]Farstrider
+[*]Fledgling's Nest
+[*]Jerensi’s Bladestorm
+[*]Lucilla’s Windshield
+[*]Mara's Balm
+[*]Noxious Boulder
+[*]Orpheon the Tactician
+[*]Tarnished Nightmare
+[*]Vandorallen’s Resonance[/list]
+[*]Various other tweaks and updates.[/list]
+
+[b]v2.5.44 ~Phinix (12-18-2024)[/b]
+[list][*]Fixed typo causing cooldowns not to track properly when grouped.
+[*]Fixed Srendarr mover frames disappearing if that frame had its combat/non-combat opacity setting at 0 and the player tried moving frames when in that combat state.[/list]
+
+[b]v2.5.43 ~Phinix (12-12-2024)[/b]
+[list][*]Added support for Slivers of the Null Arca and Pillager's Profit by request (see note).
+[*]Fixed some limitations when adding auras by ID to group buff/debuff filters.
+[*]Fixed a bug that could cause player cooldown tracker auras to appear "stuck" as passives on group frames.[/list]
+[b][u]NOTE[/u]: [color="yellow"]Pillager's Profit cooldown tracker is unique.[/color][/b] The player Cooldown Tracker will trigger the 45sec timer any time someone in your group benefits from the effect due to an ultimate cast by YOU while wearing the set. This gives a general idea when the last time someone received the effect would be. HOWEVER, the Group Debuff aura filter, when enabled and properly configured, will show the actual 45sec debuff cooldown next to all group members who have received this effect from ANY source, accounting for multiple people in the group wearing this set. This allows much more detailed knowledge at a glance of who will not benefit from this set when casting your ultimate.
+
+[img]https://cdn-eso.mmoui.com/preview/pvw13584.jpg[/img]
+
+[b]IMPORTANT: [color="yellow"]You MUST add[/color] 172054 [color="yellow"]by number to the Group Debuff Assignment filter when not using group debuffs as a blacklist (and remove it if not)[/color] or it won't show. Also you [color="yellow"]MUST have the Debuff Duration Threshold set to[/color] 45 [color="yellow"]or greater when enabling Exclude Debuffs by Duration[/color] or likewise the Pillager's Profit cooldown won't show on group frames.[/b]
+
+[b]v2.5.42 ~Phinix (12-11-2024)[/b]
+[list][*]Fixed a minor bug that would cause an empty action bar slot to continue showing the proc animation after swapping from a bar where that slot had one.[/list]
+
+[b]v2.5.41 ~Phinix (12-05-2024)[/b]
+[list][*]Fixed aura cooldown animation timer showing at full alpha even when set to a lower level in/out of combat.
+[*]Fix for auras cancelling from other group member actions due to typo.[/list]
+
+[b]v2.5.40 ~Phinix (11-29-2024)[/b]
+[list][*]NEW FEATURE: You can now set an in-combat and out-of-combat opacity state for any Srendarr buff window independently from the Aura Display tab! (Hint: Unlock Srendarr's frames before going here so you can more easily know which ones you want to set). 
+[*]The old "Combat Only" feature under General options had some bugs, specifically with the Cooldown Tracking Bar always showing regardless along with anything else assigned to that window with it. It was also limited to hiding things globally. Now you can set any combination of visibility in and out of combat PER-FRAME.
+[*]To set a frame to hide out of combat, set its Non-Combat Transparency to 0.
+[*]Significant rework of how proc abilities like Crystal Shard or Grim Focus are tracked.
+[*]Fairly major performance improvement when swapping bars due to the above. Also should resolve instances where the proc sound would appear to get stuck and play repeatedly.
+[*]Also fixes an issue where procing Grim Focus on your alt bar would not immediately apply the action bar animation and proc icon when swapping back.
+[*]Fixed a bug where switching from Icon Only to Full on an aura window would not display the growth direction properly.
+[*]EDIT: Added catch for scenarios where you manually drag another ability over the Grim Focus slot, or drag it off your bar, properly clearing procs and resetting the aura.[/list]
+
+[b]v2.5.39 ~Phinix (11-28-2024)[/b]
+[list][*]Test fix for reported disappearing cast bar bug.[/list]
+
+[b]v2.5.38 ~Phinix (11-22-2024)[/b]
+[list][*]Fixed a bug with Grim Focus proc tracker setting that would cause other auras to animate when swapping to a bar with more active passive auras while Grim Focus was at 5 stacks.
+[*]Added cast bar support for all the Scribing abilities with a cast time including block cancel and weapon equip delay support.
+[*]Various code cleanup and maintenance.[/list]
+
+[b]v2.5.37 ~Phinix (11-14-2024)[/b]
+[list][*]Updated API to latest game update 44.
+[*]Updated list of Major/Minor effects with many new additions.
+[*]Fixed Grim Focus and morphs tracker not properly releasing proc animations.
+[*]Fixed Grim Focus and morphs tracker not resetting on loading screen as game now drops auras here.
+[*]Fixed Grim Focus and morphs proc icon not applying to action bar icon.
+[*]Added cooldown tracking for Rourken Steamguards mythic.[/list]
+
+[b]v2.5.36 ~Phinix (6-20-2024)[/b]
+[list][*]Update for Gold Road release API 101043.
+[*]Updated list of Major/Minor effects with many new additions.
+[*]Fixed Sorcerer pet timers not working.
+[*]Included previous fixes posted in the comment section.[/list]
+
+[b]v2.5.35 ~Phinix (4-21-2024)[/b]
+[list][*]Preliminary update for PTS Gold Road API 101042.
+[*]This update fixes errors on the PTS due to IDs that were removed from the game as well as the GetAbilityCastInfo function no longer returning three values and treating cast duration the same as channel time. This will require more comprehensive ability-specific updating when the chapter is released to address specific abilities with changed/removed IDs.[/list]
+
+[b]v2.5.34 ~Phinix (4-10-2024)[/b]
+[list][*]Rebuilt tracking for Grim Focus and morphs to work with the game's new mechanics.
+[*]Fixes Grim Focus proc sound playing whenever you switched bars or targeted a different enemy. NOTE: The game itself now plays its own proc sound when swapping bars with Grim Focus or morphs at 5 stacks. There is no way to selectively mute sounds so nothing Srendarr can do about that. But Srendarr's own loader sound will only play on the initial proc now.
+[*](Re)added support for Mercilous Charge tracking as the game changed the ID's.
+[*]Updated database of Major/Minor effects.
+[*]Other random code maintenance.[/list]
+
+[b]v2.5.33 ~Phinix (2-23-2024)[/b]
+[list][*]Fixed cast bar elements still showing when disabled until reload.
+[*]Safety check added to avoid nil error on current PTS.[/list] 
+
+[b]v2.5.32 ~Phinix (12-31-2023)[/b]
+[list][*]Fixed Sorcerer Volatile Familiar AOE canceling aura on recast with time remaining due to game sending erroneous aura finish event with zero duration AFTER aura update event any time you recast with time remaining, effectively wiping out the aura.
+[*]Changed cast bar code from name-based detection to ID-based which should avoid rare instances of the cast bar not showing for abilities they should.[/list]
+
+[b]v2.5.31 ~Phinix (12-29-2023)[/b]
+[list][*]Fix for Ring of the Pale Order tracker and possibly other gear set auras not updating during certain UI transitions, causing them to vanish until /reloadui. Avoided potential race condition by integrating gear set tracking code properly with Srendarr update functions.
+[*]Fixed 2H Uppercut and morphs were not following the rules to only show cast bar when weapon is out.[/list]
+
+[b]v2.5.30 ~Phinix (12-2-2023)[/b]
+[list][*]Fixed error related to setting Ring of the Pale Order tracker to prominent.
+[*]Fixed Prominent target debuffs set to NOT only show player auras not showing on cast if generic filter option to only show player target debuffs was also on.
+[*]Changes to allow special sets like Ring of the Pale Order and Bahsei's Mania set tracker to be set to prominent.
+[*]Fixed Bahsei's Mania set tracker not being re-shown when exiting Srendarr options.[/list]
+
+[b]v2.5.29 ~Phinix (11-30-2023)[/b]
+[list][*]Fixed Major Evasion not showing for ability Quick Cloak.
+[*]Added new framework to properly deal with cooldown events that send the same ID as the initial hit repeatedly for each tick of the ability, allowing for use of correct event ID for proc tracking.
+[*]Updated Grace of Gloom set to use correct proc ID instead of Major Evasion ID for proc tracking due to above added event processing option, eliminating error of this Major Evasion ID being exclusive to having Grace of Gloom equipped when it is actually used by other abilities in the game.
+[*]Some other minor database maintenance.[/list]
+
+[b]v2.5.28 ~Phinix (11-17-2023)[/b]
+[list][*]Major rework of entire primary aura handling code base line by line to correct accumulated problems and streamline performance.
+[*]Re-write of code handling options to only show player cast target debuffs, both from Target Filters option and Prominent auras.
+[*]Non stacking major/minor auras assigned to prominent will now expire when the effect is removed even when set to player only.
+[*]Prominent auras added through recently seen menus will now default to player only for target debuffs (can still be changed).
+[*]Prominent system will now allow assigning individual auras as "Do Not Display." This works the same as adding them to the blacklist, however it is much faster and easier to toggle them on/off by simply re-assigning their frame at any time.
+[*]Re-write of Prominent detection system for all events eliminating redundant lookups by passing results to the Aura Handler directly, improving performance.
+[*]Raised the cap on ability ID's Srendarr will search for, allowing newer ID's that passed the previous cap to be added to prominent.
+[*]Re-updated database of Major/Minor abilities with raised ID cap. [b]Current max valid ability ID: [color="yellow"]213946[/color].[/b]
+[*]Added new function to automated updater for tracking the highest valid ability ID in the current version of the game.
+[*]Many other changes and improvements under the hood.[/list]
+
+[b]v2.5.27 ~Phinix (11-16-2023)[/b]
+[list][*]Fixed locking Srendarr drag frames using slash command was not re-showing auras.
+[*]Adjusted the new icon border option logic so game UI style border will always show when enabled.
+[*]Added new sorting options: Centered (Up) and Centered (Down). These work like the Left/Right centered options for vertical sorting.
+[*]Updated the tooltip for icon layout to be more descriptive and corrected a text formatting error.[/list]
+
+[b]v2.5.26 ~Phinix (11-15-2023)[/b]
+[list][*]Updated API for Endless Archive.
+[*]Updated database of Major & Minor effects, which fixes many things not tracking properly.
+[*]Added new option to the individual display frame configuration tabs to disable the black background Srendarr uses for the cooldown animation.
+[*]Added an additional option to disable the default game UI style border around icons normally used when Srendarr's black background is disabled.
+[*]The above two updates automatically resize the icon to fit the set dimensions when the black border is disabled so they maintain the correct spacing. Additionally, this update fixes a long standing problem with Srendarr where the game's default UI style border would appear transparent with a gap between it and the icon. Auras will now appear basically just like the game's default tracker with Srendarr's aura cooldown and black border disabled and the game's UI style border set to show.
+[*]Added new code logic for when Target Filter is set to only show player debuffs on the target. This should now work properly and not cancel/update player auras when other players cast the same effect and either only show player target debuffs is on, or the aura is set to prominent and that prominent aura is set to only show the player's auras of that type. [b][color="yellow"]NOTE:[/color][/b] The exception to this is Major/Minor effect. The game does not stack these effects from multiple sources, so Srendarr will always show the most up to date and accurate tracking for these effects regardless of who cast them just as the game does.
+As always, please report any issues![/list]
+
+[b]v2.5.24 ~Phinix (9-7-2023)[/b]
+[list][*]Fixed cast bar not showing for certain timed auras after initial cast since reload.
+[*]Fixed error caused by typo "uration" instead of "duration" in database for Channeled Acceleration and some other auras.
+[*]Fixed incorrect result check setting causing certain auras not to display cast bar. This fixes Time Stop and morphs, Soul Strike ultimate and morphs, Rapid Fire, Toxic Barrage, Magicka Detonation, and Inevitable Detonation.
+[*]Added some additional safety checks and other performance modifications.[/list]
+
+[b]v2.5.23 ~Phinix (8-31-2023)[/b]
+[list][*]Refined block-cancel for cast bar auras to be much more comprehensive. Blocking will now cancel the cast bar as well as any associated timed auras that correspond to the cast.
+[*]Fixed a long standing issue with Srendarr where the cast bar would fire prematurely if you had your weapon sheathed when casting an ability with a cast time. This happened because the game does not account for the unsheathe animation time when sending events to EVENT_ACTION_SLOT_ABILITY_USED which is what Srendarr previously used exclusively for the cast bar. Now, all class and guild times abilities will use the combat event, and the castbar will not start until the actual cast begins, preventing the bar going out of sync like this. (NOTE: Weapon abilities with extremely short cast times like 2-Hand ultimate or Wrecking Blow still use the old method, and will be added in a future update.)
+[*]More code improvements and maintenance.[/list]
+
+[b]v2.5.22 ~Phinix (8-30-2023)[/b]
+[list][*]Added support for Exhausting Fatecarver cast bar and aura correctly modifying duration based on crux stacks.
+[*]Added framework for ignoring incorrect stack data and removed incorrect stack tracking display on passive Major Gallop.
+[*]Added block cancel and early end cancel (out of resources, etc.) for cast bar and aura timers for channeled/cast time abilities cast from the ability bar.
+[*]Removed option to filter Block aura as game no longer sends this combat event.
+[*]Various code maintenance and adjustment.[/list]
+
+[b]v2.5.21 ~Phinix (8-28-2023)[/b]
+[list][*]Added universal stack tracking support. Should automatically support tracking aura stacks for anything that has them without having to update Srendarr.
+[*]Added support for tracking stacks on units other than the player.
+[*]Fixed Grim Focus (and morphs) to use new game mechanics, and allowed showing stacks and proc icon on non-player units.
+[*]Fixed Cooldown Tracking and Cooldown Actiom Bar display that were broken by a game change for the following sets: Blood Moon, Glorious Defender, Hex Siphon, Para Bellum, Noble's Conquest, Nocturnal's Favor, Tava's Favor, Whitestrake's Retribution, Auroran's Thunder, Brands of Imperium, Burning Spellweave, Crimson Twilight, Crusader, Dragon's Defilement, Glacial Guardian, Hiti's Hearth, Ironblood, Jolting Arms, Maligalig’s Maelstrom, Noble Duelist, Overwhelming Surge, Scathing Mage, Shroud of the Lich, Storm Master, Undaunted Bastion, Bloodspawn, Grothdar, Iceheart, Immolator Charr, Kra'gh, Molag Kena, Mother Ciannait, Bog Raider, Briarheart, Grace of Gloom, Hatchling's Shell, Hexos' Ward, Meridia's Blessed Armor, Seventh Legion Brute, Storm Knight's Plate, Twin Sisters, Unfathomable Darkness, Venomous Smite, Way of Martial Knowledge, Hew and Sunder.
+[*]Fixed looking away from target with stacking auras would not maintain stack numbers when re-populating auras after targeting again.
+[*]Above stacking aura changes provide support for the new Jerall Mountains Warchief monster set and many other auras without additional configuration needed.
+[*]Added support for new Nibenay Bay Battlereeve monster set cooldown tracking.
+[*]Various code tweaks and updates. Please report any other sets changed or broken by the update however this should cover all the immediate changes.[/list]
+
+[b]v2.5.20 ~Phinix (8-27-2023)[/b]
+[list][*]Fix for non-player cast auras not clearing when released.
+[*]Performance improvement: Since prominent auras set to only player cast are ignored before they are ever displayed, it is not necessary to check for existing auras on the player when a release event is sent with a source other than the player. Removing this block should be a non-negligible performance improvement especially in large groups.
+[*]Updated API version so addon doesn't show "Out of Date."[/list]
+
+[b]v2.5.19 ~Phinix (8-25-2023)[/b]
+[list][*]Fixed Cooldown Action Bar tracking for sets with multiple possible effects (Daedric Trickery, etc.).
+[*]Modified how sets are detected by setID to more easily account for such multi-aura sets in the future.
+[*]Some other code maintenance and set corrections for changes made by game updates.
+[*]EDIT: Added support for Spaulder of Ruin (Aura of Pride) tracking.
+[*]EDIT: Fixed Turning Tide set not tracking cooldown since update.[/list]
+
+[b]v2.5.18 ~Phinix (8-21-2023)[/b]
+[list][*]Testing fix for inconsistent aura tracking introduced by change allowing Srendarr custom auras the game doesn't track to show on targets other than the player. Removed affected versions from archive.
+[*]Added code to instantly cancel the cast bar when you roll dodge, bash, or certain other cancelling actions.
+[*]Code maintenance and optimization.[/list]
+
+[b]v2.5.17 ~Phinix (6-5-2023)[/b]
+[list][*]Updated API for Necrom.
+[*]Changed XML comment code format to (hopefully) avoid parsing error on non-Windows OS(?).
+[*]Disabled code that checks if configured rules match detected instances. Should eliminate things like target enchants set to custom frames being removed.[/list]
+
+[b]v2.5.16 ~Phinix (4-7-2023)[/b]
+[list][*]Fixed Grim Focus (and morphs) generating errors/not working properly.
+[*]Fixed set cooldowns sometimes not working when not in a group.
+[*]Fixed drag overlays to remain displayed when exiting and re-entering Srendarr options when unlocked.
+[*]Fixed Lock/Unlock label was not maintaining state when exiting and re-entering settings menu.
+[*]Fixed unable to drag Srendarr frames when unlocked and sample auras are shown.[/list]
+
+[b]v2.5.15 ~Phinix (4-3-2023)[/b]
+[list][*]Fixed group auras not obeying group whitelist/blacklist since update.
+[*]Added a few safety checks and code optimizations.
+[*]Added support for stack tracking for Sergeant's Mail set.[/list]
+
+[b]v2.5.14 ~Phinix (4-1-2023)[/b]
+[list][*]Improved group aura tracking to be able to show Srendarr's custom auras (enchant procs, set procs, special auras, etc.) the game doesn't normally track. Previously only the player's Srendarr-only auras would be shown on group frames.
+[*]Be sure to check the Filters -> Group Buff/Debuff Assignment section. "Only Player Cast" will still filter other group members' auras if enabled and the player wasn't the source. Also, auras with a duration longer than the slider value are not shown.
+[*]Changed the way manually adding auras by ID to the group filter works. It will now allow you to enter auras not tracked by the game that Srendarr doesn't already have a custom aura for. WARNING: Do not enter auras the game DOES track by ID. This system uses the OnCombatEvent filter and will cost performance if too many are added this way. Also, not all IDs will work as some are sent by the game with no duration, or incorrect values. This feature, like the "Expert" mode in prominent auras, is highly experimental. It is always better to ask me to add official support for a specific thing you want to work.
+[*]Updated group aura manual entry tooltip to indicate some of the above warning.
+[*]Updated Expert mode in Prominent Aura configuration to allow manually adding auras the game doesn't track and which Srendarr doesn't show by ID. Just like the above group option, do not add IDs the game DOES track this way, and in general try to either use "Recently Seen" or request I add official support as forcing auras this way will often not work due to game limitations and can mess things up. But it is often requested so it is there if you want to experiment.
+[*]Fixed incorrect single group member display auras for certain set procs like Yolnakhriin. This set for example now shows the proper Minor Courage proc on all effected group members (if not filtered out). 
+[*]Various other code and GUI improvements.[/list]
+
+[b]v2.5.13 ~Phinix (3-24-2023)[/b]
+[list][*]Major overhaul of several functions based on reports of performance drops since last update. This should not only eliminate the performance issues (caused by unnecessary loop checks) but also improves on other areas as well, while maintaining the improvements from the previous two updates. Needs more testing for any bugs that might have crept in but has been stable in limited benchmarks (group and solo).[/list]
+
+[b]v2.5.12 ~Phinix (3-22-2023)[/b]
+[list][*]Small update to previous: Performance and stability improvements.
+[*]Should perform significantly better, especially in large group settings.
+[*]Added safety check for rare error releasing group aura when unit no longer had same internal group index.
+[*]Improved code to ensure all auras that can be tracked on group members are shown.[/list]
+
+[b]v2.5.11 ~Phinix (3-22-2023)[/b]
+[list][*]Fixed Only Show During Combat/Always Show Passives settings ignored when opening/closing menus.
+[*]Fixed special non-game tracked auras (Blazing Spear, etc.) weren't obeying aura fade time settings.
+[*]Fixed Templar Restoring/Channeled Focus showing duplicate AOE timer (no longer needed).
+[*]Fixed missing or incorrect procs for certain enchants (Weakening, etc.).
+[*]Added new option "Alternate Enchant Icons" under General Options to set whether to use custom or default game icons for enchant auras.
+[*]Fixed wrong set ID for Archdruid Devyric monster set and changed tracking icon (thanks JN Slevin for the suggestion).
+[*]Added safety check to avoid possible errors with AUI when using multiple accounts (thanks wzwz718).
+[*]Added Empower proc tracking from Molten Armaments (thanks HowellQagan).
+[*]Various minor adjustments/performance optimizations.
+[*]([b]TESTING[/b]) Fix for player or friendly target auras not appearing on group frames consistently when unit also in group.
+[*]([b]TESTING[/b]) Fix for player/target auras set to prominent not appearing on player/target's group frame.
+[*]([b]TESTING[/b]) Fix for certain special auras (Major Slayer) not appearing consistently when set to prominent.
+[*]([b]TESTING[/b]) Fix for group members wearing same sets sometimes triggering your set cooldown tracker.[/list]
+
+[b]v2.5.10 ~Phinix (3-15-2023)[/b]
+[list][*]Updated API for Scribes of Fate.
+[*]Added cooldown tracking support for Nix Hound's Howl, Snake in the Stars, Judgement of Akatosh, and Ritemaster sets.
+[*]Added stack tracking support for Roksa the Warped and Shell Splitter sets.
+[*]Minor safety check added to Bahsei's Mania tracker.
+[*]Removed call to outdated API function to avoid errors.
+[*]Fixed passive auras showing out of combat even with Always Show Passives unchecked when set to only show auras when in combat.
+[*]Updated table of Major/Minor effects.[/list]
+
+[b]v2.5.09 ~Phinix (11-26-2022)[/b]
+[list][*]Updated API for Firesong.
+[*]Updated list of Major/Minor effects.
+[*]Added stack tracking support for Bastion of the Draoife & Grave Inevitability sets.
+[*]Added cooldown tracking support for Rage of the Ursauk, Archdruid Devyric (monster set), Euphotic Gatekeeper (monster set), and Phylactery’s Grasp sets.
+[*]Updated ninja Caluurion change from 10sec to 5sec cooldown (thanks Padukey).
+[*]Corrected display of seconds when no tenths are showing to reflect accurate intervals.
+[*]Added new option to the Tenths of Seconds setting under General Options. Now setting this slider to 0 will completely disable showing tenths.[/list]
+
+[b]v2.5.08 ~Phinix (9-3-2022)[/b]
+[list][*]API version update for Lost Depths.
+[*]Updated internal database of Major/Minor auras.
+[*]Updated Ironblood set cooldown.
+[*]Updated Siroria set cooldown.
+[*]Updated Dark Convergence set cooldown.
+[*]Fixed Unstable Wall of Elements duplicate auras.
+[*]Fixed Major Gallop showing for characters who had unlocked but not actually purchased the Continuous Attack passive.
+[*]Fixed Warden bug tracking (Scorch, Deep Fissure, Subterranean Assault).
+[*]Fixed Warden cliff racer tracking (Dive, Cutting Dive, Screaming Cliff Racer).
+[*]Screaming Cliff Racer will now use stack tracking to show if the effect is normal (1) or quadrupled due to using on Off-Balance target (4). NOTE: Quadruple effect overwrites the normal effect in-game, however the normal effect won't overwrite the quadrupled proc. Srendarr accounts for this behavior.[/list]
+
+[b]v2.5.07 ~Phinix (7-5-2022)[/b]
+[list][*]Improved method of passing display frame settings to auras. Eliminates group frame errors.
+[*]Fixed cooldown timer missing for Crimson Oath's Rive set.
+[*]Slightly decreased minimum aura time from 1.8 seconds to 1.4. Should give Roaring Opportunist more visibility even when procing with very low SP/magicka.
+[*]EDIT: Fixed various sets not showing in the regular non-action cooldown bar as cooldowns when proc'd.[/list]
+
+[b]v2.5.06 ~Phinix (7-3-2022)[/b]
+[list][*]Added new profile feature: "Copy Base Profile." This option will copy everything from the selected profile EXCEPT prominent aura configuration. This is useful for setting up a base appearance to copy without also duplicating class-specific prominent configurations (EDIT: or overwriting existing ones).
+[*]Fixed issue with profiles not appearing in the list. You will need to log into the missing characters with account-wide off to fix them.
+[*]Incorporates all previous hotfixes from 2.5.05.
+[*]EDIT: By request the new "Copy Base Profile" options will not delete auras on the target profile. Any prominent auras you already have set up on a character will now remain untouched when using this feature. (NOTE: They are still deleted and replaced with the source profile auras when copying profiles using the "Copy Entire Profile" option.)
+[*]EDIT: By request added a new option to the prominent aura tab to "Remove All" which instantly clears all configured prominent auras on the active profile. Enable expert mode to use. Confirmation prompt prevents accidental deletion.
+[*]EDIT: Added support for passive Major Gallop from AvA the game doesn't track on the player (not on player stat sheet but shows for targets).[/list]
+
+[b]v2.5.05 ~Phinix (7-2-2022)[/b]
+[list][*]Corrected some oversights with the Off Balance/Immunity tracking (you will need to remove/re-add these in prominent if you had previously). Should now properly show when cast by other sources if enabled either in prominent config or target filters.
+[*]Consolidated display of "Off Balance" and "Off-Balance" (game has two spellings) throughout the addon. If you add either one to prominent it will add the ID's from both automatically, and only "Off Balance" will show in the recent auras list.
+[*]Fixed issue where non-player debuffs on targets when shown would disappear when looking away and back.
+[*]Fixed non-player cast target debuffs sometimes not showing even when set to.
+[*]Various code cleanup and maintenance.[/list]
+
+[b]v2.5.04 ~Phinix (7-1-2022)[/b]
+[list][*]Moved "Aura Fadeout Time" to per-bar configuration. Previous global setting is set as baseline for all frames to start.
+[*]Increased the maximum fadeout time to 25 seconds and changed the setting slider to be in seconds rather than milliseconds for clarity.
+[*]Fixed errors generated by Warden Deep Fissure (and possibly base morph).
+[*]Fixed unable to add Warden Fissure and possibly other bar-cast abilities to prominent.
+[*]Fixed wrong classification of prominent status for bar-cast abilities.
+[*]Performance improvement of the reticle change event and other various code maintenance.[/list]
+
+NOTE: I will be working on a new bar category for "Never-Fade Target Auras" which will allow you to set specific target effects you want to show in an "always on" state. These auras will be greyed out when looking at a target if they are not active, and sort with timers normally when they are. There will be an option to always hide this bar with no target or when not in combat. It will serve as a way to set up rotation monitoring and priorities.
+
+
+[b]v2.5.03 ~Phinix (6-25-2022)[/b]
+[list][*]Fixed Selene monster set cooldown tracking.
+[*]Fixed Bahsei's Mania & Ring of the Pale Order vanishing due to recent change.
+[*]Modified Expert mode search by name to add as ID if only single result is found.
+[*][b]Added support for Off Balance Immunity tracking.[/b] The game changed to no longer send events when this is gained and lost, so Srendarr will generate a fake aura which shows up as a buff and can optionally be set to Prominent. The duration of Off Balance Immunity is 15 seconds since the effect was last lost by a target. Srendarr will therefor add 15 seconds to the duration of the Off Balance debuff to determine the fake buff's duration. In testing this is accurate to when you can actually apply Off Balance to a target again. It uses Srendarr's name-based target tracking to differentiate durations remaining on different targets (multi-target tracking).
+[*]Disabled the "Show ID's" option when clicking on an aura added by ID (since there is only that one ID).
+[*]General improvements to Expert mode and several other functions. Various code cleanup.
+[*]EDIT: Fixed active cooldown bar not updating on gear change and removed update delay.
+[*]EDIT: Further improved Off Balance Immunity tracking to handle different game spelling and non-target units.[/list]
+
+[b]v2.5.02 ~Phinix (6-24-2022)[/b]
+[list][*]Disappearing auras (food buff, etc.) should be fixed for good. Sorry this took so long to track down. Turns out it was due to a change I had made while implementing the new prominent system where I initially passed a table of ID's to keep when refreshing auras. I have since replaced that method with a simple true or false value, however the refresh event code was still checking for a table of ID's that was no longer being passed!
+[*]Improved Srendarr aura tooltips: Now for player gear proc auras you will see a summary of the gear bonuses (with correct current values) in the tooltip, along with the set name and ID.
+[*]EDIT: Further improved tooltips with color formatting for gear set bonuses, and added Major/Minor effect support. Other auras will display the name or name plus description, based on whether the game HAS a description for the given aura.
+[*]EDIT: Fixed auras not appearing when applied from inventory or menu when auras are hidden.[/list]
+
+[b]v2.5.01 ~Phinix (6-23-2022)[/b]
+[list][*]Stack tracking support for Vateshran buffs.
+[*]EDIT: Fixed new feature that keeps target auras for checking ID when in cursor mode not clearing until you target something when you exited to game mode without a target still present.[/list]
+
+[b]v2.5.0 ~Phinix (6-22-2022)[/b]
+[list][*]Rebuild system for handling player only aura options. Still needs testing!
+[*]Auras will no longer be cancelled when casts of the same aura by other group members expire.[/list]
+
+So it turns out the really old option "only player cast target debuffs" has some issues with the latest game client. Back then there weren't "major" and "minor" auras that overlapped, for example. However, I believe I have (mostly) brought this system into the modern age, and have it working with prominent auras besides target debuffs as well.
+
+The minor catch is that for major/minor auras (Major Breech, Minor Defile, etc.) which do not stack in the current game, Srendarr will always prioritize the player's casts. Meaning if someone casts Major Breech for example, and you do not have "player only" checked, you will see their cast, and if YOU then cast Major Breech while their timer is still going, it will update the timer with your cast. HOWEVER, if you cast Major Breech with or without "player only" checked, and then someone else casts it, the timer will continue to show YOUR cast without updating. 
+
+While this is mostly fine (people responsible for casting certain debuffs probably don't care if other players are casting them too, only when their timer runs out), it may be something I change in the future so that for Major/Minor auras that don't stack, the timer will always update when "player only" is disabled. 
+
+HOWEVER, it appears that EVENT_EFFECT_CHANGED does not send events for non-stacking aura updates cast by other party members, so it would require some pretty major rennovation and likely supplementary use of EVENT_COMBAT_EVENT for Major/Minor aura updates. If this can be done without significant performance decrease then I will plan on it, otherwise things will remain how they are, which is somewhat limited yet functional. Whew!
+
+
+[b]v2.4.99 ~Phinix (6-20-2022)[/b]
+[list][*]Added new "Expert" mode to Prominent auras. You can enable this for manual aura/ID entry (read the warning!) *
+[*]EDIT: Hotfix for reported issue with prominent auras cancelling prematurely.
+[*]EDIT: Test fix for Subterranean Assault appearing in groups (using player pet ID?).
+[*]EDIT: Minor code optimization and cleanup.[/list]
+
+*Only auras that already appear in Srendarr (when their category is assigned to a frame) can be added. Forcing unsupported auras to appears this way WILL NOT WORK. Please report them instead.
+
+To ensure correct auras are added, use the ID shown in Srendarr's aura tooltips. Adding from a Recently Seen menu is ALWAYS safer.
+
+Auras that are input as the wrong type will be automatically removed when Srendarr sees the game send them with different parameters.
+
+
+[b]v2.4.98 ~Phinix (6-20-2022)[/b]
+[list][*]Fixed bug causing auras to reset when an equipped weapon poison procs.
+[*]Can now add specific cooldown action bar or cooldown timers to blacklist (use ID that displays in tooltips).
+[*]EXPERIMENTAL: Allows you to keep last target auras displayed when toggling cursor mode so you can mouse over target auras to see the tooltips/IDs.[/list]
+
+[b]v2.4.97 ~Phinix (6-19-2022)[/b]
+[list][*]Fixed group auras not displaying or being instantly canceled.
+[*]Fixed gear sets not updating when gear changes.
+[*]Fixed gear procs and special auras being cleared when entering/leaving menus.
+[*]EDIT: Fixed on-use aura cancellations like 2H Follow Up not cancelling when used if set to prominent.
+[*]EDIT: Fixed changing frame of existing prominent aura was removing it from prominent since last update (oops!).[/list]
+
+[b]v2.4.96 ~Phinix (6-18-2022)[/b]
+[list][*]Fixed ability cooldown procs showing animation when cooldown action bar not assigned to a frame.
+[*]Added ability ID to individual aura popup tooltips for easier identification.
+[*]Added the ability to set individual ID's for configured prominent auras to separate frames! *[/list]
+*In 2.4.96 when you click an aura you have added from any of the modify aura lists, a new "Show Aura IDs" button will show above the list:
+[url]http://i.imgur.com/9VEN9io.jpg[/url]
+
+Clicking this will show all the individual auras found and configured for that aura under that category. You can then click any of these to change their frame individually or remove them:
+[url]http://i.imgur.com/OUm1aIQ.jpg[/url]
+
+I also added a cool new feature to show the aura's ID in the tooltips, so you don't need to enable showing ID's under debug, which could be useless for very tiny auras packed close together (like group auras). Now you can hover over an aura and see this instead:
+
+[img]https://i.imgur.com/humVVC5.jpg[/img]
+
+
+[b]v2.4.95 ~Phinix (6-17-2022)[/b]
+[list][*]Fixed target auras not updating when standard target buffs or debuffs not assigned to a frame even if prominent target auras exist.[/list]
+
+[b]v2.4.94 ~Phinix (6-13-2022)[/b]
+[list][*]Removed old redundant manual text entry method from Prominent Aura system.
+[*]Updated tooltips to indicate you simply need to proc the aura and then select it from one of the Recently Seen aura lists in order to add it to Prominent.
+[*]Fixed Assassin's Scourge (Relentless Focus) proc sound not registering (game ID was changed).
+[*]EDIT: Added release triggers for Blastbones and morphs so the timer cancels when your bones explode.
+[*]Removed some testing functions.[/list]
+
+This was done for two reasons. First, Srendarr can only add auras to Prominent that it actually sees and is able to display normally. So, having the manual entry method still present when the new Recently Seen system already shows you everything that is valid to add was redundant.
+
+The main reason however, is that leaving this old vestige of the previous sytem only allowed the possibility of adding things incorrectly and leading to errors, while giving ZERO benefit since it was not possible to add something manually that Srendarr cannot normally display in order to "force" it to work. In order to eliminate a huge headache for both me and users adding things incorrectly by mistake and causing errors, this old system was removed in favor of the new one.
+
+
+[b]v2.4.93 ~Phinix (6-13-2022)[/b]
+[list][*]Rebuild the Grim Focus support to eliminate some initial bugs like long distance not registering procs.
+[*]Added an option to disable showing proc animation for Grim Focus and morphs on the auras under General options. Also shrank the proc animation so you can still see the timer.
+[*]Cleaned up some possible causes for errors and unexpected behavior.[/list]
+
+[b]v2.4.92 ~Phinix (6-12-2022)[/b]
+[list][*]Updated tracking for Nightblade Grim Focus & morphs. *
+[*]All Grim Focus morphs will now keep track of the number of stacks when expired and re-cast, and no longer show a stuck passive aura (timer updates dynamically).
+[*]In addition to the icon changing to the bow proc for these morphs, they will also display an animation when ready to cast.
+[*]Fixed error when prominent assigned to frames 11-14.
+[*]Fixed Pale Order and Bahsei tracker vanishing instantly after recent update.
+[*]Many other improvements and code adjustments.[/list]
+
+*NOTE: You will need to re-assign your prominent Grim Focus (and morph) assignments as they have been cleared for this update to avoid errors.
+
+[b]v2.4.91 ~Phinix (6-12-2022)[/b]
+[*][list]Fixed problems with setting certain sets like Relequin to prominent resetting timers, displaying wrong stacks, or causing errors.
+[*]Fixed equipped gear set changes not updating in cooldown aura frames until manually refreshing by opening Srendarr options.
+[*]Various other code updates and improvements.[/list]
+
+[b]v2.4.90 ~Phinix (6-10-2022)[/b]
+[list][*]Fixed Trap Beast and morphs to properly show ground effect, and cancel to show proc. Can now be set to prominent.
+[*]Removed existing prominent configuration for Trap Beast and morphs to avoid errors: Please re-add to restore (do not use old ID's).
+[*]Fixed Warden Subterranean Assault to properly show cooldown of both procs as AOE.
+[*]Fixed Subterranean Assault timer started before weapon unsheathed if casting while sheathed (cannot fix other morphs, ask ZOS!).
+[*]Fixed re-casting of Warden bugs before proc doesn't reset timer.
+[*]Fixed error due to table omission in previous update.[/list]
+
+[b]v2.4.89 ~Phinix (6-9-2022)[/b]
+[list][*]Fixed cooldown showing on timer part of effect when Cooldown Action Bar Duration was enabled (now only shows on cooldown bar).
+[*]Fixed can't add certain custom procs (Briarheart, etc) as prominent (were simply being ignored).
+[*]Fixed "zombie barf" (Desecrated Ground Snare) using wrong ID and not clearing when leaving area.
+[*]Added safety trigger to catch release of fake target debuffs.
+[*]Other minor cleanup.[/list]
+
+[b]v2.4.88 ~Phinix (6-8-2022)[/b]
+[list][*]Preliminary release of new code logic to handle auras set to player only more reliably. *
+[*]Adjusted default setting for "player only" when selecting different recently seen aura categories to better reflect optimal use.
+[*]Added dynamic tracking support for Bahsei's Mania by request (shows current damage increase value in realtime).
+[*]Fixed adding custom trackers (Pale Order, Bahsei) to prominent wasn't working in previous code structure.
+[*]Fixed auras set to prominent not showing for certain bar-cast abilities (Daedric Prey, Dark Shade, etc).
+[*]Fixed debuff auras set to prominent using player set buff color instead of debuff color.
+[*]Fixed prominent aura popout menus not automatically closing when switching tabs or opening sub menus.
+[*]Fixed setting food buffs to prominent not updating to assigned frame.
+[*]Fixed clicking off food not releasing aura in Srendarr frames.
+[*]Improved the display of stack tracking values and format when swapping to show ability ID through debug.
+[*]Allowed setting aura name font and size for icon only mode to modify stack tracking display (which shows as name text in icon only mode).
+[*]Various code cleanup and maintenance.[/list]
+
+* [b][color=yellow]IMPORTANT NOTE[/color]:[/b] The game does not track multiple instances of Major/Minor and many other auras on targets. When an aura (Minor Maim for example) is cast on a target by one source (say the player) and then another source (say a group member) casts that exact same ability ID aura on the same target, the game updates the existing aura time remaining and cast source with the most recent data. When Srendarr is set to only show player cast auras for an aura that doesn't stack, it will now maintain the player's timer even if the actual timer has been extended by another person's cast, allowing you to track only your own uptime.
+
+For optimal raid sustain it is better to set target debuffs that are cast by multiple raid members to NOT only player cast, so you can track true uptime and save resources where appropriate. You can select already assigned auras by category in Srendarr's new prominent system and update the player only setting without needing to remove/re-add auras.
+
+ALSO, [color=yellow]it is always best to use the Recently Seen Aura categories to add Prominent auras in the new system[/color], as it will minimize the chances of setting something up incorrectly.
+
+
+[b]v2.4.87 ~Phinix (6-6-2022)[/b] - Bugfix for auras added by name being misclassified.
+
+[b]v2.4.86 ~Phinix (6-6-2022)[/b]
+
+[youtube]ZCJs7rd_nNo[/youtube]
+
+[COLOR="yellow"][size=4][b]Srendarr Prominent Overhaul for High Isle now live![/b][/size][/COLOR]
+
+[B]Key update features:[/B]
+
+[list][*]Complete Prominent Aura overhaul: [color=yellow][b]Set ANY AURA to ANY FRAME[/color]![/b] *
+[*]Click the category of your saved prominent aura (PB = "Player Buff", PD = "Player Debuff," etc. to see a popup list of all configured auras for that category.
+[*]By clicking an already added Prominent aura in the popup list above, you can update auras with different parameters or change their frame without removing/re-adding.
+[*]Can click a similar category list of auras Srendarr has recently seen to automatically populate the config panel for easy adding of new Prominent auras (see video for more).
+[*]Automatically removes ID's for aura names that are for the debuff version of an added buff, or otherwise don't match the added category, which saves saved variable database space.
+[*]Automatically compresses aura data in saved variables to further save database space and this memory footprint.
+[*]Automatically migrates your old prominent auras so you won't lose your existing settings when upgrading.[/list]
+
+[B]Other updates:[/B]
+
+[list][*]Allowed for all auras (including group and raid frames) to show popup tooltips. NOTE: Cannot work for targets as the game only sends target buff information when not in mouse mode.
+[*][COLOR="Yellow"]Increased the number of customizable frames you can assign auras to[/COLOR] by four (now there are a total of 14 player customizable frames).
+[*]Overhauled the settings for Srendarr's default configuration to give a more ready-to-use setup on initial install or full reset.
+[*]Re-docked settings tooltips in the addon settings panel to the right so you can read them without them overlapping other settings text.
+[*]Fixed sub-menu button labels always greyed out even though clickable (API changes).
+[*]Improved custom settings sub-menus so the tooltip only shows when hovering over the header label not the whole box.
+[*]Improved the opening of custom settings sub-menus; should now always open when clicking the header and not close when clicking the background by accident.
+[*]Updated language translation files with many previously missing strings (still requires human translation).
+[*]Added Spanish language translation support. (Also requires human translation.)
+[*]Added new High Isle set support (gear set cooldown proc & stack tracking).
+[*]Updated gear set changes (Tremorscale, Zaan, Shadow Dancer's Raiment).
+[*]Fixed cooldown timer showing over icon background for icons with transparencies (Tremorscale, etc.).
+[/list]
+
+* This includes the ability to set specific player AOE, player buffs & debuffs, or target buffs & debuffs to any frame you want.
+
+[b]v2.4.85 ~Phinix (6-6-2022)[/b] - Bug fixes and testing.
+
+[b]v2.4.84 ~Phinix (Early access testing build.)[/b]
+
+[b]v2.4.83 ~Phinix (5-16-2022)[/b]
+[list][*]Added support for Ring of the Pale Order. Shows % effectiveness based on group size.
+[*]Minor code maintenance.[/list]
+
+[b]v2.4.82 ~Phinix (5-7-2022)[/b]
+[list][*]Fixed Stampede AOE being cancelled by other's casts due to game sometimes not sending source for previous used ID.
+[*]Some minor code formatting changes.[/list]
+
+[b]v2.4.81 ~Phinix (5-3-2022)[/b]
+[list][*]Pre-patch for High Isle and PTS 8.0+. 
+[*]Fixes instant crash when unlocking Srendarr controls due to unknown internal ZOS code change related to animations/3D/draw tiers.
+[*]Fixed custom LibAddonMenu controls not being interactable due to ZOS draw tier changes.
+[*]API bump for High Isles.[/list]
+
+[b]NOTE[/b]: This is a preliminary bugfix patch only, and does not yet include support for new sets that require custom proc conditions, nor does it account for any changes to effects and duration that are not automatically handled by game data (mainly needed for set procs the game doesn't track). These updates will come later.
+
+[b]v2.4.80 ~Phinix (4-8-2022)[/b]
+[list][*]Added support for armory gear swapping. Srendarr will now keep track of your equipped sets when changed via armory, without having to use the update keybind.
+[*]Re-enabled Mages Guild empower buff.
+[*]UPDATE: Quick re-upload without version change. Fixed Vampire's Simmering Frenzy not showing up, and added stack tracking support to all three morphs.[/list]
+
+[b]v2.4.79 ~Phinix (3-24-2022)[/b]
+[list][*]Added new option under Filters, Target for "Only Target Major" which will make it so only Major debuffs will show on your target. Only applies to debuffs. No other debuffs will show on the target when this is enabled. However, you can still use Prominent debuffs to track other things.[/list]
+
+[b]v2.4.78 ~Phinix (3-18-2022)[/b]
+[list][*]Fixed errors caused by assigning the new Cooldown Action Bar to the same frame as Your Proc Cooldowns. (For real this time.)
+[*]No more restriction on assigning Action Cooldown Bar to the same as Your Cooldowns: You can assign it anywhere!
+[*]Improved code for Action Cooldown Bar in general, eliminated some cases where the animation could drop off unexpectedly even if enabled.
+[*]Improved the code for gear detection, vastly simplifying the lookup and spam buffer process.
+[*]Various other maintenance and cleanup.
+[*]UPDATE: Re-uploaded without version change to move the option to only show in combat to the top of the General options section in preparation for a major new update to Azurah currently in final testing...[/list]
+
+[b]v2.4.77 ~Phinix (3-17-2022)[/b]
+[list][*]Added support for the Empower proc from the Might of the Lost Legion set.[/list]
+
+[b]v2.4.76 ~Phinix (3-14-2022)[/b]
+[B]Version 2.4.76[/B] introduces some cool new features to Srendarr along with bug fixes, optimizations, and support for all new sets added with Ascending Tide!
+
+[youtube]L3OVmfogEkA[/youtube]
+
+[list][*]Improved gear detection function, should hopefully eliminate missing set procs.
+[*]Added new keybind "Update Equipped Gear Sets" to force a gear set DB update. Try this if your equipped set procs aren't showing up after changing gear by any means. 
+[*]New Cooldown Action Bar option: If enabled (assigned to a frame) shows a constant indicator for any gear sets you have equipped which can proc, and switches to cooldown tracking when they proc. Cooldown timers show as greyed out, and when the set is ready to proc again, show in full color with optional animation (see below).
+[*]Added option (under General Options) to show visual animation on sets in the Cooldown Action Bar that are ready to proc again (on by default).
+[*]Added option (under General Options) to show the cooldown duration on the Cooldown Action Bar next to the set proc name of gear abilities that are ready to be used.
+[*]Fixed display of ability IDs for auras sometimes showing placeholder values for various aura tracking modes.
+[*]Sped up function for updating Major/Minor effects, added automation to update all effects at once, and updated the effect database (See bottom of AuraData.lua file).
+[*]Added support for all new sets: Rallying Cry, Hew and Sunder, Enervating Aura, Nunatak, Lady Malydga, Baron Thirsk, Maligalig’s Maelstrom, Gryphon’s Reprisal, Glacial Guardian, Kargaeda, Shipwright’s Regret, Spriggan’s Vigor, Turning Tide, and Nazaray.
+[*]Updated API for Ascending Tide.[/list]
+
+[b]v2.4.75 ~Phinix (12-11-2021)[/b]
+[list][*]Testing fix for Force Siphon. It appears in further testing that rather than PTS having a different abilityID as seemed to be indicated by user screenshot, it may actually be a case of acquisition of the buff sending multiple event results (ACTION_RESULT_EFFECT_GAINED and ACTION_RESULT_EFFECT_GAINED_DURATION) and so needed a special case flag set in AuraData much as the fix I coded for Skoria, Burning Spellweave, and others. Hopefully this fixes the inconsistent display of this cooldown/buff.
+[*]Added a buffer delay to Srendarr's internal gear tracking to account for Armory and Gear Swap addons. Should significantly improve performance when using these methods to swap multiple pieces of gear.
+[*]Added a warning to the tooltip for the "Show All Combat Events" Debug option to indicate that leaving it on all the time will decrease game performance, especially in large groups, and that it should only be enabled for testing purposes.[/list]
+
+[b]v2.4.74 ~Phinix (12-8-2021)[/b]
+[list][*][b]UPDATE:[/b] Fixed error with Nightblade Grim Focus and morphs.
+[*][b]UPDATE:[/b] Removed language tags from non-English client debug text from below option.
+[*][strike]Fixed an issue where the game's internal proc abilityID for the Force Overflow set was different on the PTS than it is on Live.[/strike] EDIT: This was not actually the case (see above).
+[*]Added new Debug option "Show Set ID's On Equip." From the in-game description, "When enabled shows the name and setID of all equipped set gear when changing any piece." When enabled, equipping/unequipping any item or doing /reloadui will print the internal game setId and set name for any set for which you have any pieces currently equipped:
+
+[img]https://i.imgur.com/fIJtd4X.jpg[/img]
+
+In the future this will help with troubleshooting whether the actual setIds have changed, rather than just the abilityID. In this case both the normal and perfected setId's remain the same for Force Overflow and it is only the buff proc ID that has changed from PTS to Live. However this will be there for future-proof scenarios.
+[/list]
+
+[b]v2.4.73 ~Phinix (11-25-2021)[/b]
+[list][*]Properly linked up the new gear detection subroutine so it actually runs. Previous fix included the updated function but didn't link it to the actual event registration, and still used the old method so detection was still not seeing offbar pieces. This is now fixed. Apparently keeping separate builds on PTS and live caused me to get some wires crossed. Good old Winmerge (file difference comparrison utility) to the rescue.[/list]
+
+Happy Thanksgiving!
+
+[b]v2.4.72 ~Phinix (11-24-2021)[/b]
+[list][*]Fixed set detection function not always detecting you were wearing a complete set if you had the weapon needed to complete it on your backbar/offbar at the time the function ran. This was due to the returns "numNormalEquipped" and "numPerfectedEquipped" not counting the weapon you don't currently have active when running GetItemLinkSetInfo. Solved by writing a custom function to handle counting set items, while making use of "GetItemLinkEquipType(itemLink) == EQUIP_TYPE_TWO_HAND" to ensure proper counting of the number of set pieces a single item is worth.[/list]
+
+[b]v2.4.71 ~Phinix (11-24-2021)[/b]
+[list][*]Fixed special cases of Major Force with a variable duration (Master Architect, War Machine, Lokkestiiz, Roaring Opportunist) wasn't always showing the aura properly, or not at all until after forcing a repopulation through menus (thanks Blackbird V for the report).
+[*]Added new keybind option under the game's Controls menu to set a key to toggle Srendarr's visibility on/off globally. Does not reset auras.
+[*]Fixed language gender markup showing in icon tooltips for non-English clients.
+[*]Fixed using proc from Nightblade Grim Focus (and morphs) canceling the timer along with the stack tracker.[/list]
+
+[b]v2.4.70 ~Phinix (11-22-2021)[/b]
+[list][*]Fixed set cooldowns sometimes becoming desynced from the actual proc events.
+[*]Fixed set cooldowns sometimes triggering from other players' proc events.
+[*]Fixed set proc effects like Brands of Imperium and Burning Spellweave timers constantly resetting when repeat-triggered while on cooldown.
+[*]Fixed Thrassian Stranglers not dropping when going through doors.
+[*]Added new debug option "Only Player Events" to only show player sourced debug in chat when enabled.
+[*]Significantly improved performance by only processing gear proc/cooldown combat events for gear you are currently wearing.
+[*]Further improved performance by shifting supported sets from combat event proc tracking to native EFFECT_CHANGE event tracking.
+[*]Updated list of Major/Minor effects with game client updates/removals.
+[*]Manually coded support for every set in the game (literally). This MASSIVE undertaking includes tracking procs and effects the game doesn't normally track, along with supporting stack tracking, and a full cooldown system for every set that has an effect that can only occur every certain number of seconds.
+[*]Further, added custom icons for effects that had none, giving life to many sets that would otherwise seem dull.
+[*]Full support for effect collection events, like for example collecting the essence pool from Essence Thief properly cancels the AOE aura.[/list]
+
+[youtube]TPEBAER10RY[/youtube]
+
+There were MANY sets changed since the last update, particularly with Deadlands. These have all been updated with correct ID's, effects, timers, and cooldowns. Just a few of these corrections and additions include:
+
+[list][*]Added correct mechanic support for Haven of Ursus set.
+[*]Added stack tracking and proc support for Chaotic Whirlwind (Asylum Dual Wield).
+[*]Fixed Defending Warrior (Resilient Yokeda) cooldown always resetting on block.
+[*]Updated changed cooldown for Healing Mage.
+[*]Fixed Roaring Opportunist proc and cooldown tracking.
+[*]Fixed Stone Talker's Oath cooldown tracking.
+[*]Fixed Arms of Relequen stack tracking.
+[*]Added Vengeful Soul AOE tracking and release trigger to cancel it when collected for Sul-Xan's Torment (and Perfected).
+[*]Fixed Aegis Caller, Arkasis’s Genius, and Auroran's Thunder missing proc effect and updated Auroran's Thunder cooldown.
+[*]Fixed Burning Spellweave, Briarheart, and many other cooldowns and procs that were prone to desyncs.
+[*]Added support for Belharza's Band Mythic.[/list]
+And many, many (MANY) more!
+
+
+[b]v2.4.69 ~Phinix (9-13-2021)[/b]
+[list][*]Finally nailed down disappearing auras, which had multiple weird causes.
+[*]Added new setting under General Options: "PVP Join Timer." The game blocks addon-registered events while initializing PVP. This is the number of seconds that Srendarr will wait for this to complete, which may depend on your CPU and/or server lag. If auras disappear when joining or leaving PVP, set this value higher.
+[*]Eliminated all loop/polling to check for missing auras, improving script thread performance. Instead the addon returns to an event-driven check with a more fool-proof way of repopulating auras. Now if the game returns a wrong value for the GUI scene state (the other problem other than PVP), the problem will automatically resolve itself after opening the map, inventory, or any other menu and closing it again.
+[*]Other various code cleanup and maintenance.[/list]
+
+[b]v2.4.68 ~Phinix (9-12-2021)[/b]
+[list][*]Returned to light polling to detect wrong UI state returned from the game or blocking addons receiving events when first entering PVP areas, leading to hidden auras. These issues are simply too inconsistent and frankly annoying as hell to try and code around, so while it is an imperfect solution it will have to suffice as purely event-driven state changes are simply unreliable in this instance.[/list]
+
+[b]v2.4.67 ~Phinix (9-11-2021)[/b]
+[list][*]Added preliminary fix for internal game delay in responding to addon-registered events after AVA join/state change. This addresses the reported issue of auras disappearing in AVA (PVP) zones.[/list]
+
+[b]v2.4.66 ~Phinix (9-6-2021)[/b]
+[list][*]Fixed bug where passive buffs would sometimes disappear on changing zones or ressurection when assigned to buff frame 1.
+[*]Cleaned up some redundencies and other code maintenance.[/list]
+
+[b]v2.4.65 ~Phinix (9-5-2021)[/b]
+[list][*]Fixed a bug where auras would remain hidden after entering Srendarr's addon settings panel then exiting.
+[*]Fixed a bug where the Example Aura feature was hiding based on the "Only Show In Combat" setting.[/list]
+
+[b]v2.4.64 ~Phinix (9-4-2021)[/b]
+[list][*]Fixed bug where auras would re-appear at crafting stations if you exited a station then immediately re-opened it.
+[*]Replaced polling with event-driven loop breaks for checking hidden state. Should improve performance slightly while still avoiding lag generated aura show/hide issues.[/list]
+
+[b]v2.4.63 ~Phinix (9-3-2021)[/b]
+[list][*]Fixed a function call omission that caused switching "Only Show During Combat" back off to get stuck and not turn off (not re-showing buffs).
+[*]Fixed duplicate unitTag entry in specialProcs table causing Templar shards, 2H Stampede, Mage Guild Meteors, and Essence Thief pools to not properly show as AOE.
+[*]Fixed a typo that would cause some special (non-game tracked) AOE to show as debuffs.[/list]
+
+[b]v2.4.62 ~Phinix (8-31-2021)[/b]
+[list][*]Added new option "Allow Passive Prominent Buffs" to general settings. When enabled it will allow you to add buffs like toggles or other zero-duration passives to your Prominent Buff frames. For example, you can add Simmering Frenzy from the Vampirism tree to a Prominent bar now (by name preferably or by ID), so that you can more easilly keep track of when it is up so you don't die in the heat of combat.
+[*]Some other minor script changes. Mainly to build the functionality necessary to avoid duplicate auras when the game generates them for auras added to Prominent bars, which would normally be ignored even when in the global blacklist (default Prominent behavior). Now the base "always ignore" auras hard-coded in Srendarr will always be ignored even when auras with the same name (but different ID's) are added to a Prominent bar.[/list]
+
+[b]v2.4.61 ~Phinix (8-24-2021)[/b]
+[list][*]Added support for remaining two new sets that require it: Dark Convergence & Hrothgar's Chill.
+[*]Fixed issue with aura padding and icon scaling resulting from redundant code in previous fix.[/list]
+
+[b]v2.4.60 ~Phinix (8-23-2021)[/b]
+[list][*]Updated API for Waking Flame update.
+[*]Added full support for the following new sets:
+  - Crimson Oath's Rive
+  - Grisly Gourmet
+  - Magma Incarnate
+  - Prior Thierric
+  - Rush of Agony
+  - Scorion's Feast
+  - Silver Rose Vigil
+  - Thunder Caller
+[*]Added test fix for issues with Jolting Arms tracking desync.
+[*]Added Japanese language correction for Yolnakhriin set (thanks sora0v0).
+[*]Various other code maintenance and updates.[/list]
+
+[b]v2.4.58 ~Phinix (8-02-2021)[/b]
+[list][*]Fixed possible error with Ilambis set cooldown tracking and long fade timer.[/list]
+
+[b]v2.4.58 ~Phinix (7-30-2021)[/b]
+[list][*]Fixed a bug with higher aura fade settings that would result in cooldown and proc tracking becoming de-synced due to not refreshing if an aura had ended but was still fading when re-proc'd. (Thanks Umbreon5 for the detailed error report.)
+[*]Added new feature under General Options to ""Always Show Passives." If enabled when "Only Show During Combat" is also checked, then passive and long-duration auras (like food buffs, etc.) will still be shown when not in combat.[/list]
+
+[b]v2.4.57 ~Phinix (7-26-2021)[/b]
+[list][*]Added release trigger support for Fire Rune and morphs (mage guild) so that when your rune triggers, the ground AOE is cancelled instantly instead of hanging around the full duration.[/list]
+
+[b]v2.4.56 ~Phinix (7-25-2021)[/b]
+[list][*]Fixed Templar Spear Shards (and morphs) not showing due to game changing ability ID's.
+[*]Added support for 2H Stampede AOE effect tracking.
+[*]Updated API and version to proper values (Blackwood).
+[*]Other minor code maintenance[/list]
+
+[b]v2.4.55 ~Phinix (6-5-2021)[/b]
+[list][*]Fixed Crystal Fragments sometimes duplicating proc sound on cast.
+[*]Fixed Crystal Fragments showing cast bar even when instant cast proc is active.
+[*]Fixed "Only Show During Combat" option.
+[*]Fixed global leak of OnCombatUpdate function.
+[*]Removed short duplicate aura for "Lightning Flood."
+[*]Updated tables of Major/Minor effects.
+[*]Other random maintenance for Blackwood.[/list]
+
+[b]v2.4.54 ~Phinix (5-5-2021)[/b]
+[list][*]Fixed default values for aura padding set to negative numbers causing first time users to have bad display experience with group buffs! Display problem will resolve after you go to the Aura Display tab, select the group frame (GB = "Group Buffs", GD = "Group Debuffs", RB = "Raid Buffs", RD = "Raid Debuffs") and set the prefered space between icons for that frame.
+[*]Improved how incremental updates are handles.[/list]
+
+[b]v2.4.53 ~Phinix (5-4-2021)[/b]
+[list][*]Fixed display bug with combat event chat log enabled causing the source and target names to display markup characters.
+[*]Localized some repeat use functions for additional speed.[/list]
+
+[b]v2.4.52 ~Phinix (5-3-2021)[/b]
+[list][*]Added event filters for EVENT_COMBAT_EVENT that [b][color="yellow"]should significantly improve performance[/color][/b].
+[*]Enabling showing combat events in chat under Debug will bypass these filters (performance gains lost while enabled).
+[*]Various code cleanup and maintenance.[/list]
+
+[b]v2.4.51 ~Phinix (5-2-2021)[/b]
+[list][*]Fixed a cosmetic problem with the General Options dropdown menu not being large enough to accommodate the addition of the previously added sound proc volume slider option.
+[*]Added group buff and debuff support for AUI group and raid unit frames. (Still needs testing.)
+[*]Fixed a bug where text entry in an aura group whitelist or blacklist would fail to find matches.
+[*]Rebuilt aura sorting to account for individual icon GetWidth() changes due to the Window Scale slider; avoids scale change breaking Aura Growth Padding.
+[*]Added event cancellation support for Beast Trap and morphs. Now when a target triggers your trap, the AOE tracking will vanish and Srendarr will switch to tracking the debuff on the target. Only covers Rank IV of each morph currently. Need users to enable showing ID's under Debug and submit the ID that shows in the AOE frame when you drop the trap to add more ranks. (Also, if they could enable showing combat events, then type /sdbclear, drop a trap, and write down the ID that shows when it actually hits an enemy, as that MAY change with rank as well.)[/list]
+
+[b]v2.4.50 ~Phinix (4-29-2021)[/b]
+[list][*]Dark Shade and other bar-cast ability tracking should be fixed now. This problem was due to the same issue that previously broke Crystal Fragments tracking, which was a fix to remove ^m/f characters from non-English clients that caused name-matching for the few abilities that rely on this to not match. This has now been corrected.
+[*]Added new event EVENT_ACTION_SLOT_STATE_UPDATED to handle updating bar slot registration when dragging abilities on your bar. This was not being picked up by either EVENT_ACTION_SLOT_UPDATED or EVENT_ACTION_SLOTS_FULL_UPDATE previously (possibly due to internal change, or maybe it never worked). This would cause problems where, if you cast an ability like Dark Shade, then dragged your abilities around and re-cast it without swapping bars, the timer would not update.[/list]
+
+[b]v2.4.49 ~Phinix (4-28-2021)[/b]
+[list][*]Fixed typo causing errors on adding/removing auras by number.[/list]
+
+[b]v2.4.48 ~Phinix (4-27-2021)[/b]
+[list][*]Fixed missing Ilambris cooldown due to ID change that is only on the PTS currently. This set now behaves correctly based on which client version you are logged into. Please report any other missing set cooldowns as it is likely caused by the same changing of ability ID's on PTS only.[/list]
+
+[b]v2.4.47 ~Phinix (4-26-2021)[/b]
+[list][*]Fixed Crystal Fragments proc sound not playing in some non-English clients. This was caused by a name format change to remove gender tags from tooltips inadvertently throwing off text matching for EffectChanged events.[/list]
+
+[b]v2.4.46 ~Phinix (4-26-2021)[/b]
+[list][*]Added additional check to catch rare glitch where the saved variable tables have an entry for a character ID but for some reason don't get the auraGroups table.[/list]
+
+[b]v2.4.45 ~Phinix (4-25-2021)[/b]
+[list][*]Added new option to modify the volume level of the custom Srendarr proc sound.[spoiler][img]http://i.imgur.com/MLDW8Uf.jpg[/img][/spoiler][/list]
+
+[b]v2.4.44 ~Phinix (4-24-2021)[/b]
+[list][*]Fixed the "disappearing auras" bug, where refreshing certain AOE that count as debuffs early would cancel the timer. Now it properly refreshes the duration.[spoiler]This issue unfortunately crept in during an update last year right before real life took me away from the game. I regret this remaining an open issue for so long, but as it turns out it was simply the omission of a check for timers for debuffs as well as buffs in one place in the code that was responsible. Happily things like Unstable Wall of Elements and Ash Cloud will not disappear when re-casting them with a timer remaining anymore, but instead properly refresh their duration as they should.[/spoiler]
+[*]Added release trigger support to several dynamic sets.[spoiler]For example, the AOE timer for tracking Essence Thief procs will cancel early if you actually pick up the essence. Another example is the Explosive Rebuke set, which will cancel the bomb timer if you heavy attack the target.
+
+Srendarr is now set up to handle similar such effect cancellation mechanics with new sets in the future.[/spoiler]
+[*]Removed old confusing "gear procs" aura category and re-ordered Aura Control - Display Groups to make more sense.[spoiler]Gear procs are now all handled by the main cooldown tracker. You can assign the tracking of gear proc cooldowns to a frame from Srendarr's options, on the General Tab, Aura Control - Display Groups, "Your Proc Cooldowns." Even if this is set to "Do Not Display" however, any secondary proc effects that require custom Srendarr event tracking to display auras (like the Major Force buff from a proc set effect) will still display even if not displaying the actual cooldown.
+
+Gear proc effects will follow the rules related to Long/Short duration and Major/Minor buff window assignment, etc. So if a gear set procs an effect that adds a buff to the player that lasts 30 seconds, that buff effect will show up in the window assigned to "Your Short Buffs" (unless you add it to Prominent or some other custom list).[/spoiler]
+[*]Fixed gear set proc cooldown tracking disappearing when the effect of the set is a debuff on the target and you look away from the target.
+[*]Fixed ^m/f gender markup appearing in aura tooltips in some languages due to ZOS internal change.
+[*]Fixed "Sload's Call" buff from Thrassian Stranglers not clearing when changing zones. Should also fix other stuck auras that drop when changing zone.
+[*]Fixed an issue where some non-duration (passive) stacking auras would not properly update stack counts.
+[*]Many other code fixes, maintenance, and improvements.
+[*][B][COLOR="Yellow"]Includes support for all current[/COLOR] [COLOR="Orange"]Blackwood[/COLOR] [COLOR="Yellow"]content on the PTS including new Mythics![/B][/COLOR][/list]
+
+[B][U]MAJOR SET TRACKING OVERHAUL[/U]:[/B]
+
+Tested every included set by hand. Added stack tracking support and cooldown cancellation mechanics, properly separated debuff/aoe auras, assigned appropriate icons where needed, and generally rebuilt Srendarr's entire database of gear proc tracking support, fixing MANY problems with changed ID's and incorrect tracking behavior, up to the current content on live AND the PTS (as of 4-24-2021).
+
+[list][*][B]Added custom support for the following [COLOR="Orange"]Mythics[/COLOR]:[/B][spoiler][list][*]Death Dealer's Fete
+[*]Harpooner's Wading Kilt
+[*]Thrassian Stranglers[/list][/spoiler]
+[*][B]Added stack tracking support for many sets including:[/B][spoiler][list][*]Frenzied Momentum (Vateshran 2H Weapon)
+[*]Baron Zaudrus (Monster Set)
+[*]Glorgoloch the Destroyer (Monster Set)
+[*]Kjalnar's Nightmare (Monster Set)
+[*]Stone Husk "Husk Drain" (Monster Set)
+[*]Dragonguard Elite
+[*]Voidcaller
+[*]Galerion's Revenge
+[*]Ravager
+[*]Yandir's Might[/list][/spoiler]
+[*][B]Added/updated cooldown and proc tracking support for the following sets:[/B][spoiler][list][*]Arena Sets:
+	[list][*]Elemental Succession
+	[*]Explosive Rebuke (with proper cancelation on detonation)
+	[*]Hex Siphon
+	[*]Wrath of Elements (Vateshran Destruction Staff)
+	[*]Force Overflow (Vateshran Restoration Staff)
+	[*]Glorious Defense (Maelstrom Arena Set)
+	[*]Hunt Leader (Maelstrom Arena Set)
+	[*]Void Bash (Vateshran Melee Weapons)
+	[*]Winterborn (Maelstrom Arena Set)[/list]
+[*]Crafted Sets:
+	[list][*]Morkuldin
+	[*]Noble's Conquest
+	[*]Nocturnal's Favor
+	[*]Whitestrake's Retribution[/list]
+[*]Dungeon Sets:
+	[list][*]Arkasis’s Genius
+	[*]Crimson Twilight
+	[*]Drake's Rush
+	[*]Hand of Mephala
+	[*]Kraglen’s Howl
+	[*]Oblivion's Edge
+	[*]Storm Master[/list]
+[*]Monster Sets:
+	[list][*]Encratis's Behemoth
+	[*]Immolator Charr
+	[*]Lady Thorn
+	[*]Stone Husk[/list]
+[*]Overland:
+	[list][*]Bahraha's Curse
+	[*]Bog Raider
+	[*]Deadlands Assassin[/list]
+[*]PVP Sets:
+	[list][*]Kyne's Kiss
+	[*]Sentry[/list]
+[*]Trial Sets:
+	[list][*]Healing Mage
+	[*]Lunar Bastion
+	[*]Eye of Nahviintaas
+	[*]Vrol's Aegis
+	[*]Stone-Talker's Oath
+	[*]Saxhleel Champion
+	[*]Kyne's Wind
+	[*]Claw of Yolnakhriin
+	[*]Yandir's Might[/list][/list][/spoiler]
+[*][B]Fixes for cooldown tracking, icon display, proc timers, changed game ID's, and various improvements for:[/B][spoiler][list][*]Mechanical Acuity
+[*]Pirate Skeleton
+[*]Scourge Harvester (Malubeth)
+[*]Earthgore
+[*]Engine Guardian
+[*]Domihaus
+[*]Ilambris
+[*]Lord Warden Dusk
+[*]Maarselok
+[*]Spawn of Mephala
+[*]Vykosa
+[*]Hollowfang
+[*]Icy Conjurer
+[*]Ironblood
+[*]Mighty Glacier
+[*]Overwhelming Surge
+[*]Scavenging Demis
+[*]Kyne's Wind[/list]
+
+..and MANY other proc sets (so many I lost track!).[/spoiler]
+[*][B]Added ability to blacklist individual set cooldowns.[/B][spoiler]To use, first make sure "Your Proc Cooldowns" has been assigned to a frame from the Aura Control - Display Groups section of the General options. Then enable the Debug option to show the ID of auras, and trigger the set proc you want to blacklist. You will see an ID offset by 4000000 (for example 4135114) for the set cooldown. Write this down, then type it manually into the "Global Aura Blacklist."
+
+This allows you to hide one specific set's cooldown while still displaying cooldowns of other sets you care about. Also, any effects the set procs will still show as per your normal configuration even when hiding the cooldown tracker for that set.[/spoiler]
+[*][B]Changed behavior of cooldown tracking for abilities that have normal timers for the effects they cause.[/B][spoiler]Previously if the ability ID of the proc used to track cooldowns was the same as the effect it caused, the separate effect timer would not display. Both will now show where appropriate, assuming the hasTimer value is set correctly in the AuraData.lua abilityCooldowns database.[/spoiler]
+[*]Fixed Caluurion's Legacy cooldown tracking and linked each element to its proper game icon so you can see which debuff you applied visually.
+[*]Changed Maw of the Infernal timer and cooldown to read "Summon Daedroth" instead of "Firey Jaws."
+[*]Changed Velidreth cooldown to read "Velidreth Cooldown" instead of "Hoarvor Mask Cooldown."
+[*]Added description of values for the AuraData.lua abilityCooldowns database in comments of that file.
+[/list]
+[B]NOTE:[/B] There were a few sets that I did add support for but which are disabled by default:[spoiler]Ashen Grip, Song of Lamae, and Kra'gh have very short timers and generally are not the sort of effects you would really care about keeping track of, as there isn't really a timing component to play off of. That being the case, I decided these were mostly just unnecessary clutter.
+
+You can open AuraData.lua and scroll to the abilityCooldowns database (starts on line 346 in Srendarr version 2.4.43) and remove the '--' from the lines containing these sets' data to enable tracking them, however.[/spoiler]
+
+[b]v2.4.42 ~Phinix (3-30-2021)[/b]
+[list][*]Fixed Sorcerer Haunting Curse not tracking initial 3.5sec timer on some ranks.
+[*]Changed name of Sorcerer Volatile Familiar AOE tracking to "Volatile Familiar Ability" instead of "Summon Volatile Familiar" (cosmetic).
+[*]Reverted previous change to adding auras by name. You can read the spoiler below for more info but essentially the game provides unreliable information for multiple values which cannot be efficiently coded around, so [B][COLOR="orange"]if an ability you want to track isn't showing up after adding it by name, enable showing IDs of auras under Srendarr's debug settings so you can see the ID to input manually instead.[/COLOR][/B]
+
+[B][COLOR="Orange"][URL="http://i.imgur.com/6bkSeuj.jpg"]Click here[/URL] to see an image of where to find the option to show ability ID's.[/COLOR][/B]
+
+[spoiler][code]
+-- upon further investigation of the below detailed problem, it appears other abilities that should report as passive are also reporting wrong values.
+-- for example, Sorcerer's Volatile Familiar ID 23316 and likely many others should report true for IsAbilityPassive() but instead wrongly report false.
+-- this makes attempting to sort these abilities extremely difficult as the information to filter them is very frequently unreliable.
+-- i am re-enabling this older double-check and rather than making ANOTHER table of ID's for cases like this and below, users can just put in error ID's manually. (Phinix)[/spoiler][/code][/list]
+
+[b]v2.4.41 ~Phinix (3-24-2021)[/b]
+[list][*]Fixed Templar Spear Shards, Luminous Shards, and Blazing Spear not showing in AOE frame after recent patch changed their internal game ID's.
+[*]Added support for tracking the explosion timer for DK Draw Essence in your short buffs (so you can time stacking burst attacks with it visually now).[/list]
+
+[b]v2.4.40 ~Phinix (3-19-2021)[/b]
+[list][*]Fixed the Warden Subterranean Assault morph not tracking the new second burst timer.
+[*]Fixed adding Prominent and other list auras by name frequently missing valid auras due to game wrongly reporting 0 second duration. Redundant checks removed, also significantly speeds up adding auras by name. More details in the comments of Core.lua.
+[spoiler][code]
+-- the game wrongly reports GetAbilityDuration() as 0 for many valid abilities like Major Expedition ID 61736. 
+-- it is unclear what value limiting zero duration auras in addition to IsAbilityPassive() checks provides, and it significantly slows down the aura finder.
+-- combined with this frequently inaccurate output from the game for this function it is logical to remove it to avoid missing many valid auras when adding by name.
+-- in theory this extra check would only really be useful in a case where ZOS wrongly reported an ID duration as 0 AND wrongly reported it as a passive,
+-- in which rare instance, users can just input the ID manually.
+-- therefor this redundant and inaccurate check is removed, speeding up the aura finder and preventing missed auras like the one above. (Phinix)
+[/spoiler][/code]
+[*]Modified the Major/Minor aura update script and rebuilt the tables for the latest changes. All new sources of Major/Minor buffs now included and old ID's removed.
+[*]Added support for new "Brittle" crit damage taken debuff proc'd by holding an ice staff as your active weapon when one of your frost damage abilities procs Chilled on an enemy.
+[*]Added stack tracking support for Dodge Fatigue and Bolt Escape Fatigue.
+[*]Various other mostly cleanup and maintenance related stuff.[/list]
+
+[COLOR="Yellow"][B]IMPORTANT NOTE[/B][/COLOR]: It is HIGHLY recommended you remove and re-add your prominent auras this update to pick up any that were previously missed due to wrongly reported duration. You don't have to remove and re-add auras that were originally added by ID, only those added by name. You can tell the ones added by ID as they will have the ID in [] brackets before the aura name in the ID dropdown list for each prominent frame. Those with the ID in front are fine. All others should be removed and re-added. This should fix many missing aura problems.
+
+
+[b]v2.4.39 ~Phinix (3-10-2021)[/b]
+[list][*]Updated API for Flames of Ambition. Just an API bump for now until I have time to look at all the new changes and see what all needs updating (probably a lot).[/list]
+
+[b]v2.4.38 ~Phinix (8-25-2020)[/b]
+[list][*]Made the vast majority of corrections to duration and cooldown for all the sets changed by the [URL="https://forums.elderscrollsonline.com/en/discussion/542612/pc-mac-patch-notes-v6-1-5-stonethorn-update-27"]v6.1.5 Stonethorn patch[/URL]. NOTE: There may still be a few sets that need cooldown tracking added as there were many given cooldowns/durations this patch that did not have them before.
+[*]Updated tables of Major and Minor effects.
+[*]Fixed Meteor and morphs not tracking properly as AOE.
+[*]Added unique color auras for each of the Engine Guardian procs.
+[*]Updated API to Stonethorn.[/list]
+
+[b]v2.4.37 ~Phinix (6-13-2020)[/b]
+[list][*]Fixed typo causing auras to not refresh.
+[*]Added support for Sload's Call buff stack tracking from Thrassian Stranglers.[/list]
+
+[b]v2.4.36 ~Phinix (6-13-2020)[/b]
+[list][*]First pass performance and code cleanup...
+[*]Fixed cast bar not showing when clicking the button in addon settings to show a sample cast bar.
+[*]Cleaned up old remnant offset code.[/list]
+
+[b]v2.4.35 ~Phinix (6-12-2020)[/b]
+[list][*]Added Roaring Opportunist cooldown support and fixed Kyne's Wind support (ID changed from PTS).
+[*]Fixed Vampirism to use the classic icons showing current rank after some consideration (I just think it's better).
+[*]Added support for stack tracking for the Warrior's Fury set.
+[*]Updated list of Major & Minor effects, should fix some things not appearing correctly.
+[*]Added support for the young wasp that can spawn from injected larva of giant wasps.
+[*]Changed lookup for ability matches slightly to (hopefully) account for cases in non-English clients where spelling/case of ability name from GetAbilityName might not match what is received resulting in wrong placement.[/list]
+
+[b]v2.4.34 ~Phinix (5-26-2020)[/b]
+[list][*]Preliminary update for Greymoor, fixed many ability set proc cooldowns.[/list]
+
+[b]v2.4.33 ~Phinix (5-5-2020)[/b]
+[list][*]Converted to ID-based saved variables to preserve settings when name changing. Should not change your existing settings.
+[*]Updated the profile management system to work with the above change while still displaying readable names. 
+[*]Added a "Reset" button when moving frames that just resets their position since the last reload, along with the button to reset to defaults.
+[*]Added many new sets to cooldown tracking and updated several incorrect values in the database for others.
+[*]Fixed certain cooldown timers still sometimes duplicating when looking away and back at a target.
+[*]Added the option to show "Only Player Group Buffs" to the Group Buff Filter section.
+[*]Changed so player pet-sourced effects are counted as the player's for group buff purposes.
+[*]Increased ID range (up to 200000) for the maintenance function that datamines auras and made some other minor changes.[/list]
+
+[b]v2.4.32 ~Phinix (4-11-2020)[/b]
+[list][*]Rebuilt list of Major/Minor buffs and updated code for checking these. Should fix many things not tracked properly.
+[*]Added stack tracking support to Sorcerer Bound Armaments ability.
+[*]Fixed Sorcerer Haunting Curse ability to track 1st and 2nd explosion separately.[/list]
+
+[b]v2.4.31 ~Phinix (3-27-2020)[/b]
+[list][*]Updated API version for Harrowstorm.
+[*]Removed dependency on LibStub.
+[*]Various fixes and code maintenance.[/list]
+
+[b]v2.4.30 ~Phinix (8-15-2019)[/b]
+[list][*]Updated API version for Scalebreaker.
+[*]Fixed incorrect proc cooldown for Warlock set (now 45sec).[/list]
+
+[b]v2.4.29 ~Phinix (5-24-2019)[/b]
+[list][*]Added stack tracking support for new DK buff 'Seething Fury.'
+[*]Added special case support for Sorcerer Daedric Curse (and morphs) to have it act as an AOE so it always shows regardless of your current target. Helps planning your rotation to know when it expires even when you aren't targeting the thing it was put on.[/list]
+
+[b]v2.4.28 ~Phinix (5-23-2019)[/b]
+[list][*]Added all new sources of Major/Minor buffs and removed no longer existing ones.
+[*]Added cooldown tracking support for Coldharbour's Favorite and Claw of Yolnakhriin (and perfected version).
+[*]Other random maintenance.
+[*]API bump for Elsweyr.[/list]
+
+[b]v2.4.27 ~Phinix (3-26-2019)[/b]
+[list][*]Fixed bug causing target auras to disappear when changing targets then switching back.[/list]
+
+[b]v2.4.26 ~Phinix (3-16-2019)[/b]
+[list][*]Hopefully fixed a typo causing errors with the Bandit UI support module.[/list]
+
+[b]v2.4.25 ~Phinix (3-13-2019)[/b]
+[list][*]Added proper detection of enabled group and raid frame addons on startup. Srendarr should now automatically configure the proper frame type under General Options based on your currently enabled group/raid frames.
+[*]One-time update: Disabled group and raid frame buffs and debuffs (also by default). Go to the Filters tab to re-enable them. This is for people who downloaded the update before these were off by default and were confused as to why they were suddenly getting group auras flying all over the place.[/list]
+
+[b]v2.4.24 ~Phinix (3-7-2019)[/b]
+[list][*]Minor maintenance to default settings.
+[*]Added some things to the default blacklist like extra Shadowy Disguise aura.[/list]
+
+[b]v2.4.23 ~Phinix (3-7-2019)[/b]
+[list][*]Added stack tracking support to Bolt Escape Fatigue and properly flagged it as a debuff.
+[*]Added support for Guard CC ability: Cage Talons
+[*]Cleaned up commented mess left in ability database from previous obsolete rank removal.[/list]
+
+[b]v2.4.22 ~Phinix (3-7-2019)[/b]
+[list][*]Fixed typo in the Bandit UI support module.
+[*]Fixed superfluous aura showing for Templar spear shards.
+[*]Various minor language file and code cleanup.[/list]
+
+[b]v2.4.21 ~Phinix (3-4-2019)[/b]
+[list][*]Added group buff/debuff support for Bandits User Interface.
+[*]Fixed display sample auras button not working in options.
+[*]Fixed display sample cast bar button not working (still must turn cast bar on to see it).
+[*]Removed many ID's from the database that were formerly for different ranks of certain abilities before ZOS changed them to have only one internal rank ID.
+[*]Various other code cleanup.[/list]
+
+[b]v2.4.20 ~Phinix (3-3-2019)[/b]
+[list][*]Added group buff/debuff support for Lui Extended.
+[*]Added new options under general settings to manually set the group/raid frames you are using (see video).[/list]
+
+[b]v2.4.19 ~Phinix (3-2-2019)[/b]
+[list][*]Added new separate Group/Raid Buff & Debuff tracking with full Whitelist/Blacklist support! Supports default frames and Foundry Tactical Combat. See video for details.
+[*]Fixed bug causing debuffs not to register when applied to a target not currently under your reticle.
+[*]Fixed long standing bug with prominent debuffs not properly updating under certain conditions resulting in overlapping auras.
+[*]Added improved Kena tracking. First hit now shows as "Molag Kena 1st Hit" and the set is now in Cooldown Tracking.
+[*]Added support for the new Curse Eater set to Cooldown Tracking.
+[*]Added Pirate Skeleton support to Cooldown Tracking.[/list]
+
+[b]v2.4.18 ~Phinix (2-25-2019)[/b]
+[list][*]Updated for Wrathstone.
+[*]Added ground AOE tracking support for Mantle of Siroria (normal & perfect) and removed redundant and confusing proc tracking auras. Now it will show "Siroria's Boon" for the stack tracking, "Mantle of Siroria" for the AOE, and "Mantle of Siroria Cooldown" for the cooldown tracking (if enabled).
+[*]Added support for all Wrathstone dungeon & monster sets: Icy Conjuror, Tzogvin’s Warband, Mighty Glacier, Stonekeeper, Auroran’s Thunder, Scavenging Demise, Frozen Watcher, and Symphony of Blades.
+[*]Updated internal source list for Major/Minory effects with several additions/removals.[/list]
+
+[b]v2.4.17 ~Phinix (2-14-2019)[/b]
+[list][*]Updated library requirements. Must now install Libstub and LibAddonMenu separately. This will avoid version conflicts and out of date library errors in the future.
+[*]Added new Major/Minor effects and removed those no longer in the game.[/list]
+
+[b]v2.4.16 ~Phinix (11-18-2018)[/b]
+[list][*]Added two new options for configuring aura timer display under the General tab, General Options: "Tenths of Seconds" and "Show 's' Seconds." These let you set a threshold below which tenths of seconds will show (1-5), and also hide the 's' after timers with only seconds remaining, respectively.
+[*]Minor code change to the timer functions for speed.[/list]
+
+[b]v2.4.15 ~Phinix (11-7-2018)[/b]
+[list][*]Fixed missing Major Gallop when using Rapid Maneuver (and morphs).
+[*]Updated LibStub, minor maintenance.[/list]
+
+[b]v2.4.14 ~Phinix (10-29-2018)[/b]
+[list][*]Added cooldown tracking support for Naga Shaman crafted set.
+[*]Added workaround to game bug to properly show Infallible Aether as debuff on target.
+[*]Minor Maintenance.[/list]
+
+[b]v2.4.13 ~Phinix (10-21-2018)[/b]
+[list][*]Updated database of Major and Minor effects with many new additions and some removals.
+[*]Fixed losing target stacks when mousing away and back.
+[*]Fixed a bug that could cause the buff from certain proc sets to not show.
+[*]Improved set cooldown and stack tracking framework, making it more extensible.
+[*]Added support for the following sets:
+ - Perfect/Normal Mantle of Siroria (cooldown and stack tracking support)
+ - Perfect/Normal Vestment of Olirime (cooldown tracking support)
+ - Perfect/Normal Arms of Relequen (stack tracking support)
+ - Haven of Ursus (cooldown tracking support)
+ - Blood Moon (cooldown and stack tracking support)
+ - Steadfast Hero (cooldown tracking support)
+ - Spell Strategist (cooldown tracking support)
+ - Soldier of Anguish (cooldown tracking support)
+ - Hunt Leader (cooldown tracking support)
+ - Vykosa (cooldown tracking support)
+ - Grace of Gloom (cooldown tracking support)
+ - Adept Rider (cooldown tracking support)
+ - Sload's Semblance (cooldown tracking support)
+[/list]
+
+[b]v2.4.12 ~Phinix (10-13-2018)[/b]
+[list][*]Fixed blacklist issue causing blacklisted buffs to be shown when assigned to prominent bars. Blacklisted auras will still show when they are debuffs and assigned to prominent debuffs. This mainly effects abilities like Channeled Focus which the game (wrongly) shows under both ground/AOE and short buffs.[/list]
+
+[b]v2.4.11 ~Phinix (10-11-2018)[/b]
+[list][*]Fixed error with non-max level characters from previous empty slot proc fix.[/list]
+
+[b]v2.4.10 ~Phinix (10-10-2018)[/b]
+[list][*]Fixed proc animation playing on empty abilty bar slots.
+[*]Fixed extra Channeled Focus aura showing as buff. Reordering of major/minor buffs provided is due to mechanics of how the game updates this ability and too time consuming to work around presently. Recommend going to Srendarr's Aura Display tab, click the number assigned for short buffs, and change Aura Sorting Order to Ability Name to avoid rapid re-sorting.
+[*]Updated API version and libraries.[/list]
+
+[b]v2.4.09 ~Phinix (5-27-2018)[/b]
+[list][*]Lib update & API bump for Summerset.
+[*]Untested fix for nil value error (thanks Uesp).[/list]
+
+[b]v2.4.08 ~Phinix (4-15-2018)[/b]
+[list][*]Fixed rank 1 of unmorphed Grim Focus not tracking stacks due to the game not sending the stack build event as the ID of the ability like every other morph.
+[*]Changed Arrow Spray (and morph) behavior to properly show the snare component as a snare with a unique icon, instead of just duplicating the generic arrow spray icon. Before when using Acid Spray morph for example, you would see two of the exact same icon both called "Acid Spray" on your target, one for the poison DoT and one for the snare with no way to tell them apart. Now you can easily see which is which.
+[*]Various code improvements including potentially significant performance increase in situation with many aura effects happening (cyrodiil, trials, etc.).[/list]
+
+[b]v2.4.07 ~Phinix (4-13-2018)[/b]
+[list][*]Added cooldown and proc tracking support for the following crafted sets: Death's Wind, Ashen Grip, Whitestrake's Retribution, Song of Lamae, Mechanical Acuity, and Spectre's Eye.
+[*]Updated the function used for checking Major/Minor effect tables for new additions/removals on game updates. Classified 3 new Minor effects and 7 new Major effects, and removed 1 obsolete Minor and 2 obsolete Major effects from the ID tables.
+[*]Other minor database and code maintenance.[/list]
+
+[b]v2.4.06 ~Phinix (4-13-2018)[/b]
+[list][*]Fixed a minor rounding error when the option to show seconds with minutes is not enabled under general settings. Previously if you had a timer with 1 minute 52 seconds remaining, it would show as 1m. Now minute-only timers will properly round so that if the remaining seconds are greater than 30 (.5 minutes or greater) it will round the display up to the next whole minute. So, 1 minute 52 seconds displays as 2 minutes, etc.[/list]
+
+[b]v2.4.05 ~Phinix (4-13-2018)[/b]
+[list][*]Fixed some obsolete code that was causing non-player procs and debuffs to appear when they shouldn't.
+[*]Fixed the two elemental procs from Ilambris using the same icon (confusing when both proc at once).
+[*]Fixed Circle of Protection (and morphs) wrongly blacklisting some of the effects.
+[*]Other minor code maintenance.[/list]
+
+[b]v2.4.04 ~Phinix (4-12-2018)[/b]
+[list][*]Fixed Major Expedition from NB Path ability not showing.
+[*]Fixed Crystal Fragments proc showing cast bar on instant cast.
+[*]Added stack tracking support for Advancing Yokeda set (Berserking Warrior).
+[*]Added stack tracking for Twice-Fanged Serpent set.
+[*]Added stack tracking for Asylum Destruction Staff.
+[*]Fixed visual display bug with stacks when in bar mode with display of ability ID debug setting on.
+[*]Added gear proc support for many sets the game doesn't track by default.[/list]
+[b]MAJOR:[/b] Added new [b][u]Cooldown Tracking[/u][/b] feature (beta). Assign to a frame under general settings, Aura Control - Display Groups to see cooldowns for gears sets with an internal cooldown.
+
+
+[b]v2.4.03 ~Phinix (3-22-2018)[/b]
+[list][*]Lib update and API bump for Dragon Bones.[/list]
+
+[b]v2.4.02 ~Phinix (12-26-2017)[/b]
+[list][*]Changed behavior of stack tracking when in icon-only mode for better visibility.
+[*]Added icon-change on proc events for stacking auras (currently Nightblade Grim Focus and morphs are the only abilities in the game that actually do this).
+[*]EDIT: Re-uploaded to fix oversight causing names to appear on group auras which was not intended.[/list]
+
+[b]v2.4.01 ~Phinix (12-17-2017)[/b]
+[list][*]Added new option under the general tab to disable showing seconds for timers with a duration in minutes.[/list]
+
+[b]v2.4.00 ~Phinix (12-16-2017)[/b]
+[list][*]Fixed bug that caused special procs not to be tracked when certain debug options were enabled.
+[*]Fixed game reporting Sunderflame debuff as a buff incorrectly.
+[*]Fixed Caltrops timer starting when entering ground target mode instead of on activation when not using quick cast ground target mode.
+[*]Modified time display to show seconds next to minutes remaining.
+[*]Minor change to Defensive Rune tracking (not seeing any bug with behavior).
+[*]Updated Russian localization (thanks KiriX).[/list]
+
+[b]v2.3.99 ~Phinix (12-06-2017)[/b]
+[list][*]Fixed a minor annoyance where last target auras would remain floating over the empty target area when moving through load screens. It seems something changed in the client and the addon was no longer getting the target lost update for zone transitions.[/list]
+
+[b]v2.3.98 ~Phinix (11-18-2017)[/b]
+[list][*]By request, added options to filter/show ESO Plus status aura to the Filters: Aura Filters for Player and Aura Filters for Target sections. Previously this was universally blacklisted.
+[*]Added new source of Focused Aim 2s refresh aura to default blacklist.
+[*]Maintenance to included language support files for easier translations. Specifically, added the English lines to commented language files so you don't have to switch back and forth when doing translations. Machine translated lines are indented. 
+[*]French, Japanese, and Russian language files need updated translations![/list]
+
+[b]v2.3.97 ~Phinix (11-09-2017)[/b]
+[list][*]Fixed the bug with the blacklist ignoring auras. Keep in mind that manually adding auras to any of the prominent lists will still bypass the blacklist, and this is intended behavior.[/list]
+
+[b]v2.3.96 ~Phinix (11-05-2017)[/b]
+[list][*]Fixed group aura functionality for supported setups and properly disabled for unsupported addons (for now).
+[*]Fixed a bug with group auras that was causing duplicate icons to be created when group composition changed or the game re-indexed the group frames.[/list]
+
+[b]v2.3.95 ~Phinix (10-24-2017)[/b]
+[list][*]Updated LibAddonMenu/LibStub.
+[*]API bump for Clockwork City.[/list]
+
+[b]v2.3.94 ~Phinix (9-07-2017)[/b]
+[list][*]Added stack tracking in icon only mode.
+[*]Added proper redirection for default tracking of modified bar ability auras.
+[*]Added scrollable dropdown menus (added in LibAddonMenu 2.0 v24).
+[*]Cleaned up general options tab, various other minor visual tweaks.[/list]
+
+[b]v2.3.93 ~Phinix (9-01-2017)[/b]
+[list][*]Fixed ID display on icon mode auras when debug option to show ID is enabled.
+[*]Fixed right-click aura in icon mode to dismiss (when possible) wasn't working.
+[*]Added blacklist entries for duplicate vampire drain auras.
+[*]Corrected Warden Scorch timer (and morphs) to properly display as AOE.[/list]
+
+[b]v2.3.92 ~Phinix (8-31-2017)[/b]
+[list][*]Fixed a game bug where Warden Healing Seed (and morphs) were reporting a 12 second duration for the ground effect instead of the correct 6 seconds. You can now track your ground heals accurately![/list]
+[b]MAJOR:[/b] Added preliminary support for STACK TRACKING! Currently only the Hawk Eye passive from Bow and Nightblade Grim Focus (and morphs) show stacks, but these are the only abilities I actually know that use stacks so, yeah. Please report any problems!
+
+
+[b]v2.3.91 ~Phinix (8-22-2017)[/b]
+[list][*]Fixed bug with no-duration passives like Warden empowered fetcherflies getting stuck when changing zones and other cases where the game doesn't send an end event.
+[*]Fixed Templar Sun Fire and morphs (Vampire's Bane and Reflective Light) Major Prophecy buff to be properly classified and show as "Major Prophecy."
+[*]Rebuilt the addon's internal Major/Minor effect database. Adds 2 new Minor effect sources and 55 new Major effect sources, plus the Templar stuff above.
+[*]Various code cleanup and improvements. For example, special proc durations are now pulled from the ability ID's rather than hard-coded making the addon much more update-proof.[/list]
+
+[b]v2.3.9e ~Phinix (7-11-2017)[/b]
+[list][*]API bump for [u]Horns of the Reach[/u].
+[*]Updated libs.[/list]
+
+[b]v2.3.9d ~Phinix (5-15-2017)[/b]
+[list][*]Re-populated Major and Minor buff list with all current (Morrowind) ID's and effect types.
+[*]Added new dev function to pull all IDs for each type of effect by Major/Minor. See bottom of AuraData.lua for details and command usage.[/list]
+
+[b]v2.3.9c ~Phinix (5-13-2017)[/b]
+[list][*]Fixed an omission that caused errors when unlocking after assigning the new debuff whitelist 2 to a frame.[/list]
+
+[b]v2.3.9b ~Phinix (5-13-2017)[/b]
+[list][*]Added 2nd prominent debuff whitelist.
+[*]Fixed a typo that caused errors when adding auras to certain whitelists.
+[*]Rearranged general settings tab to be more convenient.[/list]
+
+[b]v2.3.9a ~Phinix (5-13-2017)[/b]
+[list][*]Fixed a bug causing passive auras to disappear when changing addon settings.
+[*]EDIT: Re-uploaded without version change to re-enable LUI group aura support temporarily. NOTE: May go out-of-sync over time (needs investigating).[/list]
+
+[b]v2.3.9 ~Phinix (4-27-2017)[/b]
+[list][*]Added ability to track Aggressive Warhorn Major Force by whitelisting "Major Force."
+[*]Added ability to whitelist fake auras (like Grim Focus and Shadow Image).
+[*]Fake auras will now show their correct ability ID when Srendarr is set to show these.
+[*]Srendarr's custom auras (abilities not tracked by the game but shown in Srendarr) will no longer vanish inappropriately when entering menus or cursor mode.
+[*]Fixed a bug causing normal auras to reappear after showing example auras in settings then toggling lock on and off.
+[*]Set up new internal framework to allow changing the name display of abilities by ID.
+[*]Set up new internal framework to allow whitelisting/blacklisting ability ID's outside the previous range of 1-100000 as some new abilities already exceed this, but previous limitations prevented searching larger blocks without crashing.
+[*]Added support for tracking Destructive Mage, Shadowrend, and Sentinel of Rkugamz proc sets.
+[*]Reverted duplicate auras for Acid Spray and Molten Armaments being blacklisted by default. If you only want to see one aura icon for these or other abilities you will have to blacklist them yourself. 
+[*]Removed LUI group frame compatibility until I can find time to figure out why group ID's go out of sync.[/list]
+[b]NOTE:[/b] Due to necessary changes to the inner workings of the addon, this update will require you to remove items from your whitelists and blacklist and re-add them. Write them down before removing them or use the chat output created from removing to quickly re-add them.
+
+
+[b]v2.3.8c ~Phinix (4-26-2017)[/b]
+[list][*]Fixed issue with alternate aura icons not taking effect after previous update (thanks Majeure for reporting).
+[*]Other minor code cleanup (cosmetic/redundancies).[/list]
+
+[b]v2.3.8b ~Phinix (4-26-2017)[/b]
+[list][*]Fixed omitted nil check causing errors on certain ability use. (Thanks Greevir for the report).[/list]
+
+[b]v2.3.8a ~Phinix (4-26-2017)[/b]
+[list][*]Fixed a typo that was causing enchants and other simulated procs to not function properly.[/list]
+
+[b]v2.3.8 ~Phinix (4-12-2017)[/b]
+[list][*]BETA fix for auras disappearing when "only show player debuffs on target" is checked and others cast the same ability on the target. The current API makes it impossible to track a separate aura icon/duration for the same abilityId applied by multiple sources that are not the player. HOWEVER, this update does allow proper separation of abilities that were cast by the player and ONE copy of the same ability cast by a source that is NOT the player showing simultaneously.
+[*]Changed handling of simulated player cast abilities to pull duration from the ID instead of manually setting them, which now properly accounts for passives that incrementally increase ability duration (like Nightblade Dark Veil).
+[*]Fixed possible issue with some ranks of Caltrops and morphs not showing.
+[*]Fixed Sorcerer Storm Atronach ultimate to track as a short buff and not an AOE.
+[*]Fixed Infallible Aether set proc to properly track as a debuff on the target.
+[*]Added support for Nightblade Summon Shade (and morphs) tracking.
+[*]Added support for Nightblade Grim Focus (and morphs) tracking.
+[*]Future-proof updated API to support Morrowind.[/list]
+
+[b]v2.3.7f ~Phinix (3-07-2017)[/b]
+[list][*]Fixed bug related to adding to group whitelist by ID (thanks Kyoma).
+[*]Added Witchmother Potent Brew redundant auras to default blacklist.
+[*]Added Keep Bonus IX to Cyrodiil filters (thanks Scootworks).
+[*]Some language file updates and other random tweaks.[/list]
+
+[b]v2.3.7e ~Phinix (3-06-2017)[/b]
+[list][*]Improved hud scene hiding exception for sample auras.[/list]
+
+[b]v2.3.7d ~Phinix (3-01-2017)[/b]
+[list][*]Completely rebuilt the group buff code from scratch. Much faster and should no longer generate errors due to previous out-of-range scenarios. Also cleaner.
+[*]Created framework for submenus in custom tab panels. Cleaned up the settings menus for a big quality of life improvement.
+[*]Fixed a bug that could cause errors if buff with a long timer appeared on a group frame.
+[*]Fixed a bug that could cause errors on group size and type changes.
+[*]Fixed a bug that caused auras with no duration to not sort properly to the bottom of the list.[/list]
+
+[b]v2.3.7c ~Phinix (2-27-2017)[/b]
+[list][*]Fixed a minor bug with group frame initialization.
+[*]Improved the appearance of aura icons when not using the icon timer animations. Icons now fit all the way to the edge of the frame.
+[*]Added callback to hide all auras when in menus. Normal mouse cursor mode will still show them, and the button to show example auras within Srendarr's settings will still work.
+[*]Cleaned up some code from earlier feature testing.[/list]
+
+[b]v2.3.7b ~Phinix (2-27-2017)[/b]
+[list][*]Changed aura window sort functions to allow proper sorting of all auras regardless of type.
+[*]Fixed a bug that was causing group and raid frame auras to not properly apply their configuration settings on startup.
+[*]Added new feature to individual bar config: "Aura Class Override" - Allows you to manually set whether Srendarr will treat all TIMED auras (toggles and passives ignored) in this bar as either buffs or debuffs, regardless of their actual class. Useful when adding both debuffs and AOE to a window to make both use the same bar and icon animation colors.
+[*]Moved the "Hide Timer Bar" back to thee top of the individual frame settings when setting to Full Mode so it is more visible and obvious.
+[*]Improved the "player only debuffs" filters. Should be working properly now in all cases.
+[*]Fixed the broken Reset button for bar positions.
+[*]Fixed accidentally deleted language string.
+[*]Improved localization file layout.
+[*]Various minor code cleanup.[/list]
+
+[b]v2.3.7a ~Phinix (2-27-2017)[/b]
+[list][*]Enabled whitelisting of toggles and passives in the prominent groups.
+[*]Fixed Block instantly disappearing when whitelisted (see above).
+[*]Changed the default color for aura icon timer animations (one time color reset).
+[*]Fixed a problem that was causing the group and raid frame options to not display correctly.
+[*]Rebuilt localization files (need updated translations).
+[*]Some quality of life maintenance on the settings menus (more to come).
+[*]Code structure sanity pass.[/list]
+
+[b]v2.3.7 ~Phinix (2-25-2017)[/b]
+[list][*]Added full color customization for the new aura icon timer animation.
+[*]Added debuff support to bar color customization.
+[*]Fixed display of Templar Spear Shards AOE. Timer now begins appropriately when the ability hits not when you start targeting.
+[*]Fixed a bug that could cause other players' enchant or gear procs to trigger Srendarr as if it were your effect.
+[*]Fixed a bug where the aura icon cooldown animation was showing in Mini bar mode.
+[*]More random code improvements.[/list]
+
+[b]v2.3.6d ~Phinix (2-24-2017)[/b]
+[list][*]Moved the options to use the new cooldown animation icon style or hide the timer bar in full mode to the individual display window tabs. Can now be configured separately for each frame.
+[*]Changed behavior to allow buffs or debuffs whitelisted to a prominent display to go through to the normal display window set for that type of aura (if applicable) if the prominent group it was set to is not assigned to a frame. This allows you to quickly disable separating out listed buffs/debuffs without having to clear your whitelists.
+[*]Added new frame choice option for gear procs not normally tracked by the game, and separated these from enchant procs.
+[*]Changed behavior so whitelisted auras and debuffs will still display even if that type of ability has been otherwise hidden by filters.
+[*]Fixed Defensive Rune tracking with proper duration for each rank.
+[*]Various code improvements.[/list]
+
+[b]v2.3.6c ~Phinix (2-24-2017)[/b]
+[list][*]Fixed bug causing auras to duplicate or otherwise not behave as expected with the new debuff whitelist.
+[*]Updated Russian localization (thanks Kirix).[/list]
+
+[b]v2.3.6b ~Phinix (2-24-2017)[/b]
+[list][*]Added the ability to right-click buffs in icon only mode to cancel them. So, you can cancel your current food buff, turn off a toggle, 
+dismiss your pets, etc. by right-clicking their Srendarr icon. 
+[*]Fixed the position of icon mode tooltips so they no longer cover the aura icons.
+[*]Added new Debuff Whitelist option. Can now add debuffs here to separate them to a target window much like prominent whitelist auras. 
+Will still pass to the normal debuff window as well if assigned. Separate "only player debuffs" option for normal and prominent debuff windows. 
+NOTE: Non-debuffs added here do nothing.
+[*]Added group buff support for LUI unit frames.
+[*]Re-built the database of Major and Minor buffs including the new Lifesteal, Magickasteal, etc.
+[*]Fixed small transparent box that could show in the middle of some highly transparent aura icons.
+[*]Removed Vampire aura 'Fed on ally' from default blacklist; Can be filtered from player filters again.[/list]
+
+[b]v2.3.6a ~Phinix (2-21-2017)[/b]
+[list][*]Fixed the "Do Not Display" option (and possibly the new frame 9 and 10 options) from being linked to the wrong setting after the update added new fields to the choice dropdown.[/list]
+
+[b]v2.3.6 ~Phinix (2-21-2017)[/b]
+[list][*]New option to display auras with the countdown animation effect (similar to Foundry Tactical and ActionDurationReminder), with a black backdrop making icons much easier to see. Also included an option to hide the bar when using full mode for display frames, so you can just show the icon and the aura name if you want to (like Foundry Tactical).
+[*]Fixed a bug that was preventing setting changes for the group and raid frames from taking effect. Settings are now applied instantly in realtime to all group/raid frames.
+[*]Added two new customizable windows for aura assignment for a total of 10.[/list]
+
+[b]v2.3.5c ~Phinix (2-21-2017)[/b]
+[list][*]Fixed a bug where auras were sometimes duplicating instead of refreshing on the group frames.
+[*]Added new option to filter group frame auras by duration.
+[*]Added auto-repopulation of group frame auras when group size changes.[/list]
+
+[b]v2.3.5b ~Phinix (2-21-2017)[/b]
+[list][*]Fixed (hopefully) a case where other players casting the same debuff on a target would cause your debuff to disappear when Only Show Player Debuffs was enabled.
+[*]Fixed other player's Crystal Fragments procs triggering false proc event for player.
+[*]Added Templar Cleansing Ritual AOE (and morphs) and Templar Spear Shards AOE (and morphs) support.[/list]
+
+[b]v2.3.5a ~Phinix (2-20-2017)[/b]
+[list][*]Fixed bug causing auras to duplicate on group frames instead of updating.
+[*]Fixed bug of group buffs appearing in prominent whitelist windows.
+[*]Added new feature: "Show only player debuffs on target" under target filters.
+[*]Updated German and Russian localization (thanks Scootworks & Kirix).
+[*]Some general code cleanup. 
+[*]Re-uploaded without version changee to fix unlock error.[/list]
+
+[b]v2.3.5 ~Phinix (2-20-2017)[/b]
+[list][*]Added new feature: Group and Raid frame buff tracking. You can add abilities to track for all group/raid members to the new Group Whitelist. Alternately, there is an option to make the Group Whitelist a Blacklist and show all group buffs with a duration NOT added to your list (toggle).
+[*]Restored AOE tracking ability due to API update.
+[*]New debug option, "Show Verbose Debug" added.
+[*]Updated LibAddonMenu, LibMediaProvider, and LibStub to the latest.
+[*]Various code and language string changes. Non-English needs some updates.[/list]
+
+[b]v2.3.4g ~Phinix (2-07-2017)[/b]
+[list][*]Temporarily disabled showing AOE in tracker to avoid recent API change resulting in seeing all surrounding AOE cast by anyone with no way to reliably filter out only the player's AOE abilities. NOTE: [url=http://www.esoui.com/forums/showpost.php?p=29697&postcount=35]ZOS has indicated they will add a way to check[/url] if the source of an effect was the player so this functionality (and much more) will be added in a future release.
+[*]Updated API version and added the Briarheart proc.[/list]
+
+[b]v2.3.4f ~Phinix (12-14-2016)[/b]
+[list][*]Added the Infallible Aether proc.[/list]
+
+[b]v2.3.4e ~Phinix (10-05-2016)[/b]
+[list][*]Added crusher enchant proc on target, and Bear Trap, Hamstring, and Ensnare on player (thanks Scootworks for some of the ID's!).[/list]
+
+[b]v2.3.4d ~Phinix (8-06-2016)[/b]
+[list][*]Updated API to One Tamriel (Update 12)
+[*]Updated libraries to latest.[/list]
+
+[b]v2.3.4c ~Phinix (8-01-2016)[/b]
+[list][*]Updated LibAddonMenu to r22.[/list]
+
+[b]v2.3.4b ~Phinix (7-26-2016)[/b]
+[list][*]Updated API to latest.
+[*]Updated libraries to latest.[/list]
+
+[b]v2.3.4a ~Phinix (7-24-2016)[/b]
+[list][*]Improved the debug system. Added a new option 'Allow Manual Debug Edit' to manually control the spam/flood filters when showing all combat events with the auto-flood filter disabled. Type /sdbadd XXXXXX or /sdbremove XXXXXX (where XXXXXX is the number of an ID you wish to hide/show) to add/remove ID's from the flood filter.
+[*]Gave the Altmer Glamour from the Auridon quest a better icon.[/list]
+
+[b]v2.3.4 ~Phinix (7-13-2016)[/b]
+[list][*]Added additional debug options.[/list]
+
+[b]v2.3.3 ~Phinix (7-11-2016)[/b]
+[list][*]Updated Japanese localization and fixed incorrect acronym that was causing it not to work.
+[*]Minor database maintenance.[/list]
+
+[b]v2.3.2b ~Phinix (7-10-2016)[/b]
+[list][*]Fixed extra blank entry in options menu left in accidentally from testing.
+[*]Added some new default blacklist entries (thanks Scootworks)[/list]
+
+[b]v2.3.2a ~Phinix (7-10-2016)[/b]
+[list][*]Fixed error related to bug/oversight in last update.
+[*]Added proper check to prevent fake debuffs on target that are not from the player.[/list]
+
+[b]v2.3.2 ~Phinix (7-05-2016)[/b]
+[list][*]Fixed ultra-short auras (<3 sec) still showing.
+[*]Fixed other people's Trap Beast showing on you.
+[*]Added Flames of Oblivion to aura consolidation.[/list]
+
+[b]v2.3.1a ~Phinix (6-30-2016)[/b]
+[list][*]Added Japanese localization provided by k0ta0uchi[/list]
+
+[b]v2.3.1 ~Phinix (6-30-2016)[/b]
+[list][*]Added option to individual display frames to also show minutes for timers > 1 hour. Allows to show full time (1h32m) in self buff frame and shortened time (1h+) in target buff frame, for example.[/list]
+
+[b]v2.2.9 ~Phinix (6-29-2016)[/b]
+[list][*]German translation fully updated (thanks Scootworks!).[/list]
+
+[b]v2.2.8c ~Phinix (6-29-2016)[/b]
+[list][*]Fixed an error when addon buff to the Prominent whitelists when you had never added anything to the other prominent list.[/list]
+
+[b]v2.2.8b ~Phinix (6-28-2016)[/b]
+[list][*]Small update to assign Defensive Rune tracking as a toggle. NOTE: in order to see your Defensive Rune status, you will need to choose a window for Toggles to display in.[/list]
+
+[b]v2.2.8a ~Phinix (6-28-2016)[/b]
+[list][*]Added proper exclusivity to Prominent Buff windows 1 and 2. Now when you assign a buff to one that is already in the other, it will be automatically removed from the other.
+[*]Added some entries for Harness/Dampen Magic to eliminate redundant auras.[/list]
+
+[b]v2.2.8 ~Phinix (6-27-2016)[/b]
+[list][*]Fixed Rearming Trap IV debuff timer constantly resetting.
+[*]Fixed custom debuffs not showing after changing targets.
+[*]Improved debug information for Show All Combat Events.
+[*]Improved tooltip description for Show All Combat Events option.
+[*]Rearranged settings menus to be more clean/intuitive.
+[*]Added a second Prominent Buff window for custom displays.[/list]
+
+[b]v2.2.7b ~Phinix (6-27-2016)[/b]
+[list][*]Solved error seen since last updates. NOTE: This will disable the ability to see fake debuffs from Srendarr which the game doesn't normally track (like Trap Beast bleed when target is stun immune) if you move your mouse off the target and back again. If you keep the target under your reticle these will still be tracked however. This is due to API limitations. The game gives no unique reference ID for targets in the game. Without getting overly technical, suffice it to say it is a trade-off and ATM it is more important to ensure people can play without errors than limited cases like the above working reliably. I may develop a more permanent workaround in the future.[/list]
+
+[b]v2.2.7a ~Phinix (6-26-2016)[/b]
+[list][*]Manually acquired ability ID for ALL ranks of Defensive Rune and ALL morphs of Beast Trap. Previous implementation of support for these will now work for all ranks, not just rank IV.
+[*]Added debuff tracking for "Desecrated Ground" snare cast by exploding zombies.
+[*]Errors (should be) resolved.[/list]
+
+[b]v2.2.7 ~Phinix (6-26-2016)[/b]
+[list][*]Created workaround for game engine limitation where Srendarr wouldn't receive the information it needed to track the Beast Trap (and morphs) bleed debuff on a target if that target was immune to the initial stun effect.
+[*]Some changes to the German translation (thanks Scootworks).[/list]
+
+[b]v2.2.6a ~Phinix (6-25-2016)[/b]
+[list][*]Added support for Sorcerer ability Defensive Rune.
+[*]Added Fighters Guild Circle of Protection and morphs to new consolidation system.[/list]
+
+[b]v2.2.6 ~Phinix (6-25-2016)[/b]
+[list][*]Fixed duplicate Charging Maneuver aura.
+[*]Fixed Mage Light passive in Long buffs.
+[*]Fixed un-morphed Inferno in Long buffs.
+[*]Added option to consolidate multi-aura passives like Restoring Light.[/list]
+
+[b]v2.2.5a ~Phinix (6-23-2016)[/b]
+[list][*]Added the following armor set procs to the proc list: Trial By Fire, Whitestrake's Retribution, Vampire's Kiss, Tava's Favor, Clever Alchemist, Armor Master.
+[*]Gave enchant procs more appropriate icons.[/list]
+
+[b]v2.2.5 ~Phinix (6-16-2016)[/b]
+[list][*]Added new category option to show enchants and gear procs. BETA, requires ability ID's! See the new debug feature "Show Combat Events" below to help collect them!
+[*]Added weapon/spell power and damage shield enchants to the above new category.
+[*]Added new section to addon settings, "Debug Options" (at the very bottom).[/list]
+Here is an option to show the AbilityID and Name of every single effect the player gains, from block to sprint fatigue to gear set procs. Enable this, and sort through the mass of information to pick out the AbilityID and Name of a proc that Srendarr should track, and post it to comments here!
+[u][b]UPDATE:[/b][/u] Re-uploaded without version change. Debug mode now has spam control. Will only show ability once until /reloadui or until you type /sdbclear to reset the debug database.
+
+
+[b]v2.2.4 ~Phinix (6-15-2016)[/b]
+[list][*]Fixed staged long duration auras (like vampire stages) displaying -0.0 when timer ran out at stage 4.
+[*]Updated German translation file (thanks Scootworks).
+[*]Added support for Assassin's Scourge ability (thanks code65536).
+[*]Re-uploaded with slight changee to previous hour/minutes fix. Now will show seconds when minutes is zero instead of showing Xh0m for a whole minute. Will show XhYs.[/list]
+
+[b]v2.2.3 ~Phinix (6-12-2016)[/b]
+[list][*]Added option to also show minutes remaining for timers greater than an hour.
+[*]Fixed missing custom vampire stage icons and moved stage indicator to top left for better visibility (was hidden behind timer).[/list]
+
+[b]v2.2.2 ~Phinix (6-08-2016)[/b]
+[list][*]Updated API to latest for Dark Brotherhood.
+[*]Updated to latest LibAddonMenu and LibStub.[/list]
+
+v2.2.1
+- Added missing abilityID to Soul Summons filter
+- Tooltips now show full description when available, or just name otherwise
+
+v2.2.0
+- Converted abilityID debug to a user setting
+- Added toggle to display aura on dead targets
+- Removed Repentance Minor Effects from 'always filter' list
+- Added ability to blacklist and set prominent auras by abilityID
+
+v2.1.9
+- Added the option to group passive Major|Minor Buffs as either Passives or with timed Major|Minor Buffs
+- Corrected missing Experience Potion aura
+
+v2.1.8
+- Added the keep bonus IDs and Experience Bonus to Cyrodiil filters
+- Added the 3 Minor Effects from Repentance to 'always block'
+- Added the Major Effect IDs to filter table and fixed the control ordering so Major|Minor Effects will be grouped appropriately even if they are passive.
+- Corrected french translation
+
+v2.1.7
+- Added German translations, thank you to [URL="http://www.esoui.com/forums/member.php?u=1742"]Tonyleila[/URL] and silentgecko
+- Added several abilityIDs to Cyrodiil Filters
+- Added several abilityIDs to 'Always Block' Filter
+- Added the ability to alter aura icons before display
+-    Given Off-Balance [45902] an icon
+-    Given all 4 stages of Vampirism custom icons
+
+v2.1.6
+- Added option to display name tooltips in Icon Only style (setting is per Display Window)
+- Fixed issue with potion auras not being allowed to be set as prominent
+
+v2.1.5
+- Added French translations, thank you to [URL="http://www.esoui.com/forums/member.php?u=12247"]Ayantir[/URL]
+- Added debug option to show AbilityIDs in all styles - can be toggeld using the DEBUG_ABILITYID constant in Defaults.lua (line 4)
+- Removed Magelight and Inferno (and their morphs) from Toggled Effects list
+- Fixed transparency not being reset when windows are faded (ie, opening menus)
+- Made the chosen proc sound play when changing the option in settings
+- Updated default location for windows 5 & 6 so as to not overlap target health (if already installed before now, either reset locations to default or manually move)
+- Updated LibAddonMenu library to r19
+
+v2.1.4
+- Complete rewrite to use the new API system for accurate buff tracking
+- Settings, due to extensive changes, have been reset and must be redone
+- Major feature changes include:
+-    multiple display windows and the ability to sort and group auras between them
+-    the ability to blacklist unwanted auras
+-    a special 'prominent' category for whitelisted auras that need special attention
+-    more control over aura, and ability proc, display
+-    a fully customizable casting bar for abilities that require a cast time (does not include heavy attacks)
+-    an account-wide profile option
+
+v1.51
+- Added Beast Trap and its morphs to debuffs
+- Added Path of Darkness and its moprhs to debuffs
+- Removed missadded IDE config ;)
+
+v1.50
+- Updated for API version 100013 (Orsinium Update)
+- Added Options to Hide Minor and Major Buffs, for e.g. "Minor Prophecy" or "Major Intellect"
+
+v1.49g
+[b]FYI: This update doesn't support all changes in game Update 7 yet.[/b]
+- updated for API version 100012 (Update 7)
+- updated LibAddonMenu-2.0 library
+- updated LibStub library
+
+v1.49f
+- changed way of checking active shields in order to avoid UI error reported by cheshyr.
+
+v1.49e
+- attempt to fix issue that shield timers were removed instead of refreshed
+
+v1.49d
+- corrected cast time for Crystal Fragments with Crystal Fragments Passive proc (reported by Gaulomatic)
+- fixed proc animations after weapon pair is swapped
+
+v1.49c
+- disabled Warmth proc
+- added vampirism stage icons (thanks to Dominoid)
+
+v1.49b
+- added buff timer for templar's Sun Fire abilities (it gives Major Prophecy upon activation)
+- added Bit an Ally to vampire/werewolf filters
+
+v1.49a
+- fixed UI error for triggered events which haven't defined duration in AuraData
+- class passive effects timers are now correctly started after you finish casting
+
+v1.49
+- added timers for class passive abilities (for example Illuminate for templar or Shadow Barrier for nightblade)
+- added timer for Entropy buff
+- added Battle Spirit and Blessing of War to Cyrodiil buffs
+- added Vigor abilities (Alliance War -> Assault)
+- re-added 8s timer for Crystal Fragments Passive
+- corrected a few timers for class abilities
+
+v1.48a
+- fixed UI error for proc animations
+- potion timers are no longer set when quickslot is unusable (i.e. when slot is on cooldown or when no more potions left)
+- removed Hardened Armor from shields
+
+v1.48
+- added potion timers (experimental)
+- added Meteor abilities
+
+v1.47f
+- fixed missing "self." in :UpdateAuras()
+
+v1.47e
+- fixed timer for Blessing of Restoration (healing staff)
+- added option to show/hide less important buffs such as ESO Plus Member (General -> Aura Filters)
+- fixed issue with some short term buffs (Momentum etc.)
+
+v1.47d
+- added Dark Stalker to vampire passives list
+- added ESO Plus Member to ignored buffs list
+
+v1.47c
+- added Grand Healing abilities
+- moved procs from long term buffs to short term buffs (example: Crystal Fragments Passive)
+
+v1.47b
+- added Lightning Splash abilities
+- filtered out unwanted effects - Concentration (light armor), Medicinal Use (alchemy), Nourishing (champion points), Soul Siphoner (nghtblade) and Spell Shield (champion points).
+- fixed aura padding when frame is scaled
+- fixed UI error triggered in addon settings
+
+v1.47a
+- added Destructive Touch abilities (added by [url="http://www.esoui.com/forums/member.php?u=16007"]silentgecko[/url])
+
+v1.47
+- updated for API version 100011 (Update 6)
+- updated LibAddonMenu-2.0 library
+- updated LibMediaProvider-1.0 library
+
+v1.46b
+- added short term buffs threshold slider (default value is now 90 seconds)
+- updated fontblock widget
+
+v1.46a
+- fixed settings menu (fontblock widget)
+
+v1.46
+- converted settings menu from LibAddonMenu-1.0 to LibAddonMenu-2.0
+- fixed typo in function Srendarr:GetAbilityIdFromPlayersBuff(buffId)
+
+v1.45f
+- fixed UI error with crystal fragments proc
+
+v1.45e
+- fixed issue with crystal fragment proc animation when you swap weapons
+- fixed issue with channeled abilities (such as Drain Essence)
+
+v1.45d
+- added slot animation & sound for Crystal Fragments Passive proc [i](you're right, I've started play sorcerer...)[/i]
+
+- TODO: convert settings from LibAddonMenu-1.0 to 2.0
+
+v1.45c
+- corrected & updated tracked abilities [I](many thanks to [url="http://www.esoui.com/forums/member.php?u=4670"]Lumber[/url])[/I]
+
+v1.45b
+- support for Crystal Fragments Passive (sorcerer ability)
+
+v1.45a
+- fixed issue with debuffs applied out of combat
+
+v1.45
+- ability names are now translated automatically
+- a few new tracked abilities (bow, destro staff, werewolf, ...)
+
+v1.44
+- updated LibMediaProvider-1.0 (r7)
+- a lots of corrections in ability names
+- attempt to make buff timers more accurate
+- attempt to fix issues with show/hide buff frames
+
+v1.43c
+- updated unofficial version of LibAddonMenu-1.0 library (fixed submenu)
+
+v1.43b
+(list of changes in compare with official release 1.43)
+- updated API version to 100010 (Update 5)
+- unofficialy updated LibAddonMenu-1.0 because this library is no longer supported by original author (Seerah)
+- modified tooltips to provide more information
+- fixed typos in german names for Dark Shades ('dunkle Schatten^p') and Flames of Oblivion ('Flammen des Vergessens^p')
+
+v1.42b
+- updated API version to 100008
+
+v1.42a
+- updated LibMediaProvider-1.0 library
+
+v1.42
+- updated API version to 100007
+- properly formated french and german buff names (removed control characters "^")
+- corrected a few buff/debuff names (english: "To" -> "to", "Of" -> "of", german: [URL="http://www.esoui.com/forums/member.php?userid=11748"]xx8xx[/URL]'s [URL="http://www.esoui.com/downloads/info581-SrendarrGermanTranslationDeutsch.html#comments"]corrections[/URL].)
+- updated libraries
