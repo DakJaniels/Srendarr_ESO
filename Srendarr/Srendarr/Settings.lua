@@ -1,3 +1,4 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
 local L = Srendarr:GetLocale()
 local LAM = LibAddonMenu2
@@ -83,7 +84,6 @@ local dropBlacklistAuras = {}
 
 -- RECENT AURA SCROLL LIST --
 local scrollTable = {}
-local recentAuraList = ZO_ScrollList_GetDataList(Srendarr_RecentAuraListFrameList)
 local listMode = 0
 
 -- Setting string support for different group and raid frames (Phinix)
@@ -168,29 +168,50 @@ local lastScrollList = 0
 local lastScrollTable = 0
 local editName = ''
 local editIDName = ''
+local auraName = ''
 local pTarget = ''
 local pOnly = true
 local isNumber = false
 local updateAuraSet = false
+local searchInProgress = false
 local removeAuraSet = false
 local isAuraUpdate = false
 local isAOEUpdate = false
 local isExpertMode = false
 local updateAuraCheck = ''
 local matchedIDs = {}
-local recentAuraList = {}
 local prominentSearchRef
 
 
 -- ------------------------
 -- SAMPLE AURAS
 -- ------------------------
+local function ClearAurasForSamplePreview()
+    local auraLookup = Srendarr.auraLookup
+    local keepAuras = Srendarr.keepAuras
+
+    for _, auras in pairs(auraLookup) do
+        for id, aura in pairs(auras) do
+            if not keepAuras[id] then
+                aura:Release(true)
+            end
+        end
+    end
+
+    for displayIndex = 1, Srendarr.NUM_DISPLAY_FRAMES do
+        local displayFrame = Srendarr.displayFrames[displayIndex]
+        if displayFrame ~= nil then
+            displayFrame:UpdateDisplay()
+        end
+    end
+end
+
 local function ShowSampleAuras()
     for _, fragment in pairs(Srendarr.displayFramesScene) do
         SCENE_MANAGER:AddFragment(fragment) -- make sure displayframes are visible while in the options panel
     end
 
-    Srendarr.OnEquipChange()                 -- reset to a clean slate
+    ClearAurasForSamplePreview()             -- reset display without OnEquipChange (avoids delayed full resync wiping samples)
 
     for i = 1, #Srendarr.db.displayFrames do -- show the display frames once emptied by above
         if Srendarr.displayFrames[i] ~= nil then
@@ -211,7 +232,7 @@ local function ClearProminentScrollList(datalist) -- Clears the current scroll l
     for k, v in pairs(datalist) do datalist[k] = nil end
     for k, v in pairs(scrollTable) do scrollTable[k] = nil end
     ZO_ScrollList_Clear(Srendarr_RecentAuraListFrameList)
-    ZO_ScrollList_Commit(Srendarr_RecentAuraListFrameList, datalist)
+    ZO_ScrollList_Commit(Srendarr_RecentAuraListFrameList)
 end
 
 
@@ -396,7 +417,7 @@ function Srendarr:PopulateGroupBuffsDropdown()
     for name in pairs(Srendarr.db.groupBuffWhitelist) do
         if (name == STR_GROUPBUFFBYID) then -- special case for auras added by abilityID
             for id in pairs(Srendarr.db.groupBuffWhitelist[STR_GROUPBUFFBYID]) do
-                local idName = (specialNames[abilityId] ~= nil) and specialNames[abilityId].name or ZOSName(id)
+                local idName = (specialNames[id] ~= nil) and specialNames[id].name or ZOSName(id)
                 tinsert(dropGroupBuffs, strformat('[%d] %s', id, idName))
             end
         else
@@ -421,7 +442,7 @@ function Srendarr:PopulateGroupDebuffsDropdown()
     for name in pairs(Srendarr.db.groupDebuffWhitelist) do
         if (name == STR_GROUPDEBUFFBYID) then -- special case for auras added by abilityID
             for id in pairs(Srendarr.db.groupDebuffWhitelist[STR_GROUPDEBUFFBYID]) do
-                local idName = (specialNames[abilityId] ~= nil) and specialNames[abilityId].name or ZOSName(id)
+                local idName = (specialNames[id] ~= nil) and specialNames[id].name or ZOSName(id)
                 tinsert(dropGroupDebuffs, strformat('[%d] %s', id, idName))
             end
         else
@@ -446,7 +467,7 @@ function Srendarr:PopulateBlacklistAurasDropdown()
     for name in pairs(Srendarr.db.blacklist) do
         if (name == STR_BLOCKBYID) then -- special case for auras added by abilityID
             for id in pairs(Srendarr.db.blacklist[STR_BLOCKBYID]) do
-                local idName = (specialNames[abilityId] ~= nil) and specialNames[abilityId].name or ZOSName(id)
+                local idName = (specialNames[id] ~= nil) and specialNames[id].name or ZOSName(id)
                 tinsert(dropBlacklistAuras, strformat('[%d] %s', id, idName))
             end
         else
@@ -487,7 +508,7 @@ local function CreateWidgets(panelID, panelData)
     for entry, widgetData in ipairs(panelData) do
         local widgetType = widgetData.type
         local widget = LAMCreateControl[widgetType](panel, widgetData)
-        widget:SetDrawTier(high)
+        widget:SetDrawTier(DT_LOW)
         widget:SetDrawLayer(DL_CONTROLS)
 
         HookTooltip(widget)
@@ -528,7 +549,7 @@ local function CreateWidgets(panelID, panelData)
             local lastSubWidget = widget.label
             local subWidgetsDB = subWidgets[widget.data.reference]
 
-            widget.label:SetHandler('OnMouseUp', function () return end)
+            widget.label:SetHandler('OnMouseUp', function () end)
 
             widget.scroll:SetDimensionConstraints(panel:GetWidth() + 19, 0, panel:GetWidth() + 19, 0)
             widget.label:SetDimensions(panel:GetWidth(), (widget.open) and subWidgetsDB.height or 30)
@@ -870,6 +891,8 @@ local pChars =
 }
 
 local modifyGetUnitTitle = GetUnitTitle
+--- @param unitTag string
+--- @return string
 GetUnitTitle = function (unitTag)
     local oTitle = modifyGetUnitTitle(unitTag)
     local uName = GetUnitName(unitTag)
@@ -895,11 +918,11 @@ local function NavigateScrollList(nTable, mode)
     local fOBImmunityID = OffBalance.ID
 
     if mode == 1 then
-        local tNames = {}
+        local seenAuraNames = {}
         for _, data in pairs(nTable) do
             local tName = data.name
-            if tNames[tName] == nil then
-                tNames[tName] = true
+            if seenAuraNames[tName] == nil then
+                seenAuraNames[tName] = true
                 local iName = '|t20:20:' .. data.icon .. '|t' .. ' ' .. tName
                 local tType = (data.unit == L.DropAuraTargetAOE) and L.DropAuraClassBuff or data.type
                 row = row + 1
@@ -911,7 +934,7 @@ local function NavigateScrollList(nTable, mode)
             local tName = (data.name ~= nil) and data.name or zo_strformat('<<t:1>>', GetAbilityName(data.id))
             tName = (data.id == fOBImmunityID) and fAuraName or (tName == Srendarr.OffBalance.obN2) and Srendarr.OffBalance.obN1 or tName
 
-            local editIDName = (data.isId) and tostring(data.id) .. ' (' .. tName .. ')' or tName
+            local rowDisplayName = (data.isId) and tostring(data.id) .. ' (' .. tName .. ')' or tName
             local icon = GetAbilityIcon(data.id)
             if (data.id == bData.ID) then
                 icon = Srendarr.specialGearSets[bData.nSet].icon -- Bahsei's Mania
@@ -920,21 +943,21 @@ local function NavigateScrollList(nTable, mode)
             elseif (data.id == fOBImmunityID) then               -- Off Balance Immunity
                 icon = OffBalance.icon
             end
-            local iName = '|t20:20:' .. icon .. '|t' .. ' ' .. editIDName
+            local iName = '|t20:20:' .. icon .. '|t' .. ' ' .. rowDisplayName
             row = row + 1
             tSort[row] = { name = tName, iName = iName, unit = data.unit, pOnly = data.oscast, type = data.type, frame = data.frame, id = data.id, isId = data.isId, row = row }
         end
     else
         for _, data in pairs(nTable) do
             local tName = tostring(data.id)
-            local editIDName = (data.isId) and tName .. ' (ID)' or tName
+            local rowDisplayName = (data.isId) and tName .. ' (ID)' or tName
             local icon = GetAbilityIcon(data.id)
             if (data.id == bData.ID) then
                 icon = Srendarr.specialGearSets[bData.nSet].icon -- Bahsei's Mania
             elseif (data.id == pData.ID) then
                 icon = 'Srendarr/Icons/RotPO_Level6.dds'         -- Ring of the Pale Order
             end
-            local iName = '|t20:20:' .. icon .. '|t' .. ' ' .. editIDName
+            local iName = '|t20:20:' .. icon .. '|t' .. ' ' .. rowDisplayName
             row = row + 1
             tSort[row] = { name = tName, iName = iName, unit = data.unit, pOnly = data.oscast, type = data.type, frame = data.frame, id = data.id, isId = data.isId, row = row }
         end
@@ -962,7 +985,7 @@ local function NavigateScrollList(nTable, mode)
         )
     end
 
-    ZO_ScrollList_Commit(Srendarr_RecentAuraListFrameList, datalist)
+    ZO_ScrollList_Commit(Srendarr_RecentAuraListFrameList)
 end
 
 local function OnScollListClick(clicktext)
@@ -1099,7 +1122,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                             end
                         end
                         if (showIDs) then
-                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' \(' .. L.DropAuraTargetPlayer .. '\) IDs:')
+                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' (' .. L.DropAuraTargetPlayer .. ') IDs:')
                             Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                             Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                         end
@@ -1120,7 +1143,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                             end
                         end
                         if (showIDs) then
-                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' \(' .. L.DropAuraTargetTarget .. '\) IDs:')
+                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' (' .. L.DropAuraTargetTarget .. ') IDs:')
                             Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                             Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                         end
@@ -1137,7 +1160,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                             end
                         end
                         if (showIDs) then
-                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' \(' .. L.DropAuraTargetAOE .. '\) IDs:')
+                            Srendarr_RecentAuraListFrameCurrentIDs:SetText(editIDName .. ' (' .. L.DropAuraTargetAOE .. ') IDs:')
                             Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                             Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                         end
@@ -1158,7 +1181,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                                 if (showIDs) then
                                     if name == editIDName then
                                         tCategory[id] = { name = name, id = id, unit = L.DropAuraTargetPlayer, type = type, frame = frame, oscast = oscast, isId = false }
-                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' \(' .. L.DropAuraTargetPlayer .. '\) IDs:')
+                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' (' .. L.DropAuraTargetPlayer .. ') IDs:')
                                         Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                                         Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                                     end
@@ -1188,7 +1211,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                                 if (showIDs) then
                                     if name == editIDName then
                                         tCategory[id] = { name = name, id = id, unit = L.DropAuraTargetTarget, type = type, frame = frame, oscast = oscast, isId = false }
-                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' \(' .. L.DropAuraTargetTarget .. '\) IDs:')
+                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' (' .. L.DropAuraTargetTarget .. ') IDs:')
                                         Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                                         Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                                     end
@@ -1218,7 +1241,7 @@ local function UpdateProminentScrollList(list, vData, update, showIDs, resetID)
                                 if (showIDs) then
                                     if name == editIDName then
                                         tCategory[id] = { name = name, id = id, unit = L.DropAuraTargetAOE, type = type, frame = frame, oscast = oscast, isId = false }
-                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' \(' .. L.DropAuraTargetAOE .. '\) IDs:')
+                                        Srendarr_RecentAuraListFrameCurrentIDs:SetText(name .. ' (' .. L.DropAuraTargetAOE .. ') IDs:')
                                         Srendarr_RecentAuraListFrameShowIDs:SetHidden(true)
                                         Srendarr_RecentAuraListFrameCurrentIDs:SetHidden(false)
                                     end
@@ -1257,7 +1280,7 @@ local function ShowAuraIDs(control, text, option) -- Generate the popup list too
     end
 end
 
-function Srendarr.AuraSearchResults(tDB, tAura, sType, pOnly)
+function Srendarr.AuraSearchResults(tDB, tAura, sType, oscastOnly)
     matchedIDs = {}
     searchInProgress = false
 
@@ -1279,7 +1302,7 @@ function Srendarr.AuraSearchResults(tDB, tAura, sType, pOnly)
             end
 
             local tType = tostring(sType)
-            local tCast = (pOnly) and '1' or '0'
+            local tCast = (oscastOnly) and '1' or '0'
             local tFrame = (pFrame < 10) and '0' .. tostring(pFrame) or tostring(pFrame)
             local tData = '1' .. tType .. tCast .. tFrame
             pDB[STR_PROMBYID][sTarget][sID] = tData
@@ -1294,7 +1317,7 @@ function Srendarr.AuraSearchResults(tDB, tAura, sType, pOnly)
                     pDB[STR_PROMBYID][sTarget][id] = nil -- remove ID-specific config when re/adding by name
                 end
                 local tType = tostring(sType)
-                local tCast = (pOnly) and '1' or '0'
+                local tCast = (oscastOnly) and '1' or '0'
                 local tFrame = (pFrame < 10) and '0' .. tostring(pFrame) or tostring(pFrame)
                 local tData = '1' .. tType .. tCast .. tFrame
                 pDB[sTarget][sName][id] = tData
@@ -1524,12 +1547,8 @@ function Srendarr:PartialUpdate(recheck, completed)
                 Srendarr.db.raidAuraMode = 4
             end
         end
-        if LUIESV and LUIESV.Default and LUIESV.Default[GetDisplayName()] and LUIESV.Default[GetDisplayName()]['$AccountWide'] then
-            local accountWide = LUIESV.Default[GetDisplayName()]['$AccountWide']
-            local unitFrames = accountWide.UnitFrames
-            local EnableFrames = accountWide.UnitFrames_Enabled
-            local GroupFrames = unitFrames and unitFrames.CustomFramesGroup
-            local RaidFrames = unitFrames and unitFrames.CustomFramesRaid
+        if LUIE then
+            local EnableFrames, GroupFrames, RaidFrames = Srendarr.GetLUIExtendedAnchoringFlags()
             if (EnableFrames == true and GroupFrames == true) then
                 Srendarr.db.groupAuraMode = 3
             end

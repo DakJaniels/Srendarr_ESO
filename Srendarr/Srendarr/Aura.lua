@@ -1,3 +1,4 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
 local L = Srendarr:GetLocale()
 local LMP = LibMediaProvider
@@ -194,17 +195,22 @@ local function OnMouseExit()
 end
 
 local function OnMouseUp(aura, button, upInside)
-    if button == 2 and (upInside) then -- right-click cancel eligible auras (Phinix)
-        local abilityID = aura.abilityID
+    if button ~= MOUSE_BUTTON_INDEX_RIGHT or not upInside then
+        return
+    end
+    if aura.unitTag ~= 'player' then -- right-click cancel eligible auras (Phinix)
+        return
+    end
 
-        local numAuras = GetNumBuffs('player')
-        for i = 1, numAuras do
-            -- 	local buffName, startTime, endTime, buffSlot, stackCount, iconFile, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff = GetUnitBuffInfo("player", i)
-            local _, _, _, buffSlot, _, _, _, _, _, _, abilityIDb, canClickOff = GetUnitBuffInfo('player', i)
-            if abilityIDb == abilityID then
-                CancelBuff(buffSlot)
-                auraLookup['player'][abilityID]:Release()
-            end
+    local abilityID = aura.abilityID
+    local numAuras = GetNumBuffs('player')
+    for i = 1, numAuras do
+        -- 	local buffName, startTime, endTime, buffSlot, stackCount, iconFile, buffType, effectType, abilityType, statusEffectType, abilityId, canClickOff = GetUnitBuffInfo("player", i)
+        local _, _, _, buffSlot, _, _, _, _, _, _, abilityId, canClickOff = GetUnitBuffInfo('player', i)
+        if abilityId == abilityID and canClickOff then
+            CancelBuff(buffSlot)
+            aura:Release()
+            break
         end
     end
 end
@@ -252,14 +258,14 @@ do ------------------------
                                     if cdId == tId then
                                         if abilityCooldowns[cdId] ~= nil then
                                             local abID = cdId + 5000000
-                                            local currentTime = GetGameTimeMillis() / 1000
+                                            local readyTime = GetGameTimeMillis() / 1000
                                             local abName = (abilityCooldowns[cdId].altName ~= nil) and abilityCooldowns[cdId].altName or GetAbilityName(cdId)
                                             local abIcon = (abilityCooldowns[cdId].altIcon ~= nil) and abilityCooldowns[cdId].altIcon or GetAbilityIcon(cdId)
                                             if filteredAuras['player'] ~= nil then
                                                 if not filteredAuras['player'][abID] then
                                                     if auraLookup['player'][abID] then auraLookup['player'][abID]:Release() end
-                                                    local isProminent = (Srendarr.prominentIDs[abilityId] ~= nil) and true or false -- only need to check main prominent table since gear cooldowns in Srendarr can only be player cast (Phinix)
-                                                    Srendarr.PassToDisplayFrame(false, GROUP_CDBAR, AURA_TYPE_PASSIVE, abName, 'player', currentTime, currentTime, abIcon, BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, abID, 0, true, isProminent, true)
+                                                    local isProminent = (Srendarr.prominentIDs[cdId] ~= nil) and true or false -- only need to check main prominent table since gear cooldowns in Srendarr can only be player cast (Phinix)
+                                                    Srendarr.PassToDisplayFrame(false, GROUP_CDBAR, AURA_TYPE_PASSIVE, abName, 'player', readyTime, readyTime, abIcon, BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, abID, 0, true, isProminent, true)
                                                 end
                                             end
                                         end
@@ -311,108 +317,106 @@ end
 -- AURA
 -- ------------------------
 function Aura:Create(displayParent)
-    local aura, ctrl
-
-    aura, ctrl = AddControl(displayParent, CT_TEXTURE, 2)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    local aura = AddControl(displayParent, CT_TEXTURE, 2)
+    aura:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
 
     -- ICON BACKGROUND
-    aura.iconBG, ctrl = AddControl(aura, CT_BACKDROP, 3)
-    ctrl:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetCenterColor(0, 0, 0, 1)
-    ctrl:SetEdgeColor(0, 0, 0, 1)
+    aura.iconBG = AddControl(aura, CT_BACKDROP, 3)
+    aura.iconBG:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
+    aura.iconBG:SetAnchor(CENTER)
+    aura.iconBG:SetCenterColor(0, 0, 0, 1)
+    aura.iconBG:SetEdgeColor(0, 0, 0, 1)
     -- ICON
-    aura.icon, ctrl = AddControl(aura, CT_TEXTURE, 3)
-    ctrl:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
-    ctrl:SetAnchor(CENTER)
+    aura.icon = AddControl(aura, CT_TEXTURE, 3)
+    aura.icon:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
+    aura.icon:SetAnchor(CENTER)
     -- ICON BORDER
-    aura.border, ctrl = AddControl(aura, CT_TEXTURE, 3)
-    ctrl:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetTexture([[esoui/art/actionbar/abilityframe64_up.dds]])
+    aura.border = AddControl(aura, CT_TEXTURE, 3)
+    aura.border:SetDimensions(AURA_HEIGHT - 6, AURA_HEIGHT - 6)
+    aura.border:SetAnchor(CENTER)
+    aura.border:SetTexture([[esoui/art/actionbar/abilityframe64_up.dds]])
 
     -- CD BACKGROUND
-    aura.cdBG, ctrl = AddControl(aura, CT_BACKDROP, 2)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetCenterColor(0, 0, 0, 1)
-    ctrl:SetEdgeColor(0, 0, 0, 1)
+    aura.cdBG = AddControl(aura, CT_BACKDROP, 2)
+    aura.cdBG:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    aura.cdBG:SetAnchor(CENTER)
+    aura.cdBG:SetCenterColor(0, 0, 0, 1)
+    aura.cdBG:SetEdgeColor(0, 0, 0, 1)
     -- COOLDOWN
-    aura.cooldown, ctrl = AddControl(aura.cdBG, CT_COOLDOWN, 2)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetHidden(true)
+    aura.cooldown = AddControl(aura.cdBG, CT_COOLDOWN, 2)
+    aura.cooldown:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    aura.cooldown:SetAnchor(CENTER)
+    aura.cooldown:SetHidden(true)
     -- GEAR PROC READY
-    aura.proc, ctrl = AddControl(aura, CT_TEXTURE, 4)
-    ctrl:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetTexture([[esoui/art/actionbar/abilityhighlight_mage_med.dds]])
-    ctrl:SetBlendMode(TEX_BLEND_MODE_ADD)
-    -- 	ctrl:SetDrawLevel(2)
-    ctrl:SetHidden(true)
-    aura.loopTexture = ctrl
-    aura.loop = ANIMATION_MANAGER:CreateTimelineFromVirtual('UltimateReadyLoop', ctrl)
+    aura.proc = AddControl(aura, CT_TEXTURE, 4)
+    aura.proc:SetDimensions(AURA_HEIGHT, AURA_HEIGHT)
+    aura.proc:SetAnchor(CENTER)
+    aura.proc:SetTexture([[esoui/art/actionbar/abilityhighlight_mage_med.dds]])
+    aura.proc:SetBlendMode(TEX_BLEND_MODE_ADD)
+    -- 	aura.proc:SetDrawLevel(2)
+    aura.proc:SetHidden(true)
+    aura.loopTexture = aura.proc
+    aura.loop = ANIMATION_MANAGER:CreateTimelineFromVirtual('UltimateReadyLoop', aura.proc)
     aura.loop:SetHandler('OnStop', function ()
         aura.loopTexture:SetHidden(true)
     end)
     aura.isPlaying = false
     -- TOGGLED HIGHLIGHT
-    aura.highlight, ctrl = AddControl(aura, CT_TEXTURE, 3)
-    ctrl:SetDimensions(AURA_HEIGHT - 2, AURA_HEIGHT - 2)
-    ctrl:SetAnchor(CENTER)
-    ctrl:SetTexture([[/esoui/art/actionbar/actionslot_toggledon.dds]])
-    ctrl:SetHidden(true)
+    aura.highlight = AddControl(aura, CT_TEXTURE, 3)
+    aura.highlight:SetDimensions(AURA_HEIGHT - 2, AURA_HEIGHT - 2)
+    aura.highlight:SetAnchor(CENTER)
+    aura.highlight:SetTexture([[/esoui/art/actionbar/actionslot_toggledon.dds]])
+    aura.highlight:SetHidden(true)
     -- LABELS
-    aura.name, ctrl = AddControl(aura, CT_LABEL, 4)
-    ctrl:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
-    ctrl:SetInheritScale(false)
-    aura.timer, ctrl = AddControl(aura, CT_LABEL, 4)
-    ctrl:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
-    ctrl:SetInheritScale(false)
+    aura.name = AddControl(aura, CT_LABEL, 4)
+    aura.name:SetVerticalAlignment(TEXT_ALIGN_BOTTOM)
+    aura.name:SetInheritScale(false)
+    aura.timer = AddControl(aura, CT_LABEL, 4)
+    aura.timer:SetHorizontalAlignment(TEXT_ALIGN_CENTER)
+    aura.timer:SetInheritScale(false)
     -- BAR
-    aura.bar, ctrl = AddControl(aura, CT_STATUSBAR, 2)
-    ctrl:SetHeight(16)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill.dds]])
-    ctrl:SetTextureCoords(0, 1, 0, 0.625)
-    ctrl:SetLeadingEdge([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge.dds]], 8, 32)
-    ctrl:SetLeadingEdgeTextureCoords(0, 1, 0, 0.625)
-    ctrl:EnableLeadingEdge(true)
-    ctrl:SetMinMax(0, 1)
-    ctrl:SetHandler('OnValueChanged', function (bar, value) bar.gloss:SetValue(value) end) -- change gloss value as main bar changes
+    aura.bar = AddControl(aura, CT_STATUSBAR, 2)
+    aura.bar:SetHeight(16)
+    aura.bar:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill.dds]])
+    aura.bar:SetTextureCoords(0, 1, 0, 0.625)
+    aura.bar:SetLeadingEdge([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge.dds]], 8, 32)
+    aura.bar:SetLeadingEdgeTextureCoords(0, 1, 0, 0.625)
+    aura.bar:EnableLeadingEdge(true)
+    aura.bar:SetMinMax(0, 1)
+    aura.bar:SetHandler('OnValueChanged', function (bar, value) bar.gloss:SetValue(value) end) -- change gloss value as main bar changes
     -- BAR GLOSS
-    aura.bar.gloss, ctrl = AddControl(aura.bar, CT_STATUSBAR, 3)
-    ctrl:SetHeight(16)
-    ctrl:SetAnchor(TOPLEFT)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill_gloss.dds]])
-    ctrl:SetTextureCoords(0, 1, 0, 0.625)
-    ctrl:SetLeadingEdge([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge_gloss.dds]], 8, 32)
-    ctrl:SetLeadingEdgeTextureCoords(0, 1, 0, 0.625)
-    ctrl:EnableLeadingEdge(true)
-    ctrl:SetMinMax(0, 1)
+    aura.bar.gloss = AddControl(aura.bar, CT_STATUSBAR, 3)
+    aura.bar.gloss:SetHeight(16)
+    aura.bar.gloss:SetAnchor(TOPLEFT)
+    aura.bar.gloss:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill_gloss.dds]])
+    aura.bar.gloss:SetTextureCoords(0, 1, 0, 0.625)
+    aura.bar.gloss:SetLeadingEdge([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge_gloss.dds]], 8, 32)
+    aura.bar.gloss:SetLeadingEdgeTextureCoords(0, 1, 0, 0.625)
+    aura.bar.gloss:EnableLeadingEdge(true)
+    aura.bar.gloss:SetMinMax(0, 1)
     -- BAR FRAME
-    aura.barBorderL, ctrl = AddControl(aura.bar, CT_TEXTURE, 4)
-    ctrl:SetDimensions(10, 16)
-    ctrl:SetAnchor(TOPLEFT)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
-    aura.barBorderR, ctrl = AddControl(aura.bar, CT_TEXTURE, 4)
-    ctrl:SetDimensions(10, 16)
-    ctrl:SetAnchor(TOPRIGHT)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
-    aura.barBorderM, ctrl = AddControl(aura.bar, CT_TEXTURE, 4)
-    ctrl:SetHeight(16)
-    ctrl:SetAnchor(TOPLEFT, aura.bar, TOPLEFT, 10, 0)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
-    ctrl:SetTextureCoords(0.019500000402331, 0.58980000019073, 0, 0.625)
+    aura.barBorderL = AddControl(aura.bar, CT_TEXTURE, 4)
+    aura.barBorderL:SetDimensions(10, 16)
+    aura.barBorderL:SetAnchor(TOPLEFT)
+    aura.barBorderL:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
+    aura.barBorderR = AddControl(aura.bar, CT_TEXTURE, 4)
+    aura.barBorderR:SetDimensions(10, 16)
+    aura.barBorderR:SetAnchor(TOPRIGHT)
+    aura.barBorderR:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
+    aura.barBorderM = AddControl(aura.bar, CT_TEXTURE, 4)
+    aura.barBorderM:SetHeight(16)
+    aura.barBorderM:SetAnchor(TOPLEFT, aura.bar, TOPLEFT, 10, 0)
+    aura.barBorderM:SetTexture([[/esoui/art/miscellaneous/progressbar_frame.dds]])
+    aura.barBorderM:SetTextureCoords(0.019500000402331, 0.58980000019073, 0, 0.625)
     -- BAR BACKDROP
-    aura.barBackdropEnd, ctrl = AddControl(aura.bar, CT_TEXTURE, 1)
-    ctrl:SetDimensions(10, 16)
-    ctrl:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge.dds]])
-    ctrl:SetColor(0, 0, 0, 0.4)
-    aura.barBackdrop, ctrl = AddControl(aura.bar, CT_TEXTURE, 1)
-    ctrl:SetHeight(16)
-    ctrl:SetTexture('')
-    ctrl:SetColor(0, 0, 0, 0.4)
+    aura.barBackdropEnd = AddControl(aura.bar, CT_TEXTURE, 1)
+    aura.barBackdropEnd:SetDimensions(10, 16)
+    aura.barBackdropEnd:SetTexture([[/esoui/art/miscellaneous/progressbar_genericfill_leadingedge.dds]])
+    aura.barBackdropEnd:SetColor(0, 0, 0, 0.4)
+    aura.barBackdrop = AddControl(aura.bar, CT_TEXTURE, 1)
+    aura.barBackdrop:SetHeight(16)
+    aura.barBackdrop:SetTexture('')
+    aura.barBackdrop:SetColor(0, 0, 0, 0.4)
 
     aura.displayParent = displayParent
     aura.displayAlpha = displayParent.displayAlpha
@@ -505,11 +509,11 @@ do ------------------------
         end
 
         -- used to add stacks to name of auras that have them (Phinix)
-        local stackString = ((stackingAuras[abilityOffset]) or (self.stacks > 0)) and '\(' .. tostring(self.stacks) .. '\)' or ''
+        local stackString = ((stackingAuras[abilityOffset]) or (self.stacks > 0)) and '(' .. tostring(self.stacks) .. ')' or ''
 
-        if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(self.stacks) .. '\%|r' end -- Bahsei's Mania
+        if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(self.stacks) .. '%|r' end -- Bahsei's Mania
 
-        auraLookup[unitTag][abilityID] = self                                                             -- add self to the aura lookup reference
+        auraLookup[unitTag][abilityID] = self                                                            -- add self to the aura lookup reference
 
         if (displayDB[displayID].style == AURA_STYLE_MINI) then
             if (self.cdBG) then self.cdBG:SetHidden(true) end
@@ -557,7 +561,7 @@ do ------------------------
             end
         end
 
-        local aName = ((isCDBar) and (Srendarr.db.gearProcCDText)) and self.auraName .. ' ' .. '\(' .. tostring(abilityCooldowns[abilityOffset].CD) .. 's\)' or self.auraName
+        local aName = ((isCDBar) and (Srendarr.db.gearProcCDText)) and self.auraName .. ' (' .. tostring(abilityCooldowns[abilityOffset].CD) .. 's)' or self.auraName
         if self.auraStyle == AURA_STYLE_GROUPB or self.auraStyle == AURA_STYLE_GROUPD then
             self.name:SetText('')
         else
@@ -660,7 +664,7 @@ do ------------------------
         end
 
         if (self.auraStyle == AURA_STYLE_ICON) and (showAbilityID) then
-            tText = (tText ~= '') and tText .. ' \(' .. stackString .. '\)' or stackString
+            tText = (tText ~= '') and tText .. ' (' .. stackString .. ')' or stackString
         end
         self.timer:SetText(tText)
 
@@ -685,15 +689,15 @@ function Aura:Update(start, finish, stacks, refresh)
     local aId = self.abilityID
     local abilityOffset = (aId - 5000000 > 0) and aId - 5000000 or (aId - 4000000 > 0) and aId - 4000000 or (aId - 3000000 > 0) and aId - 3000000 or (aId - 2000000 > 0) and aId - 2000000 or (aId - 1000000 > 0) and aId - 1000000 or aId
 
-    if grimBase[abilityOffset] then nStacks = Srendarr.db.grimTracker[abilityOffset].stacks end   -- Grim Focus (Phinix)
+    if grimBase[abilityOffset] then nStacks = Srendarr.db.grimTracker[abilityOffset].stacks end  -- Grim Focus (Phinix)
 
-    if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(nStacks) .. '\%|r' end -- Bahsei's Mania
+    if abilityOffset == bData.ID then stackString = '|c00ff00' .. tostring(nStacks) .. '%|r' end -- Bahsei's Mania
 
     ----------------------------------------------------------------------------------------------------------------------------------- for stacking auras only (Phinix)
     self.stacks = nStacks
 
     if stackingAuras[abilityOffset] then
-        stackString = '\(' .. tostring(nStacks) .. '\)'           -- used to add stacks to name of auras that have them (Phinix)
+        stackString = '(' .. tostring(nStacks) .. ')'             -- used to add stacks to name of auras that have them (Phinix)
 
         if stackingAuras[abilityOffset].base and not refresh then -- reset timer with each stack change if aura requires (Phinix)
             sStart = start
@@ -715,7 +719,7 @@ function Aura:Update(start, finish, stacks, refresh)
         end
     elseif self.stacks > 0 then -- catch when the game sends stacks for an aura that Srendarr doesn't have a specific definition for (Phinix)
         if abilityOffset ~= bData.ID then
-            stackString = '\(' .. tostring(nStacks) .. '\)'
+            stackString = '(' .. tostring(nStacks) .. ')'
         end
     end
 
@@ -778,7 +782,7 @@ function Aura:Update(start, finish, stacks, refresh)
         tText = FormatTime(finish - currentTime, Srendarr.db.auraGroups[self.auraGroup])
     end
     if (self.auraStyle == AURA_STYLE_ICON) and (showAbilityID) then
-        tText = (tText ~= '') and tText .. ' \(' .. stackString .. '\)' or stackString
+        tText = (tText ~= '') and tText .. ' (' .. stackString .. ')' or stackString
     end
     self.timer:SetText(tText)
 

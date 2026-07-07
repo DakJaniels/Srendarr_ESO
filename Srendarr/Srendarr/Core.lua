@@ -33,15 +33,18 @@
 	https://account.elderscrollsonline.com/add-on-terms
 ]]
 --
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
+--- @class Srendarr_CastBar
 local Cast = _G['Srendarr_CastBar']
 local L = Srendarr:GetLocale()
 local ZOSName = function (abilityID) return zo_strformat('<<t:1>>', GetAbilityName(abilityID)) end
 
 Srendarr.name = 'Srendarr'
 Srendarr.slash = '/srendarr'
-Srendarr.version = '2.5.46'
-Srendarr.fversion = 2.546
+Srendarr.version = '2.5.47'
+Srendarr.addonVersion = 2547
+Srendarr.fversion = 2.547
 Srendarr.versionDB = 3
 
 Srendarr.displayFrames = {}
@@ -78,6 +81,8 @@ Srendarr.auraPolling = true
 local gearSwapDelay = false
 local POrderData = Srendarr.POrderData
 local BahseiData = Srendarr.BahseiData
+local AURA_TYPE_TIMED = Srendarr.AURA_TYPE_TIMED
+local DEBUFF_TYPE_TIMED = Srendarr.DEBUFF_TYPE_TIMED
 
 ------------------------------------------------------------------------------------------------------------------------------
 -- ADDON INITIALIZATION
@@ -253,6 +258,28 @@ function Srendarr.GetSlotBoundAbilityId(index, bar)
     return id
 end
 
+-- LuiExtended (OptionalDependsOn): Used by Settings.lua PartialUpdate and AnchorGroupFrames.
+--- @return boolean enableFrames
+--- @return boolean groupFrames
+--- @return boolean raidFrames
+function Srendarr.GetLUIExtendedAnchoringFlags()
+    local luie = LUIE
+    local luie_SV = luie.SV
+    local luie_UnitFrames = luie.UnitFrames
+    local luie_UnitFrames_SV = luie_UnitFrames.SV
+    if not luie_SV then
+        return false, false, false
+    end
+    local enableFrames = luie_SV.UnitFrames_Enabled == true
+    local groupFrames = false
+    local raidFrames = false
+    if luie_UnitFrames and luie_UnitFrames_SV then
+        groupFrames = luie_UnitFrames_SV.CustomFramesGroup == true
+        raidFrames = luie_UnitFrames_SV.CustomFramesRaid == true
+    end
+    return enableFrames, groupFrames, raidFrames
+end
+
 ------------------------------------------------------------------------------------------------------------------------------
 -- GROUP DATA HANDLING
 ------------------------------------------------------------------------------------------------------------------------------
@@ -261,7 +288,7 @@ do
     function Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
         local GetGameTimeMillis = GetGameTimeMilliseconds
         local PassToAuraHandler = Srendarr.PassToAuraHandler
-        local auraName, finish, icon, effectType, abilityType, abilityID
+        local auraName, _, finish, stack, icon, effectType, abilityType, abilityID, castByPlayer
         if numAuras > 0 then -- unit has auras, repopulate
             local ts = GetGameTimeMillis() / 1000
             for i = 1, numAuras do
@@ -302,7 +329,6 @@ do
             fs:SetAnchor(BOTTOMLEFT, control, TOPLEFT, gBX, gBY)
             fd:SetAnchor(TOPLEFT, control, TOPRIGHT, gDX, gDY)
             Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
-            return
         end
         local function defaultRaid() ----------------------------------------------------------------------- Default raid frame configuration
             local groupSlot = tostring(unitTag:gsub('%a', ''))
@@ -310,7 +336,6 @@ do
             fs:SetAnchor(TOPLEFT, control, TOPRIGHT, rBX, rBY + 1)
             fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, rDX, rDY - 3)
             Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
-            return
         end
 
         if groupSize <= sGroupMax then
@@ -333,9 +358,8 @@ do
                     defaultGroup()
                 end
             elseif groupAuraMode == 3 then ----------------------------------------------------------------- Group frame support for Lui Extended
-                if LUIESV then
-                    local EnableFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames_Enabled
-                    local GroupFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames.CustomFramesGroup
+                if LUIE then
+                    local EnableFrames, GroupFrames, _ = Srendarr.GetLUIExtendedAnchoringFlags()
                     if (EnableFrames == true and GroupFrames == true) then
                         local function getLUIframe()
                             for i = 1, 4 do
@@ -424,12 +448,11 @@ do
                     defaultRaid()
                 end
             elseif raidAuraMode == 3 then ------------------------------------------------------------------ Raid frame support for Lui Extended
-                if LUIESV then
-                    local EnableFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames_Enabled
-                    local RaidFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames.CustomFramesRaid
+                if LUIE then
+                    local EnableFrames, _, RaidFrames = Srendarr.GetLUIExtendedAnchoringFlags()
                     if (EnableFrames == true and RaidFrames == true) then
                         local function getLUIframe()
-                            for i = 1, 24 do
+                            for i = 1, 12 do
                                 local frame = 'RaidGroup' .. i
                                 if LUIE.UnitFrames.CustomFrames[frame] then
                                     local uT = LUIE.UnitFrames.CustomFrames[frame].unitTag
@@ -788,6 +811,7 @@ do
 
     function Srendarr.OnEquipChange(bagId, slotId, delayed, sUpdate)
         if (bagId and bagId == 0) and (slotId and (slotId == 13 or slotId == 14)) then return end -- ignore poison slot procs (Phinix)
+        if Srendarr.SampleAurasActive then return end                                             -- settings preview uses synthetic auras; full resync would remove them (Phinix)
 
         local RotPOEquipped = false
         if (delayed) or (not gearSwapDelay) then
@@ -1433,7 +1457,7 @@ do
         local foundID = false
         if numAuras > 0 then -- player has auras, scan and send to handle
             for i = 1, numAuras do
-                auraName, start, finish, _, stacks, icon, _, effectType, abilityType, _, abilityId, _, castByPlayer = GetUnitBuffInfo('player', i)
+                local auraName, start, finish, _, stacks, icon, _, effectType, abilityType, _, abilityId, _, castByPlayer = GetUnitBuffInfo('player', i)
                 if abilityId == aId then
                     foundID = true
                     d(zo_strformat('<<t:1>>', auraName) .. ': stacks = ' .. tostring(stacks))
@@ -1449,7 +1473,7 @@ do
         local c = WM:CreateControl(nil, parent, cType)
         c:SetDrawLayer(DL_OVERLAY)
         c:SetDrawLevel(level)
-        return c, c
+        return c
     end
 
     function Srendarr:GetGroupBuffTab()

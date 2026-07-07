@@ -1,3 +1,4 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
 local L = Srendarr:GetLocale()
 
@@ -115,7 +116,7 @@ local alteredAuraIcons =
 local alteredAuraData =
 {                                                               -- used to alter various data for selected auras
     -- Warden Healing Seed (and morphs) - Game reports incorrect duration (?).
-    [85845] = { unitTag = nil, duration = 6 },                  -- Healing Seed
+    [85578] = { unitTag = nil, duration = 6 },                  -- Healing Seed
     [85840] = { unitTag = nil, duration = 6 },                  -- Budding Seeds
     [85845] = { unitTag = nil, duration = 6 },                  -- Corrupting Pollen
     -- Alliance War Caltrops (and morphs)
@@ -557,7 +558,6 @@ local cdTex =
     [59497]  = '/esoui/art/icons/gear_undauntedspiderdaedra_head_a.dds',
     [116881] = '/esoui/art/icons/achievement_update16_025.dds',
     [80523]  = '/esoui/art/icons/gear_undauntedstormatronach_head_a.dds',
-    [102093] = '/esoui/art/icons/gear_undaunted_fanglair_head_a.dds',
     [102093] = '/esoui/art/icons/gear_undaunted_fanglair_head_a.dds',
     [80487]  = '/esoui/art/icons/gear_undaunted_hoarvordaedra_head_a.dds',
     [106868] = '/esoui/art/icons/ability_rogue_060.dds',
@@ -1703,10 +1703,15 @@ minorEffects =
     [176704] = EFFECT_BERSERK,
     [196184] = EFFECT_BERSERK,
     [123323] = EFFECT_BERSERK,
-    [218988] = EFFECT_BERSERK,
     [214428] = EFFECT_BERSERK,
     [237972] = EFFECT_BERSERK,
     [238541] = EFFECT_BERSERK,
+    [258640] = EFFECT_BERSERK,
+    [267570] = EFFECT_BERSERK,
+    [243916] = EFFECT_BERSERK,
+    [243917] = EFFECT_BERSERK,
+    [242718] = EFFECT_BERSERK,
+    [255327] = EFFECT_BERSERK,
     -- Minor Breach
     [38688] = EFFECT_BREACH,
     [61742] = EFFECT_BREACH,
@@ -1733,11 +1738,15 @@ minorEffects =
     [205144] = EFFECT_BREACH,
     [218010] = EFFECT_BREACH,
     [221683] = EFFECT_BREACH,
-    [218013] = EFFECT_BREACH,
     [212243] = EFFECT_BREACH,
     [212111] = EFFECT_BREACH,
     [230694] = EFFECT_BREACH,
     [238257] = EFFECT_BREACH,
+    [259089] = EFFECT_BREACH,
+    [259347] = EFFECT_BREACH,
+    [249083] = EFFECT_BREACH,
+    [259129] = EFFECT_BREACH,
+    [259137] = EFFECT_BREACH,
     -- Minor Brittle
     [145975] = EFFECT_BRITTLE,
     [146697] = EFFECT_BRITTLE,
@@ -1745,6 +1754,8 @@ minorEffects =
     [184986] = EFFECT_BRITTLE,
     [221725] = EFFECT_BRITTLE,
     [235890] = EFFECT_BRITTLE,
+    [259326] = EFFECT_BRITTLE,
+    [249087] = EFFECT_BRITTLE,
     -- Minor Brutality
     [61662] = EFFECT_BRUTALITY,
     [61798] = EFFECT_BRUTALITY,
@@ -1753,6 +1764,7 @@ minorEffects =
     [79283] = EFFECT_BRUTALITY,
     [120023] = EFFECT_BRUTALITY,
     [214416] = EFFECT_BRUTALITY,
+    [259761] = EFFECT_BRUTALITY,
     -- Minor Courage
     [121878] = EFFECT_COURAGE,
     [137348] = EFFECT_COURAGE,
@@ -1771,8 +1783,8 @@ minorEffects =
     [186230] = EFFECT_COURAGE,
     [186235] = EFFECT_COURAGE,
     [214410] = EFFECT_COURAGE,
-    [217967] = EFFECT_COURAGE,
     [236475] = EFFECT_COURAGE,
+    [259634] = EFFECT_COURAGE,
     -- Minor Cowardice
     [46202] = EFFECT_COWARDICE,
     [46244] = EFFECT_COWARDICE,
@@ -1809,6 +1821,7 @@ minorEffects =
     [213342] = EFFECT_DEFILE,
     [223923] = EFFECT_DEFILE,
     [238253] = EFFECT_DEFILE,
+    [249063] = EFFECT_DEFILE,
     -- Minor Endurance
     [26215] = EFFECT_ENDURANCE,
     [61704] = EFFECT_ENDURANCE,
@@ -1830,11 +1843,10 @@ minorEffects =
     [187941] = EFFECT_ENDURANCE,
     [183580] = EFFECT_ENDURANCE,
     [186231] = EFFECT_ENDURANCE,
-    [217404] = EFFECT_ENDURANCE,
-    [217662] = EFFECT_ENDURANCE,
-    [227123] = EFFECT_ENDURANCE,
     [238542] = EFFECT_ENDURANCE,
     [238022] = EFFECT_ENDURANCE,
+    [246073] = EFFECT_ENDURANCE,
+    [240485] = EFFECT_ENDURANCE,
     -- Minor Enervation
     [47202] = EFFECT_ENERVATION,
     [47203] = EFFECT_ENERVATION,
@@ -1847,8 +1859,7 @@ minorEffects =
     [134040] = EFFECT_ENERVATION,
     [166837] = EFFECT_ENERVATION,
     [214492] = EFFECT_ENERVATION,
-    [218012] = EFFECT_ENERVATION,
-    [226700] = EFFECT_ENERVATION,
+    [249096] = EFFECT_ENERVATION,
     -- Minor Evasion
     [61715] = EFFECT_EVASION,
     [114858] = EFFECT_EVASION,
@@ -1867,8 +1878,6 @@ minorEffects =
     [125901] = EFFECT_EXPEDITION,
     [143684] = EFFECT_EXPEDITION,
     [143705] = EFFECT_EXPEDITION,
-    [214996] = EFFECT_EXPEDITION,
-    [217363] = EFFECT_EXPEDITION,
     -- Minor Force
     [61746] = EFFECT_FORCE,
     [68595] = EFFECT_FORCE,
@@ -1893,7 +1902,9 @@ minorEffects =
     [193448] = EFFECT_FORCE,
     [200082] = EFFECT_FORCE,
     [214863] = EFFECT_FORCE,
-    [216792] = EFFECT_FORCE,
+    [240484] = EFFECT_FORCE,
+    [237721] = EFFECT_FORCE,
+    [256698] = EFFECT_FORCE,
     -- Minor Fortitude
     [26213] = EFFECT_FORTITUDE,
     [26220] = EFFECT_FORTITUDE,
@@ -1907,6 +1918,9 @@ minorEffects =
     [186239] = EFFECT_FORTITUDE,
     [238021] = EFFECT_FORTITUDE,
     [238543] = EFFECT_FORTITUDE,
+    [258548] = EFFECT_FORTITUDE,
+    [258585] = EFFECT_FORTITUDE,
+    [258619] = EFFECT_FORTITUDE,
     -- Minor Gallop
     -- Minor Heroism
     [61708] = EFFECT_HEROISM,
@@ -1928,7 +1942,10 @@ minorEffects =
     [192741] = EFFECT_HEROISM,
     [210079] = EFFECT_HEROISM,
     [210901] = EFFECT_HEROISM,
-    [217968] = EFFECT_HEROISM,
+    [261912] = EFFECT_HEROISM,
+    [20780] = EFFECT_HEROISM,
+    [29126] = EFFECT_HEROISM,
+    [258618] = EFFECT_HEROISM,
     -- Minor Hindrance
     -- Minor Intellect
     [26216] = EFFECT_INTELLECT,
@@ -1945,9 +1962,6 @@ minorEffects =
     [186233] = EFFECT_INTELLECT,
     [185751] = EFFECT_INTELLECT,
     [187943] = EFFECT_INTELLECT,
-    [217661] = EFFECT_INTELLECT,
-    [217965] = EFFECT_INTELLECT,
-    [227124] = EFFECT_INTELLECT,
     [238544] = EFFECT_INTELLECT,
     [238023] = EFFECT_INTELLECT,
     -- Minor Lifesteal
@@ -1961,8 +1975,6 @@ minorEffects =
     [92653] = EFFECT_LIFESTEAL,
     [121634] = EFFECT_LIFESTEAL,
     [187757] = EFFECT_LIFESTEAL,
-    [218991] = EFFECT_LIFESTEAL,
-    [217783] = EFFECT_LIFESTEAL,
     -- Minor Magickasteal
     [26809] = EFFECT_MAGICKASTEAL,
     [39100] = EFFECT_MAGICKASTEAL,
@@ -1972,8 +1984,8 @@ minorEffects =
     [148798] = EFFECT_MAGICKASTEAL,
     [149012] = EFFECT_MAGICKASTEAL,
     [214421] = EFFECT_MAGICKASTEAL,
-    [218014] = EFFECT_MAGICKASTEAL,
     [214324] = EFFECT_MAGICKASTEAL,
+    [253647] = EFFECT_MAGICKASTEAL,
     -- Minor Maim
     [29308] = EFFECT_MAIM,
     [31899] = EFFECT_MAIM,
@@ -1999,10 +2011,8 @@ minorEffects =
     [102097] = EFFECT_MAIM,
     [108939] = EFFECT_MAIM,
     [118313] = EFFECT_MAIM,
-    [118358] = EFFECT_MAIM,
     [121517] = EFFECT_MAIM,
     [123946] = EFFECT_MAIM,
-    [137311] = EFFECT_MAIM,
     [172523] = EFFECT_MAIM,
     [186532] = EFFECT_MAIM,
     [196187] = EFFECT_MAIM,
@@ -2010,9 +2020,6 @@ minorEffects =
     [183431] = EFFECT_MAIM,
     [212397] = EFFECT_MAIM,
     [221722] = EFFECT_MAIM,
-    [217405] = EFFECT_MAIM,
-    [218990] = EFFECT_MAIM,
-    [217782] = EFFECT_MAIM,
     [234093] = EFFECT_MAIM,
     [234094] = EFFECT_MAIM,
     [234096] = EFFECT_MAIM,
@@ -2020,6 +2027,11 @@ minorEffects =
     [224389] = EFFECT_MAIM,
     [238229] = EFFECT_MAIM,
     [238239] = EFFECT_MAIM,
+    [256009] = EFFECT_MAIM,
+    [255674] = EFFECT_MAIM,
+    [253164] = EFFECT_MAIM,
+    [249060] = EFFECT_MAIM,
+    [240559] = EFFECT_MAIM,
     -- Minor Mangle
     [39168] = EFFECT_MANGLE,
     [39180] = EFFECT_MANGLE,
@@ -2029,6 +2041,7 @@ minorEffects =
     [91337] = EFFECT_MANGLE,
     [93363] = EFFECT_MANGLE,
     [161506] = EFFECT_MANGLE,
+    [249081] = EFFECT_MANGLE,
     -- Minor Mending
     [29096] = EFFECT_MENDING,
     [61710] = EFFECT_MENDING,
@@ -2045,6 +2058,7 @@ minorEffects =
     [120028] = EFFECT_PROPHECY,
     [214415] = EFFECT_PROPHECY,
     [237784] = EFFECT_PROPHECY,
+    [253590] = EFFECT_PROPHECY,
     -- Minor Protection
     [35739] = EFFECT_PROTECTION,
     [40171] = EFFECT_PROTECTION,
@@ -2079,12 +2093,14 @@ minorEffects =
     [203344] = EFFECT_PROTECTION,
     [203438] = EFFECT_PROTECTION,
     [203440] = EFFECT_PROTECTION,
-    [217966] = EFFECT_PROTECTION,
-    [218343] = EFFECT_PROTECTION,
     [213458] = EFFECT_PROTECTION,
     [221103] = EFFECT_PROTECTION,
     [236328] = EFFECT_PROTECTION,
     [238263] = EFFECT_PROTECTION,
+    [228176] = EFFECT_PROTECTION,
+    [32753] = EFFECT_PROTECTION,
+    [246072] = EFFECT_PROTECTION,
+    [241459] = EFFECT_PROTECTION,
     -- Minor Resolve
     [37247] = EFFECT_RESOLVE,
     [61693] = EFFECT_RESOLVE,
@@ -2106,6 +2122,7 @@ minorEffects =
     [228054] = EFFECT_RESOLVE,
     [228063] = EFFECT_RESOLVE,
     [238264] = EFFECT_RESOLVE,
+    [241528] = EFFECT_RESOLVE,
     -- Minor Savagery
     [61666] = EFFECT_SAVAGERY,
     [61882] = EFFECT_SAVAGERY,
@@ -2115,6 +2132,8 @@ minorEffects =
     [120029] = EFFECT_SAVAGERY,
     [214427] = EFFECT_SAVAGERY,
     [237783] = EFFECT_SAVAGERY,
+    [249095] = EFFECT_SAVAGERY,
+    [241189] = EFFECT_SAVAGERY,
     -- Minor Slayer
     [76617] = EFFECT_SLAYER,
     [147226] = EFFECT_SLAYER,
@@ -2136,6 +2155,8 @@ minorEffects =
     [140700] = EFFECT_TIMIDITY,
     [140701] = EFFECT_TIMIDITY,
     [167738] = EFFECT_TIMIDITY,
+    [242729] = EFFECT_TIMIDITY,
+    [261345] = EFFECT_TIMIDITY,
     -- Minor Toughness
     [88490] = EFFECT_TOUGHNESS,
     [88492] = EFFECT_TOUGHNESS,
@@ -2153,7 +2174,7 @@ minorEffects =
     [79448] = EFFECT_UNCERTAINTY,
     [79895] = EFFECT_UNCERTAINTY,
     [134034] = EFFECT_UNCERTAINTY,
-    [218992] = EFFECT_UNCERTAINTY,
+    [249089] = EFFECT_UNCERTAINTY,
     -- Minor Vitality
     [61549] = EFFECT_VITALITY,
     [64080] = EFFECT_VITALITY,
@@ -2167,6 +2188,8 @@ minorEffects =
     [126925] = EFFECT_VITALITY,
     [188505] = EFFECT_VITALITY,
     [211370] = EFFECT_VITALITY,
+    [256018] = EFFECT_VITALITY,
+    [242714] = EFFECT_VITALITY,
     -- Minor Vulnerability
     [42062] = EFFECT_VULNERABILITY,
     [51434] = EFFECT_VULNERABILITY,
@@ -2197,12 +2220,9 @@ minorEffects =
     [191299] = EFFECT_VULNERABILITY,
     [185923] = EFFECT_VULNERABILITY,
     [183271] = EFFECT_VULNERABILITY,
-    [214992] = EFFECT_VULNERABILITY,
     [216255] = EFFECT_VULNERABILITY,
-    [217658] = EFFECT_VULNERABILITY,
     [208043] = EFFECT_VULNERABILITY,
     [221728] = EFFECT_VULNERABILITY,
-    [218989] = EFFECT_VULNERABILITY,
     [222722] = EFFECT_VULNERABILITY,
     [204879] = EFFECT_VULNERABILITY,
     [228104] = EFFECT_VULNERABILITY,
@@ -2211,6 +2231,11 @@ minorEffects =
     [238097] = EFFECT_VULNERABILITY,
     [238269] = EFFECT_VULNERABILITY,
     [224387] = EFFECT_VULNERABILITY,
+    [259088] = EFFECT_VULNERABILITY,
+    [259345] = EFFECT_VULNERABILITY,
+    [259130] = EFFECT_VULNERABILITY,
+    [249093] = EFFECT_VULNERABILITY,
+    [242719] = EFFECT_VULNERABILITY,
 }
 
 majorEffects =
@@ -2231,7 +2256,6 @@ majorEffects =
     [84310] = EFFECT_BERSERK,
     [134094] = EFFECT_BERSERK,
     [134433] = EFFECT_BERSERK,
-    [137206] = EFFECT_BERSERK,
     [143992] = EFFECT_BERSERK,
     [147421] = EFFECT_BERSERK,
     [150757] = EFFECT_BERSERK,
@@ -2239,7 +2263,10 @@ majorEffects =
     [188408] = EFFECT_BERSERK,
     [219674] = EFFECT_BERSERK,
     [221601] = EFFECT_BERSERK,
-    [237956] = EFFECT_BERSERK,
+    [263248] = EFFECT_BERSERK,
+    [267420] = EFFECT_BERSERK,
+    [263306] = EFFECT_BERSERK,
+    [249159] = EFFECT_BERSERK,
     -- Major Breach
     [28307] = EFFECT_BREACH,
     [33363] = EFFECT_BREACH,
@@ -2261,7 +2288,6 @@ majorEffects =
     [100988] = EFFECT_BREACH,
     [103628] = EFFECT_BREACH,
     [108951] = EFFECT_BREACH,
-    [111788] = EFFECT_BREACH,
     [117818] = EFFECT_BREACH,
     [118438] = EFFECT_BREACH,
     [120010] = EFFECT_BREACH,
@@ -2277,10 +2303,14 @@ majorEffects =
     [209725] = EFFECT_BREACH,
     [213286] = EFFECT_BREACH,
     [215812] = EFFECT_BREACH,
-    [216945] = EFFECT_BREACH,
+    [240548] = EFFECT_BREACH,
+    [137321] = EFFECT_BREACH,
+    [226349] = EFFECT_BREACH,
+    [226553] = EFFECT_BREACH,
     -- Major Brittle
     [145977] = EFFECT_BRITTLE,
     [167681] = EFFECT_BRITTLE,
+    [263825] = EFFECT_BRITTLE,
     -- Major Brutality
     [23673] = EFFECT_BRUTALITY,
     [36903] = EFFECT_BRUTALITY,
@@ -2312,7 +2342,6 @@ majorEffects =
     [131343] = EFFECT_BRUTALITY,
     [131346] = EFFECT_BRUTALITY,
     [131350] = EFFECT_BRUTALITY,
-    [137193] = EFFECT_BRUTALITY,
     [163656] = EFFECT_BRUTALITY,
     [168273] = EFFECT_BRUTALITY,
     [168282] = EFFECT_BRUTALITY,
@@ -2324,9 +2353,11 @@ majorEffects =
     [228041] = EFFECT_BRUTALITY,
     [228043] = EFFECT_BRUTALITY,
     [228045] = EFFECT_BRUTALITY,
-    [237721] = EFFECT_BRUTALITY,
-    [217790] = EFFECT_BRUTALITY,
-    [238025] = EFFECT_BRUTALITY,
+    [261904] = EFFECT_BRUTALITY,
+    [267554] = EFFECT_BRUTALITY,
+    [265932] = EFFECT_BRUTALITY,
+    [261901] = EFFECT_BRUTALITY,
+    [260247] = EFFECT_BRUTALITY,
     -- Major Courage
     [66902] = EFFECT_COURAGE,
     [109966] = EFFECT_COURAGE,
@@ -2337,6 +2368,8 @@ majorEffects =
     [187904] = EFFECT_COURAGE,
     [221536] = EFFECT_COURAGE,
     [214431] = EFFECT_COURAGE,
+    [249158] = EFFECT_COURAGE,
+    [137295] = EFFECT_COURAGE,
     -- Major Cowardice
     [111354] = EFFECT_COWARDICE,
     [147643] = EFFECT_COWARDICE,
@@ -2349,16 +2382,17 @@ majorEffects =
     [210081] = EFFECT_COWARDICE,
     [228087] = EFFECT_COWARDICE,
     [228088] = EFFECT_COWARDICE,
+    [111788] = EFFECT_COWARDICE,
+    [76502] = EFFECT_COWARDICE,
+    [76498] = EFFECT_COWARDICE,
     -- Major Defile
     [24686] = EFFECT_DEFILE,
-    [29230] = EFFECT_DEFILE,
     [32949] = EFFECT_DEFILE,
     [32961] = EFFECT_DEFILE,
     [34527] = EFFECT_DEFILE,
     [34876] = EFFECT_DEFILE,
     [36515] = EFFECT_DEFILE,
     [44229] = EFFECT_DEFILE,
-    [58869] = EFFECT_DEFILE,
     [61727] = EFFECT_DEFILE,
     [63148] = EFFECT_DEFILE,
     [80838] = EFFECT_DEFILE,
@@ -2382,7 +2416,10 @@ majorEffects =
     [214635] = EFFECT_DEFILE,
     [212606] = EFFECT_DEFILE,
     [237628] = EFFECT_DEFILE,
-    [217788] = EFFECT_DEFILE,
+    [254356] = EFFECT_DEFILE,
+    [246315] = EFFECT_DEFILE,
+    [230314] = EFFECT_DEFILE,
+    [242071] = EFFECT_DEFILE,
     -- Major Endurance
     [32748] = EFFECT_ENDURANCE,
     [45226] = EFFECT_ENDURANCE,
@@ -2401,7 +2438,8 @@ majorEffects =
     [116385] = EFFECT_ENDURANCE,
     [157802] = EFFECT_ENDURANCE,
     [193745] = EFFECT_ENDURANCE,
-    [217792] = EFFECT_ENDURANCE,
+    [256016] = EFFECT_ENDURANCE,
+    [261913] = EFFECT_ENDURANCE,
     -- Major Enervation
     -- Major Evasion
     [49264] = EFFECT_EVASION,
@@ -2421,6 +2459,9 @@ majorEffects =
     [123653] = EFFECT_EVASION,
     [123651] = EFFECT_EVASION,
     [221603] = EFFECT_EVASION,
+    [260259] = EFFECT_EVASION,
+    [76506] = EFFECT_EVASION,
+    [222727] = EFFECT_EVASION,
     -- Major Expedition
     [23216] = EFFECT_EXPEDITION,
     [34511] = EFFECT_EXPEDITION,
@@ -2434,9 +2475,6 @@ majorEffects =
     [64005] = EFFECT_EXPEDITION,
     [64566] = EFFECT_EXPEDITION,
     [64567] = EFFECT_EXPEDITION,
-    [76498] = EFFECT_EXPEDITION,
-    [76502] = EFFECT_EXPEDITION,
-    [76506] = EFFECT_EXPEDITION,
     [78081] = EFFECT_EXPEDITION,
     [79368] = EFFECT_EXPEDITION,
     [79370] = EFFECT_EXPEDITION,
@@ -2470,6 +2508,13 @@ majorEffects =
     [160047] = EFFECT_EXPEDITION,
     [176310] = EFFECT_EXPEDITION,
     [187939] = EFFECT_EXPEDITION,
+    [259744] = EFFECT_EXPEDITION,
+    [259745] = EFFECT_EXPEDITION,
+    [260258] = EFFECT_EXPEDITION,
+    [258812] = EFFECT_EXPEDITION,
+    [246400] = EFFECT_EXPEDITION,
+    [259746] = EFFECT_EXPEDITION,
+    [240159] = EFFECT_EXPEDITION,
     -- Major Force
     [46522] = EFFECT_FORCE,   -- Aggressive Warhorn Major Force (DO NOT REMOVE!)
     [46533] = EFFECT_FORCE,   -- Aggressive Warhorn Major Force (DO NOT REMOVE!)
@@ -2485,6 +2530,9 @@ majorEffects =
     [214424] = EFFECT_FORCE,
     [221602] = EFFECT_FORCE,
     [238550] = EFFECT_FORCE,
+    [249160] = EFFECT_FORCE,
+    [242717] = EFFECT_FORCE,
+    [258816] = EFFECT_FORCE,
     -- Major Fortitude
     [29011] = EFFECT_FORTITUDE,
     [45222] = EFFECT_FORTITUDE,
@@ -2503,6 +2551,8 @@ majorEffects =
     [92415] = EFFECT_FORTITUDE,
     [157804] = EFFECT_FORTITUDE,
     [193741] = EFFECT_FORTITUDE,
+    [256014] = EFFECT_FORTITUDE,
+    [256017] = EFFECT_FORTITUDE,
     -- Major Gallop
     -- Major Heroism
     [61709] = EFFECT_HEROISM,
@@ -2517,6 +2567,10 @@ majorEffects =
     [193747] = EFFECT_HEROISM,
     [213946] = EFFECT_HEROISM,
     [236448] = EFFECT_HEROISM,
+    [265972] = EFFECT_HEROISM,
+    [268257] = EFFECT_HEROISM,
+    [262138] = EFFECT_HEROISM,
+    [262137] = EFFECT_HEROISM,
     -- Major Hindrance
     -- Major Intellect
     [45224] = EFFECT_INTELLECT,
@@ -2533,6 +2587,8 @@ majorEffects =
     [157806] = EFFECT_INTELLECT,
     [193744] = EFFECT_INTELLECT,
     [207428] = EFFECT_INTELLECT,
+    [255190] = EFFECT_INTELLECT,
+    [261911] = EFFECT_INTELLECT,
     -- Major Lifesteal
     -- Major Magickasteal
     -- Major Maim
@@ -2556,9 +2612,12 @@ majorEffects =
     [214441] = EFFECT_MAIM,
     [214457] = EFFECT_MAIM,
     [214759] = EFFECT_MAIM,
-    [217105] = EFFECT_MAIM,
     [238180] = EFFECT_MAIM,
     [237701] = EFFECT_MAIM,
+    [137311] = EFFECT_MAIM,
+    [244073] = EFFECT_MAIM,
+    [118358] = EFFECT_MAIM,
+    [244075] = EFFECT_MAIM,
     -- Major Mangle
     -- Major Mending
     [55033] = EFFECT_MENDING,
@@ -2612,18 +2671,12 @@ majorEffects =
     [168440] = EFFECT_PROPHECY,
     [176151] = EFFECT_PROPHECY,
     [203342] = EFFECT_PROPHECY,
-    [214994] = EFFECT_PROPHECY,
-    [217341] = EFFECT_PROPHECY,
-    [218001] = EFFECT_PROPHECY,
-    [218016] = EFFECT_PROPHECY,
-    [218987] = EFFECT_PROPHECY,
-    [226614] = EFFECT_PROPHECY,
-    [227122] = EFFECT_PROPHECY,
     [228047] = EFFECT_PROPHECY,
     [228050] = EFFECT_PROPHECY,
     [228052] = EFFECT_PROPHECY,
     [238068] = EFFECT_PROPHECY,
     [238421] = EFFECT_PROPHECY,
+    [265985] = EFFECT_PROPHECY,
     -- Major Protection
     [22233] = EFFECT_PROTECTION,
     [44854] = EFFECT_PROTECTION,
@@ -2650,11 +2703,16 @@ majorEffects =
     [193730] = EFFECT_PROTECTION,
     [194169] = EFFECT_PROTECTION,
     [210902] = EFFECT_PROTECTION,
-    [222727] = EFFECT_PROTECTION,
     [238143] = EFFECT_PROTECTION,
     [238101] = EFFECT_PROTECTION,
     [235891] = EFFECT_PROTECTION,
     [237703] = EFFECT_PROTECTION,
+    [263250] = EFFECT_PROTECTION,
+    [137347] = EFFECT_PROTECTION,
+    [258811] = EFFECT_PROTECTION,
+    [242715] = EFFECT_PROTECTION,
+    [248806] = EFFECT_PROTECTION,
+    [263307] = EFFECT_PROTECTION,
     -- Major Resolve
     [22236] = EFFECT_RESOLVE,
     [44828] = EFFECT_RESOLVE,
@@ -2684,20 +2742,20 @@ majorEffects =
     [118239] = EFFECT_RESOLVE,
     [118246] = EFFECT_RESOLVE,
     [150998] = EFFECT_RESOLVE,
-    [150999] = EFFECT_RESOLVE,
     [176070] = EFFECT_RESOLVE,
     [193728] = EFFECT_RESOLVE,
     [185909] = EFFECT_RESOLVE,
     [183650] = EFFECT_RESOLVE,
     [186478] = EFFECT_RESOLVE,
     [213450] = EFFECT_RESOLVE,
-    [217106] = EFFECT_RESOLVE,
     [217775] = EFFECT_RESOLVE,
     [221510] = EFFECT_RESOLVE,
     [237631] = EFFECT_RESOLVE,
-    [216949] = EFFECT_RESOLVE,
     [238077] = EFFECT_RESOLVE,
     [237955] = EFFECT_RESOLVE,
+    [247597] = EFFECT_RESOLVE,
+    [256051] = EFFECT_RESOLVE,
+    [256047] = EFFECT_RESOLVE,
     -- Major Savagery
     [45241] = EFFECT_SAVAGERY,
     [45466] = EFFECT_SAVAGERY,
@@ -2724,16 +2782,12 @@ majorEffects =
     [176152] = EFFECT_SAVAGERY,
     [203343] = EFFECT_SAVAGERY,
     [203341] = EFFECT_SAVAGERY,
-    [214995] = EFFECT_SAVAGERY,
-    [217360] = EFFECT_SAVAGERY,
-    [218004] = EFFECT_SAVAGERY,
-    [218015] = EFFECT_SAVAGERY,
-    [227121] = EFFECT_SAVAGERY,
     [228048] = EFFECT_SAVAGERY,
     [228049] = EFFECT_SAVAGERY,
     [228051] = EFFECT_SAVAGERY,
     [240058] = EFFECT_SAVAGERY,
     [238069] = EFFECT_SAVAGERY,
+    [265984] = EFFECT_SAVAGERY,
     -- Major Slayer
     [93109] = EFFECT_SLAYER,
     [93120] = EFFECT_SLAYER,
@@ -2767,9 +2821,7 @@ majorEffects =
     [131311] = EFFECT_SORCERY,
     [131344] = EFFECT_SORCERY,
     [135923] = EFFECT_SLAYER,
-    [137986] = EFFECT_SLAYER,
     [163655] = EFFECT_SORCERY,
-    [156103] = EFFECT_SORCERY,
     [167853] = EFFECT_SORCERY,
     [168214] = EFFECT_SORCERY,
     [168215] = EFFECT_SORCERY,
@@ -2789,7 +2841,11 @@ majorEffects =
     [228046] = EFFECT_SORCERY,
     [238024] = EFFECT_SORCERY,
     [237973] = EFFECT_SORCERY,
-    [216948] = EFFECT_SORCERY,
+    [260248] = EFFECT_SORCERY,
+    [261905] = EFFECT_SORCERY,
+    [267555] = EFFECT_SORCERY,
+    [265933] = EFFECT_SORCERY,
+    [261902] = EFFECT_SORCERY,
     -- Major Timidity
     -- Major Toughness
     -- Major Uncertainty
@@ -2808,6 +2864,7 @@ majorEffects =
     [133318] = EFFECT_VITALITY,
     [191062] = EFFECT_VITALITY,
     [193740] = EFFECT_VITALITY,
+    [261903] = EFFECT_VITALITY,
     -- Major Vulnerability
     [106754] = EFFECT_VULNERABILITY,
     [106755] = EFFECT_VULNERABILITY,
@@ -2825,8 +2882,8 @@ majorEffects =
     [195242] = EFFECT_VULNERABILITY,
     [192836] = EFFECT_VULNERABILITY,
     [226400] = EFFECT_VULNERABILITY,
-    -- Sample Auras
-    [116015] = SAMPLE_AURA,
+    -- Sample Auras (settings preview; matches Srendarr.sampleAuraData major sample ID)
+    [248427] = EFFECT_VULNERABILITY,
 }
 
 
@@ -2983,17 +3040,17 @@ local ignoreEffects =
     [5159289] = true,
 }
 
-local function UpdateIDTable(sTable, eTable, eID, eName, tier, full, maxID)
+local function UpdateIDTable(scanTable, eTable, eID, eName, tier, full, maxID)
     local aTable = {}
     local rTable = {}
 
-    for k, v in pairs(sTable) do
+    for k, v in pairs(scanTable) do
         if eTable[k] == nil then
             aTable[k] = v
         end
     end
     for k, v in pairs(eTable) do
-        if sTable[k] == nil and not ignoreEffects[k] and EffectTypes[v].effect == EffectTypes[eID].effect then
+        if scanTable[k] == nil and not ignoreEffects[k] and EffectTypes[v].effect == EffectTypes[eID].effect then
             rTable[k] = '[' .. tostring(k) .. '] = ' .. EffectTypes[eID].effect .. ','
         end
     end
@@ -3076,8 +3133,8 @@ local function IDByEffect(tier, effect, stage, full, maxID)
 
         for i = IdLow, IdHigh, 1 do
             local cID = i + tempInt
-            if (DoesAbilityExist(cID)) then         -- 20.53
-                if cID > maxID then maxID = cID end -- see how high the game's valid ability ID range is up to (Phinix)
+            if (DoesAbilityExist(cID)) then                      -- 20.53
+                if (full) and (cID > maxID) then maxID = cID end -- see how high the game's valid ability ID range is up to (Phinix)
 
                 local linkstring = string.lower(ZOSName(cID, 1))
                 -- 	if linkstring == eName then -- 29.62
@@ -3104,7 +3161,6 @@ function Srendarr:GetEffects(tier, effect)
         sTable = {}
         IDByEffect(tier, effect, 1)
     end
-    return
 end
 
 -- full Major/Minor aura update automation (Phinix) -- appx. 5min 24sec

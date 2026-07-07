@@ -1,3 +1,4 @@
+--- @class Srendarr
 local Srendarr = _G['Srendarr'] -- grab addon table from global
 local LMP = LibMediaProvider
 
@@ -92,11 +93,12 @@ function Srendarr:InitializeProcs()
 
     for slot = 3, 7 do
         button = ZO_ActionBar_GetButton(slot)
+        local button_slot = button and button.slot
         procAnims[slot] = {}
 
-        ctrl = WINDOW_MANAGER:CreateControl(nil, button.slot, CT_TEXTURE)
-        ctrl:SetAnchor(TOPLEFT, button.slot:GetNamedChild('FlipCard'))
-        ctrl:SetAnchor(BOTTOMRIGHT, button.slot:GetNamedChild('FlipCard'))
+        ctrl = WINDOW_MANAGER:CreateControl(nil, button_slot, CT_TEXTURE)
+        ctrl:SetAnchor(TOPLEFT, button_slot:GetNamedChild('FlipCard'))
+        ctrl:SetAnchor(BOTTOMRIGHT, button_slot:GetNamedChild('FlipCard'))
         ctrl:SetTexture([[esoui/art/actionbar/abilityhighlight_mage_med.dds]])
         ctrl:SetBlendMode(TEX_BLEND_MODE_ADD)
         ctrl:SetDrawLevel(2)
