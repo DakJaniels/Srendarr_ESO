@@ -117,7 +117,7 @@ function DisplayFrame:Create(id, point, x, y, alpha, calpha, scale)
     end)
     df:SetHandler('OnMouseUp', function (f)
         f:StopMovingOrResizing()
-        local point, x, y = Srendarr:GetEdgeRelativePosition(f)
+        local anchorPoint, offsetX, offsetY = Srendarr:GetEdgeRelativePosition(f)
 
         if Srendarr.tempPostitions[f.displayID] == nil then
             Srendarr.tempPostitions[f.displayID] = {}
@@ -126,9 +126,9 @@ function DisplayFrame:Create(id, point, x, y, alpha, calpha, scale)
             Srendarr.tempPostitions[f.displayID]['y'] = Srendarr.db.displayFrames[f.displayID].base.y
         end
 
-        Srendarr.db.displayFrames[f.displayID].base.point = point
-        Srendarr.db.displayFrames[f.displayID].base.x = x
-        Srendarr.db.displayFrames[f.displayID].base.y = y
+        Srendarr.db.displayFrames[f.displayID].base.point = anchorPoint
+        Srendarr.db.displayFrames[f.displayID].base.x = offsetX
+        Srendarr.db.displayFrames[f.displayID].base.y = offsetY
     end)
 
     df.aurasActive = {}
