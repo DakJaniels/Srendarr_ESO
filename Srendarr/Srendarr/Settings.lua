@@ -1525,12 +1525,8 @@ function Srendarr:PartialUpdate(recheck, completed)
                 Srendarr.db.raidAuraMode = 4
             end
         end
-        if LUIESV and LUIESV.Default and LUIESV.Default[GetDisplayName()] and LUIESV.Default[GetDisplayName()]['$AccountWide'] then
-            local accountWide = LUIESV.Default[GetDisplayName()]['$AccountWide']
-            local unitFrames = accountWide.UnitFrames
-            local EnableFrames = accountWide.UnitFrames_Enabled
-            local GroupFrames = unitFrames and unitFrames.CustomFramesGroup
-            local RaidFrames = unitFrames and unitFrames.CustomFramesRaid
+        if LUIE then
+            local EnableFrames, GroupFrames, RaidFrames = Srendarr.GetLUIExtendedAnchoringFlags()
             if (EnableFrames == true and GroupFrames == true) then
                 Srendarr.db.groupAuraMode = 3
             end

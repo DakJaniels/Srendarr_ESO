@@ -256,6 +256,28 @@ function Srendarr.GetSlotBoundAbilityId(index, bar)
     return id
 end
 
+-- LuiExtended (OptionalDependsOn): Used by Settings.lua PartialUpdate and AnchorGroupFrames.
+--- @return boolean enableFrames
+--- @return boolean groupFrames
+--- @return boolean raidFrames
+function Srendarr.GetLUIExtendedAnchoringFlags()
+    local luie = LUIE
+    local luie_SV = luie.SV
+    local luie_UnitFrames = luie.UnitFrames
+    local luie_UnitFrames_SV = luie_UnitFrames.SV
+    if not luie_SV then
+        return false, false, false
+    end
+    local enableFrames = luie_SV.UnitFrames_Enabled == true
+    local groupFrames = false
+    local raidFrames = false
+    if luie_UnitFrames and luie_UnitFrames_SV then
+        groupFrames = luie_UnitFrames_SV.CustomFramesGroup == true
+        raidFrames = luie_UnitFrames_SV.CustomFramesRaid == true
+    end
+    return enableFrames, groupFrames, raidFrames
+end
+
 ------------------------------------------------------------------------------------------------------------------------------
 -- GROUP DATA HANDLING
 ------------------------------------------------------------------------------------------------------------------------------
@@ -336,9 +358,8 @@ do
                     defaultGroup()
                 end
             elseif groupAuraMode == 3 then ----------------------------------------------------------------- Group frame support for Lui Extended
-                if LUIESV then
-                    local EnableFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames_Enabled
-                    local GroupFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames.CustomFramesGroup
+                if LUIE then
+                    local EnableFrames, GroupFrames, _ = Srendarr.GetLUIExtendedAnchoringFlags()
                     if (EnableFrames == true and GroupFrames == true) then
                         local function getLUIframe()
                             for i = 1, 4 do
@@ -427,12 +448,11 @@ do
                     defaultRaid()
                 end
             elseif raidAuraMode == 3 then ------------------------------------------------------------------ Raid frame support for Lui Extended
-                if LUIESV then
-                    local EnableFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames_Enabled
-                    local RaidFrames = LUIESV.Default[GetDisplayName()]['$AccountWide'].UnitFrames.CustomFramesRaid
+                if LUIE then
+                    local EnableFrames, _, RaidFrames = Srendarr.GetLUIExtendedAnchoringFlags()
                     if (EnableFrames == true and RaidFrames == true) then
                         local function getLUIframe()
-                            for i = 1, 24 do
+                            for i = 1, 12 do
                                 local frame = 'RaidGroup' .. i
                                 if LUIE.UnitFrames.CustomFrames[frame] then
                                     local uT = LUIE.UnitFrames.CustomFrames[frame].unitTag
