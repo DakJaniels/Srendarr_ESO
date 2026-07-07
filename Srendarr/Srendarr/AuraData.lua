@@ -3040,17 +3040,17 @@ local ignoreEffects =
     [5159289] = true,
 }
 
-local function UpdateIDTable(sTable, eTable, eID, eName, tier, full, maxID)
+local function UpdateIDTable(scanTable, eTable, eID, eName, tier, full, maxID)
     local aTable = {}
     local rTable = {}
 
-    for k, v in pairs(sTable) do
+    for k, v in pairs(scanTable) do
         if eTable[k] == nil then
             aTable[k] = v
         end
     end
     for k, v in pairs(eTable) do
-        if sTable[k] == nil and not ignoreEffects[k] and EffectTypes[v].effect == EffectTypes[eID].effect then
+        if scanTable[k] == nil and not ignoreEffects[k] and EffectTypes[v].effect == EffectTypes[eID].effect then
             rTable[k] = '[' .. tostring(k) .. '] = ' .. EffectTypes[eID].effect .. ','
         end
     end
@@ -3133,8 +3133,8 @@ local function IDByEffect(tier, effect, stage, full, maxID)
 
         for i = IdLow, IdHigh, 1 do
             local cID = i + tempInt
-            if (DoesAbilityExist(cID)) then         -- 20.53
-                if cID > maxID then maxID = cID end -- see how high the game's valid ability ID range is up to (Phinix)
+            if (DoesAbilityExist(cID)) then                      -- 20.53
+                if (full) and (cID > maxID) then maxID = cID end -- see how high the game's valid ability ID range is up to (Phinix)
 
                 local linkstring = string.lower(ZOSName(cID, 1))
                 -- 	if linkstring == eName then -- 29.62
@@ -3161,7 +3161,6 @@ function Srendarr:GetEffects(tier, effect)
         sTable = {}
         IDByEffect(tier, effect, 1)
     end
-    return
 end
 
 -- full Major/Minor aura update automation (Phinix) -- appx. 5min 24sec
