@@ -225,9 +225,13 @@ function Srendarr.SlashCommand(text)
             end
         end
         Srendarr.OnCombatState(nil, IsUnitInCombat('player')) -- force an update
-        Srendarr.OnEquipChange()                              -- reset to a clean slate
+        if Srendarr.SampleAurasActive then
+            Srendarr.ShowSampleAuras()                        -- restore settings preview after wipe
+        else
+            Srendarr.OnEquipChange()                          -- reset to a clean slate
+        end
     elseif text == 'unlock' then
-        Srendarr.OnEquipChange()                              -- reset to a clean slate
+        Srendarr.OnEquipChange() -- reset to a clean slate
         for x = 1, groupStart do
             Srendarr.displayFrames[x]:EnableDragOverlay()
             Srendarr.displayFrames[x]:SetAlpha(1.0)
@@ -243,6 +247,9 @@ function Srendarr.SlashCommand(text)
         end
         for _, fragment in pairs(Srendarr.displayFramesScene) do
             SCENE_MANAGER:AddFragment(fragment) -- make sure displayframes are visible
+        end
+        if Srendarr.SampleAurasActive then
+            Srendarr.ShowSampleAuras() -- restore settings preview after wipe
         end
     else
         CHAT_SYSTEM:AddMessage(L.Usage)
@@ -430,7 +437,7 @@ do
             elseif groupAuraMode == 6 then ----------------------------------------------------------------- Group frame support for Alternate Group Frames
                 if ALT_GROUP_FRAMES then
                     -- Frames always enabled in this addon as that is all it does
-                    local control = GetControl('ALTGF_UnitFrame'..unitTag)
+                    local control = GetControl('ALTGF_UnitFrame' .. unitTag)
                     fs:SetAnchor(TOPLEFT, control, TOPRIGHT, gBX + 2, gBY)
                     fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, gDX + 2, gDY)
                     Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
@@ -532,7 +539,7 @@ do
             elseif raidAuraMode == 6 then ----------------------------------------------------------------- Raid frame support for Alternate Group Frames
                 if ALT_GROUP_FRAMES then
                     -- Frames always enabled in this addon as that is all it does
-                    local control = GetControl('ALTGF_UnitFrame'..unitTag)
+                    local control = GetControl('ALTGF_UnitFrame' .. unitTag)
                     fs:SetAnchor(TOPLEFT, control, TOPRIGHT, gBX + 2, gBY)
                     fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, gDX + 2, gDY)
                     Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
