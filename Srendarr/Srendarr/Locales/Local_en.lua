@@ -164,6 +164,7 @@ L.DropGroupMode2 = 'Foundry Tactical Combat'
 L.DropGroupMode3 = 'Lui Extended'
 L.DropGroupMode4 = 'Bandits User Interface'
 L.DropGroupMode5 = 'AUI'
+L.DropGroupMode6 = 'Alternative Group Frames'
 
 
 -- ------------------------

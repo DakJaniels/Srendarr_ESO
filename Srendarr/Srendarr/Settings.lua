@@ -94,9 +94,10 @@ local groupFrameConfig =
     [3] = { gbTL = Srendarr.AURA_TIMERLOC_BELOW, rbTL = Srendarr.AURA_TIMERLOC_HIDDEN, gdTL = Srendarr.AURA_TIMERLOC_BELOW, rdTL = Srendarr.AURA_TIMERLOC_HIDDEN },
     [4] = { gbTL = Srendarr.AURA_TIMERLOC_HIDDEN, rbTL = Srendarr.AURA_TIMERLOC_HIDDEN, gdTL = Srendarr.AURA_TIMERLOC_HIDDEN, rdTL = Srendarr.AURA_TIMERLOC_HIDDEN },
     [5] = { gbTL = Srendarr.AURA_TIMERLOC_OVER, rbTL = Srendarr.AURA_TIMERLOC_HIDDEN, gdTL = Srendarr.AURA_TIMERLOC_BELOW, rdTL = Srendarr.AURA_TIMERLOC_HIDDEN },
+    [6] = { gbTL = Srendarr.AURA_TIMERLOC_OVER, rbTL = Srendarr.AURA_TIMERLOC_HIDDEN, gdTL = Srendarr.AURA_TIMERLOC_OVER, rdTL = Srendarr.AURA_TIMERLOC_HIDDEN },
 }
-local dropGroupMode = { L.DropGroupMode1, L.DropGroupMode2, L.DropGroupMode3, L.DropGroupMode4, L.DropGroupMode5 }
-local dropGroupModeValues = { [L.DropGroupMode1] = 1, [L.DropGroupMode2] = 2, [L.DropGroupMode3] = 3, [L.DropGroupMode4] = 4, [L.DropGroupMode5] = 5 }
+local dropGroupMode = { L.DropGroupMode1, L.DropGroupMode2, L.DropGroupMode3, L.DropGroupMode4, L.DropGroupMode5, L.DropGroupMode6 }
+local dropGroupModeValues = { [L.DropGroupMode1] = 1, [L.DropGroupMode2] = 2, [L.DropGroupMode3] = 3, [L.DropGroupMode4] = 4, [L.DropGroupMode5] = 5, [L.DropGroupMode6] = 6 }
 
 local dropGroup = { L.DropGroup_1, L.DropGroup_2, L.DropGroup_3, L.DropGroup_4, L.DropGroup_5, L.DropGroup_6, L.DropGroup_7, L.DropGroup_8, L.DropGroup_9, L.DropGroup_10, L.DropGroup_11, L.DropGroup_12, L.DropGroup_13, L.DropGroup_14, L.DropGroup_None }
 local dropGroupRef = { [L.DropGroup_1] = 1, [L.DropGroup_2] = 2, [L.DropGroup_3] = 3, [L.DropGroup_4] = 4, [L.DropGroup_5] = 5, [L.DropGroup_6] = 6, [L.DropGroup_7] = 7, [L.DropGroup_8] = 8, [L.DropGroup_9] = 9, [L.DropGroup_10] = 10, [L.DropGroup_11] = 11, [L.DropGroup_12] = 12, [L.DropGroup_13] = 13, [L.DropGroup_14] = 14, [L.DropGroup_None] = 0 }
@@ -1587,6 +1588,11 @@ function Srendarr:PartialUpdate(recheck, completed)
             if (EnableFrames == true and RaidFrames == true) then
                 Srendarr.db.raidAuraMode = 5
             end
+        end
+        if ALT_GROUP_FRAMES then
+            -- NB. frames always enabled in this addon as that is all it does
+            Srendarr.db.groupAuraMode = 6
+            Srendarr.db.raidAuraMode = 6
         end
 
         Srendarr.db.updateDB = {} -- reset Major/Minor update table to clear after initial reload (Phinix)

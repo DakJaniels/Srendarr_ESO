@@ -427,6 +427,17 @@ do
                 else
                     defaultGroup()
                 end
+            elseif groupAuraMode == 6 then ----------------------------------------------------------------- Group frame support for Alternate Group Frames
+                if ALT_GROUP_FRAMES then
+                    -- Frames always enabled in this addon as that is all it does
+                    local control = GetControl('ALTGF_UnitFrame'..unitTag)
+                    fs:SetAnchor(TOPLEFT, control, TOPRIGHT, gBX + 2, gBY)
+                    fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, gDX + 2, gDY)
+                    Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
+                    return
+                else
+                    defaultGroup()
+                end
             end
         else
             if raidAuraMode == 1 then
@@ -515,6 +526,17 @@ do
                     else
                         defaultRaid()
                     end
+                else
+                    defaultRaid()
+                end
+            elseif raidAuraMode == 6 then ----------------------------------------------------------------- Raid frame support for Alternate Group Frames
+                if ALT_GROUP_FRAMES then
+                    -- Frames always enabled in this addon as that is all it does
+                    local control = GetControl('ALTGF_UnitFrame'..unitTag)
+                    fs:SetAnchor(TOPLEFT, control, TOPRIGHT, gBX + 2, gBY)
+                    fd:SetAnchor(BOTTOMLEFT, control, BOTTOMRIGHT, gDX + 2, gDY)
+                    Srendarr.RepopulateGroupAuras(numAuras, unitTag, frame1, frame2)
+                    return
                 else
                     defaultRaid()
                 end
