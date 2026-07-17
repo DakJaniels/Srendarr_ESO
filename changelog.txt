@@ -1,3 +1,7 @@
+[b]v2.5.49 ~DakJaniels (17-July-2026)[/b]
+[list][*]Fixed FormatTime nil error when an aura display group is set to Do Not Display while long-duration timers are still updating.
+[/list]
+
 [b]v2.5.48 ~DakJaniels (16-July-2026)[/b]
 [list][*]Add support for Alternate Group Frames.
 [/list]

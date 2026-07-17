@@ -1450,7 +1450,7 @@ function Srendarr:InitializeSettings()
         type = 'panel',
         name = L.Srendarr_Basic,
         displayName = L.Srendarr,
-        author = 'Phinix, Kith, Garkin, & Mandemikc',
+        author = 'Phinix, Kith, Garkin, & DakJaniels',
         version = self.version,
         registerForRefresh = true,
         registerForDefaults = false,
