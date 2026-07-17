@@ -1,4 +1,8 @@
-[b]v2.5.47 ~DakJaniels (7 July 2026)[/b]
+[b]v2.5.48 ~DakJaniels (16-July-2026)[/b]
+[list][*]Add support for Alternate Group Frames.
+[/list]
+
+[b]v2.5.47 ~DakJaniels (7-July-2026)[/b]
 [list][*]Updated for API support to include 101051.
 [*]Raised minimum library versions: LibMediaProvider and LibAddonMenu-2.0.
 [*]Fixed LuiExtended integration for group and raid aura frame anchoring.
