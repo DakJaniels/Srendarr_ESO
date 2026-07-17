@@ -10,7 +10,8 @@ local ATd = function (id) -- temp fix for missing ability IDs in PTS API 101042,
     if tDur ~= nil then
         return tDur / 1000
     else
-        d('Srendarr: ' .. tostring(id) .. ' has no duration value (nil).')
+        -- Disabled for now.
+        -- d('Srendarr: ' .. tostring(id) .. ' has no duration value (nil).')
         return 0
     end
 end
