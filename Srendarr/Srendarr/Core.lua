@@ -5,7 +5,7 @@
 	* Phinix, Kith, Garkin
 	*
 	*
-	Copyright (c) 2015-2025
+	Copyright (c) 2015-2026
 	
 	Permission is hereby granted, free of charge, to any person obtaining
 	a copy of this software and associated documentation (the "Software"),
@@ -42,9 +42,9 @@ local ZOSName = function (abilityID) return zo_strformat('<<t:1>>', GetAbilityNa
 
 Srendarr.name = 'Srendarr'
 Srendarr.slash = '/srendarr'
-Srendarr.version = '2.5.47'
-Srendarr.addonVersion = 2547
-Srendarr.fversion = 2.547
+Srendarr.version = '2.5.48'
+Srendarr.addonVersion = 2548
+Srendarr.fversion = 2.548
 Srendarr.versionDB = 3
 
 Srendarr.displayFrames = {}
