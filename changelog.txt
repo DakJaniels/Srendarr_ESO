@@ -1,3 +1,9 @@
+[b]v2.5.49 ~DakJaniels (17-July-2026)[/b]
+[list][*]Fixed FormatTime nil error when an aura display group is set to Do Not Display while long-duration timers are still updating.
+[*]Fixed Example Auras being cleared when unlocking or locking display frames for move.
+[*]Changed default growth direction for Display Window 6 to UP so short/major/minor buffs no longer flow off-screen.
+[/list]
+
 [b]v2.5.48 ~DakJaniels (16-July-2026)[/b]
 [list][*]Add support for Alternate Group Frames.
 [/list]

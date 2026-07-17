@@ -77,7 +77,9 @@ end
 -- TIME FORMAT FUNCTION
 -- ------------------------
 local function FormatTime(remaining, frame)
-    frame = (frame < GROUP_START_FRAME) and frame or (frame < GROUP_DSTART_FRAME) and Srendarr:GetGroupBuffTab() or Srendarr:GetGroupDebuffTab()
+    if frame and frame ~= 0 then
+        frame = (frame < GROUP_START_FRAME) and frame or (frame < GROUP_DSTART_FRAME) and Srendarr:GetGroupBuffTab() or Srendarr:GetGroupDebuffTab()
+    end
     if remaining <= 0 then                                     -- Hide when expires
         return ''
     elseif (showTenths ~= 0) and (remaining < showTenths) then -- seconds + 10ths of seconds
@@ -96,7 +98,8 @@ local function FormatTime(remaining, frame)
     elseif remaining > 172800 then -- days (2+, revert to hours when between 24-48hrs)
         return strformat(tDay, math_floor(remaining / 86400))
     else                           -- hours
-        if (Srendarr.db.displayFrames[frame].timerHMS) then
+        local displayFrameSettings = frame and Srendarr.db.displayFrames[frame]
+        if displayFrameSettings and displayFrameSettings.timerHMS then
             local sub = math_floor(remaining / 3600) * 60
             local hours = math_floor(remaining / 3600)
             local hourstring = strformat(tHour, hours)
@@ -285,7 +288,7 @@ do ------------------------
                     aura.bar:SetValue(1 - ((updateTime - aura.start) / (aura.finish - aura.start)))
 
                     if (aura.auraType == AURA_TYPE_TIMED or aura.auraType == DEBUFF_TYPE_TIMED) then -- use timer for stack tracking when in icon mode (Phinix)
-                        aura.timer:SetText(GetFormattedTime(timeRemaining, Srendarr.db.auraGroups[aura.auraGroup]))
+                        aura.timer:SetText(GetFormattedTime(timeRemaining, aura.displayParent.displayID))
                     else
                         aura.timer:SetText('')
                     end
@@ -618,7 +621,7 @@ do ------------------------
 
         if (auraType == AURA_TYPE_TIMED or auraType == DEBUFF_TYPE_TIMED) then
             currentTime = GetGameTimeMillis() / 1000
-            tText = FormatTime(finish - currentTime, Srendarr.db.auraGroups[auraGroup])
+            tText = FormatTime(finish - currentTime, self.displayParent.displayID)
             self.bar:SetValue(1 - ((currentTime - start) / (finish - start)))
 
             if (displayDB[displayID].auraCooldown and displayDB[displayID].style ~= AURA_STYLE_MINI) then
@@ -779,7 +782,7 @@ function Aura:Update(start, finish, stacks, refresh)
 
     local tText = ''
     if (self.auraType == AURA_TYPE_TIMED or self.auraType == DEBUFF_TYPE_TIMED) then
-        tText = FormatTime(finish - currentTime, Srendarr.db.auraGroups[self.auraGroup])
+        tText = FormatTime(finish - currentTime, self.displayParent.displayID)
     end
     if (self.auraStyle == AURA_STYLE_ICON) and (showAbilityID) then
         tText = (tText ~= '') and tText .. ' (' .. stackString .. ')' or stackString

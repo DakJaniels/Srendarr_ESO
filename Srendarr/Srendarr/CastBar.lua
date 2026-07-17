@@ -95,16 +95,15 @@ function Cast:OnCastStop()
     self:SetHidden(true)
 end
 
+--[[ UNUSED FOR NOW
 local function OnActionUpdateCooldowns()
-    --[[ UNUSED FOR NOW
 	if (isCastingOrChannelling) then
 		if (GetSlotCooldownInfo(Cast.slotID) > 0) then -- on cooldown, cast must be complete, cancel active
 			d(string.format('%.3f OnActionUpdateCooldowns - Cancelled Cast', GetFrameTimeSeconds())
 			Cast:OnCastStop()
 		end
 	end
-]]
-end
+end]]
 
 local function OnActionSlotAbilityUsed(evt, slot, cPass)
     if (slot < 3 or slot > 8) then return end

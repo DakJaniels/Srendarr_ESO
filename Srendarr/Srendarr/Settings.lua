@@ -229,6 +229,8 @@ local function ShowSampleAuras()
     end
 end
 
+Srendarr.ShowSampleAuras = ShowSampleAuras
+
 local function ClearProminentScrollList(datalist) -- Clears the current scroll list and search tables
     for k, v in pairs(datalist) do datalist[k] = nil end
     for k, v in pairs(scrollTable) do scrollTable[k] = nil end
@@ -1450,7 +1452,7 @@ function Srendarr:InitializeSettings()
         type = 'panel',
         name = L.Srendarr_Basic,
         displayName = L.Srendarr,
-        author = 'Phinix, Kith, Garkin, & Mandemikc',
+        author = 'Phinix, Kith, Garkin, & DakJaniels',
         version = self.version,
         registerForRefresh = true,
         registerForDefaults = false,

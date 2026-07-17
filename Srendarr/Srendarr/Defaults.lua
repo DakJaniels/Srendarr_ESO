@@ -543,7 +543,7 @@ local defaults =
         {
             base              = { point = BOTTOMRIGHT, x = -8.2, y = -36.5, alpha = 1.0, calpha = 1.0, scale = 1.0, id = 6 },
             style             = Srendarr.AURA_STYLE_FULL, -- FULL|ICON|MINI|GROUP|AURA_STYLE_GROUPB|AURA_STYLE_GROUPD
-            auraGrowth        = Srendarr.AURA_GROW_DOWN,  -- UP|DOWN|LEFT|RIGHT|CENTERLEFT|CENTERRIGHT (valid choices vary based on style)
+            auraGrowth        = Srendarr.AURA_GROW_UP,    -- UP|DOWN|LEFT|RIGHT|CENTERLEFT|CENTERRIGHT (valid choices vary based on style)
             auraPadding       = 4,
             auraFadeTime      = 0,
             auraSort          = Srendarr.AURA_SORT_TIMEASC, -- NAME|TIME|CAST + ASC|DESC
