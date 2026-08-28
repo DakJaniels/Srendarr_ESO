@@ -1,3 +1,16 @@
+[b]v2.5.50 ~DakJaniels (26-August-2026)[/b]
+[list][*]Updated Major/Minor effect tables from PTS FullUpdate (BuffType 0-65), including Minor/Major Vexation.
+[*]Updated toggled aura ability IDs from PTS GetToggled scan (pets, Guard, Bound Armor/Aegis ranks).
+[*]Reworked Major/Minor database scan to classify abilities by GetAbilityBuffType (BuffType 0-65).
+[*]Fixed FullUpdate SavedVariables export being cleared on reload before the dump could be copied.
+[*]Templar Sun Fire morph self-buffs now display as Major Savagery (U51 Prophecy replacement).
+[*]Updated settings example text that still referred to Major/Minor Sorcery.
+[*]Trial dummy Crusher, Engulfing Flames, and Roar of Alkosh now show with Only Player Debuffs enabled.
+[*]Fixed Grim Focus (and morphs) action bar proc animation still showing after disabling Grim Focus Proc Animations.
+[*]Updated Grim Focus stack tracking: bow proc at 5 stacks for Grim Focus and Merciless Resolve, 4 stacks for Relentless Focus, all capping at 10.
+[*]Firing the spectral bow now subtracts the proc cost instead of clearing all stacks, so leftover stacks and the bow icon remain.
+[/list]
+
 [b]v2.5.49 ~DakJaniels (17-July-2026)[/b]
 [list][*]Fixed FormatTime nil error when an aura display group is set to Do Not Display while long-duration timers are still updating.
 [*]Fixed Example Auras being cleared when unlocking or locking display frames for move.

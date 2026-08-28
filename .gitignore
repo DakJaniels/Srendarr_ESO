@@ -15,7 +15,9 @@ $RECYCLE.BIN/
 *~
 
 .vscode/*
+
 tools/*
+!tools/*.py
 
 .emmyrc.json
 .luarc.json
