@@ -628,6 +628,9 @@ local cdTex =
     [184634] = '/esoui/art/icons/ability_healer_031.dds',
     [215054] = '/esoui/art/icons/ability_warrior_029.dds',
     [214889] = '/esoui/art/icons/death_recap_fire_aoe.dds',
+    [106754] = '/esoui/art/icons/ability_debuff_major_vulnerability.dds',
+	[219037] = '/esoui/art/icons/gear_blacksoulgematronach_head_a.dds',
+	[219093] = '/esoui/art/icons/gear_kaalnorgmonster_head_a.dds',
 
 
 
@@ -784,6 +787,7 @@ local abilityCooldowns =
     [116884] = { s1 = 435, s2 = 0, cdE = 1, CD = 10, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Auroran's Thunder								*
     [133292] = { s1 = 473, s2 = 0, cdE = 1, CD = 15, iH = nil, oH = false, hT = false, altTime = nil, altName = ZOSName(473, 2), altIcon = nil, unitTag = nil },                 -- Bani's Torment									*
     [85978]  = { s1 = 28, s2 = 0, cdE = 1, CD = 5, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[85978], unitTag = nil },                      -- Barkskin											*
+    [248942] = { s1 = 824, s2 = 0, cdE = 1, CD = 12, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil},				                 -- Black Foundary Steel
     [111386] = { s1 = 400, s2 = 0, cdE = 1, CD = 15, iH = nil, oH = false, hT = true, altTime = nil, altName = ZOSName(400, 2), altIcon = cdTex[111386], unitTag = nil },        -- Blood Moon										*
     [66887]  = { s1 = 184, s2 = 0, cdE = 1, CD = 12, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Brands of Imperium								*
     [61459]  = { s1 = 160, s2 = 0, cdE = 1, CD = 12, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Burning Spellweave								*
@@ -833,6 +837,7 @@ local abilityCooldowns =
     [57164]  = { s1 = 134, s2 = 0, cdE = 1, CD = 60, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Shroud of the Lich								*
     [159380] = { s1 = 605, s2 = 0, cdE = 1, CD = 12, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[159380], unitTag = nil },                   -- Silver Rose Vigil								*
     [70298]  = { s1 = 188, s2 = 0, cdE = 1, CD = 10, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Storm Master										*
+    [106754] = { s1 = 827, s2 = 0, cdE = 1, CD = 15, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = nil, unitTag = nil},				                 -- Stonehulk Dominion
     [159244] = { s1 = 606, s2 = 0, cdE = 1, CD = 12, iH = nil, oH = false, hT = true, altTime = 7, altName = nil, altIcon = cdTex[159244], unitTag = 'groundaoe' },              -- Thunder Caller									*
     [101970] = { s1 = 344, s2 = 0, cdE = 1, CD = 45, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[101970], unitTag = nil },                   -- Trappings of Invigoration						*
     [167350] = { s1 = 622, s2 = 0, cdE = 1, CD = 15, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                              -- Turning Tide										*
@@ -852,6 +857,8 @@ local abilityCooldowns =
 
     -- Monster Sets
     [167739] = { s1 = 636, s2 = 0, cdE = 1, CD = 25, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = 'reticleover' },                     -- Baron Thirsk 									*
+    [248631] = { s1 = 829, s2 = 0, cdE = 1, CD = 9, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = cdTex[219093],	unitTag = nil},		                  -- Bar-Sakka
+	[248832] = { s1 = 828, s2 = 0, cdE = 1, CD = 6, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = cdTex[219037],	unitTag = 'reticleover'},	          -- Black Gem Monstrosity	
     [59517]  = { s1 = 163, s2 = 0, cdE = 1, CD = 5, iH = nil, oH = false, hT = true, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                                -- Bloodspawn										*
     [59590]  = { s1 = 167, s2 = 0, cdE = 1, CD = 10, iH = nil, oH = false, hT = true, altTime = 6, altName = ZOSName(167, 2), altIcon = cdTex[59590], unitTag = 'groundaoe' },    -- Bogdan the Nightflame							*
     [81069]  = { s1 = 269, s2 = 0, cdE = 1, CD = 10, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[81069], unitTag = 'groundaoe' },             -- Chokethorn										*
@@ -940,6 +947,7 @@ local abilityCooldowns =
 
     -- PvP Sets
     [34787]  = { s1 = 101, s2 = 0, cdE = 1, CD = 4, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = nil, unitTag = nil },                        -- Affliction										*
+    [234295] = { s1 = 802, s2 = 0, cdE = 1, CD = 9,	iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[177678], unitTag = nil },			   -- Arkay's Charity	
     [111575] = { s1 = 113, s2 = 0, cdE = 1, CD = 4, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[111575], unitTag = nil },              -- Crest of Cyrodiil								*
     [159388] = { s1 = 616, s2 = 0, cdE = 1, CD = 25, iH = nil, oH = false, hT = true, altTime = 4, altName = nil, altIcon = cdTex[159388], unitTag = 'groundaoe' },        -- Dark Convergence									*
     [167402] = { s1 = 631, s2 = 0, cdE = 1, CD = 15, iH = nil, oH = false, hT = false, altTime = nil, altName = nil, altIcon = cdTex[167402], unitTag = 'reticleover' },   -- Enervating Aura									*
@@ -1068,6 +1076,8 @@ local abilityBarSets =
     [224] = 75726,
 
     -- Dungeon Sets
+    [824] = 248942,
+	[827] = 106754,
     [475] = 133493,
     [518] = 142660,
     [260] = 84277,
@@ -1136,6 +1146,8 @@ local abilityBarSets =
     [736] = 217085,
 
     -- Monster Sets
+    [829] = 248631,
+	[828] = 248832,
     [163] = 59517,
     [167] = 59590,
     [269] = 81069,
@@ -1220,6 +1232,7 @@ local abilityBarSets =
     [681] = 187904,
 
     -- PvP Sets
+    [802] = 234295,
     [616] = 159388,
     [618] = 159713,
     [59] = 70492,
