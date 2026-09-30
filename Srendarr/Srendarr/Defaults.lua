@@ -269,6 +269,7 @@ local defaults =
     groupBuffWhitelist      = {}, -- list of buffs that are filtered to group frames
     groupDebuffWhitelist    = {}, -- list of debuffs that are filtered to group frames
     blacklist               = {}, -- list of auras that are to be blacklisted from display
+    focuslist               = {}, -- list of auras that are to be always shown (focuslist) (@Chicor)
     updateDB                = {}, -- temp table for Major/Minor database update export
     toggled                 = {}, -- temp table for toggledAuras patch export (GetToggled)
 

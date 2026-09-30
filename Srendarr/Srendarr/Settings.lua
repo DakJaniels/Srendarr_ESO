@@ -81,6 +81,7 @@ local dropProminentDB = {}
 local dropGroupBuffs = {}
 local dropGroupDebuffs = {}
 local dropBlacklistAuras = {}
+local dropFocuslistAuras = {} -- @Chicor patch
 
 -- RECENT AURA SCROLL LIST --
 local scrollTable = {}
@@ -154,6 +155,7 @@ local controlPanel, controlPanelWidth, tabButtonsPanel, displayDB, tabPanelData
 local lockButton
 
 local blacklistAurasWidgetRef, blacklistAurasSelectedAura
+local focuslistAurasWidgetRef, focuslistAurasSelectedAura -- @Chicor patch
 local groupBuffWidgetRef, groupBuffSelectedAura
 local groupDebuffWidgetRef, groupDebuffSelectedAura
 
@@ -482,6 +484,33 @@ function Srendarr:PopulateBlacklistAurasDropdown()
     blacklistAurasWidgetRef:UpdateValue()
 end
 
+-- @Chicor patch start
+function Srendarr:PopulateFocuslistAurasDropdown()
+    matchedIDs = {}
+    auraName = ''
+    editName = ''
+    for i in pairs(dropFocuslistAuras) do
+        dropFocuslistAuras[i] = nil -- clean out dropdown
+    end
+
+    tinsert(dropFocuslistAuras, L.GenericSetting_ClickToViewAuras) -- insert 'dummy' first entry
+
+    for name in pairs(Srendarr.db.focuslist) do
+        if (name == STR_BLOCKBYID) then -- special case for auras added by abilityID
+            for id in pairs(Srendarr.db.focuslist[STR_BLOCKBYID]) do
+                local idName = (specialNames[id] ~= nil) and specialNames[id].name or ZOSName(id)
+                tinsert(dropFocuslistAuras, strformat('[%d] %s', id, idName))
+            end
+        else
+            tinsert(dropFocuslistAuras, name) -- add current aura selection
+        end
+    end
+
+    focuslistAurasWidgetRef:UpdateChoices()
+    focuslistAurasWidgetRef:UpdateValue()
+end
+-- @Chicor patch end
+
 local function CreateWidgets(panelID, panelData)
     local panel = tabPanels[panelID]
     local isLastHalf = false
@@ -599,6 +628,8 @@ local function CreateWidgets(panelID, panelData)
                     groupDebuffWidgetRef = subWidget
                 elseif (panelID == 2 and subWidget.data.isBlacklistAurasWidget) then -- Filters panel, grab the blacklist auras dropdown list for later
                     blacklistAurasWidgetRef = subWidget
+                elseif (panelID == 2 and subWidget.data.isFocuslistAurasWidget) then -- Filters panel, grab the focuslist auras dropdown list for later (@Chicor patch)
+                    focuslistAurasWidgetRef = subWidget
                 end
 
                 if (subWidget.data.isFirstSubControl) then -- anchor first sub-control to last normal control to enable custom sub-menu anchoring (Phinix)
@@ -733,6 +764,7 @@ local function CreateTabPanel(panelID)
 
     if (panelID == 2) then                        -- populate blacklist and group auras dropdown lists
         Srendarr:PopulateBlacklistAurasDropdown()
+        Srendarr:PopulateFocuslistAurasDropdown() -- @Chicor patch
         Srendarr:PopulateGroupBuffsDropdown()
         Srendarr:PopulateGroupDebuffsDropdown()
     end
@@ -2891,6 +2923,82 @@ tabPanelData =
             tooltip = L.Filter_BlacklistDesc,
             isSubMenuLabel = true,
         },
+        -- @Chicor patch start
+        -- -----------------------
+        -- AURA FOCUSLIST
+        -- -----------------------
+        {
+            type = 'submenu',
+            name = L.Filter_FocuslistHeader,
+            controls =
+            {
+                [1] =
+                {
+                    type = 'editbox',
+                    name = L.Filter_FocuslistAdd,
+                    tooltip = L.Filter_FocuslistAddTip,
+                    warning = L.Filter_ListAddWarn,
+                    getFunc = function ()
+                        return ''
+                    end,
+                    setFunc = function (v)
+                        if (v ~= '') then
+                            -- need to add to focuslist
+                            Srendarr:FocuslistAuraAdd(v)
+                            Srendarr.OnPlayerActivatedAlive()
+                        end
+
+                        Srendarr:PopulateFocuslistAurasDropdown()
+                    end,
+                    isFirstSubControl = true,
+                    isMultiline = false,
+                },
+                [2] =
+                {
+                    type = 'dropdown',
+                    name = L.Filter_FocuslistList,
+                    tooltip = L.Filter_FocuslistListTip,
+                    choices = dropFocuslistAuras,
+                    sort = 'name-down',
+                    getFunc = function ()
+                        focuslistAurasSelectedAura = nil
+                        return dropFocuslistAuras[1]
+                    end,
+                    setFunc = function (v)
+                        focuslistAurasSelectedAura = (v ~= '' and v ~= L.GenericSetting_ClickToViewAuras) and v or nil
+                    end,
+                    isFocuslistAurasWidget = true,
+                    scrollable = 7,
+                },
+                [3] =
+                {
+                    type = 'button',
+                    name = L.Filter_RemoveSelected,
+                    func = function (btn)
+                        if (focuslistAurasSelectedAura) then
+                            if (string.find(focuslistAurasSelectedAura, '%[%d+%]')) then                     -- this is a 'by abilityID' aura
+                                focuslistAurasSelectedAura = string.match(focuslistAurasSelectedAura, '%d+') -- correct user display to just abilityID
+                            end
+
+                            Srendarr:FocuslistAuraRemove(focuslistAurasSelectedAura)
+                            Srendarr.OnPlayerActivatedAlive()
+                        end
+
+                        Srendarr:PopulateFocuslistAurasDropdown()
+                    end,
+                },
+            },
+            reference = 'SrendarrAuraFocuslistSubmenu',
+        },
+        {
+            type = 'texture',
+            image = 'Srendarr/Icons/InvisibleBG.dds',
+            imageWidth = 100,
+            imageHeight = 40,
+            tooltip = L.Filter_FocuslistDesc,
+            isSubMenuLabel = true,
+        },
+        -- @Chicor patch end
         -- -----------------------
         -- PROMINENT AURAS
         -- -----------------------

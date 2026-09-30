@@ -475,6 +475,16 @@ do ------------------------
 
         if not abilityID then return end -- safety check
 
+        --	@Chicor patch start
+        if ((Srendarr.db.focuslist ~= nil) and (Srendarr.db.focuslist[Srendarr.STR_BLOCKBYID] ~= nil)) then
+            for id in pairs(Srendarr.db.focuslist[Srendarr.STR_BLOCKBYID]) do
+                if (abilityID == id) then
+                    self.fadeTime = 5184000 -- focuslisted auras stay visible (grey) for 60 days after expiring
+                end
+            end
+        end
+        --	@Chicor patch end
+
         local aId = abilityID
         local isCDBar = (aId - 5000000 > 0) and true or false
         local abilityOffset = (aId - 5000000 > 0) and aId - 5000000 or (aId - 4000000 > 0) and aId - 4000000 or (aId - 3000000 > 0) and aId - 3000000 or (aId - 2000000 > 0) and aId - 2000000 or (aId - 1000000 > 0) and aId - 1000000 or aId
@@ -814,6 +824,7 @@ function Aura:SetExpired()
     if (not self.isFading) then                  -- if not already expired and fading, start
         self.finish = GetGameTimeMillis() / 1000 -- times up, make sure our internal finish time agrees
         self.icon:SetDesaturation(1)
+        self.timer:SetText('')                   -- @Chicor patch: no countdown text on greyed (expired) auras
 
         self.isFading = true -- note that its time to start fading
     end

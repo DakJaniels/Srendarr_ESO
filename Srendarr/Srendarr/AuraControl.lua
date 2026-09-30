@@ -504,6 +504,34 @@ function Srendarr:ConfigureAuraHandler()
     self:ConfigureOnTargetChanged() -- doing this here in order to register when prominent target buffs/debuffs are added (Phinix)
 end
 
+--	@Chicor patch start
+-- ------------------------
+-- Global Focuslist: inject an already-expired placeholder aura for every focuslisted abilityID so the icon
+-- stays visible in grey mode even when the player does not have the aura (fadeTime is extended in Aura:Initialize)
+Srendarr.InjectFocuslistAuras = function ()
+    if Srendarr.SampleAurasActive then return end
+
+    local focusByID = Srendarr.db and Srendarr.db.focuslist and Srendarr.db.focuslist[Srendarr.STR_BLOCKBYID]
+    if (focusByID == nil) then return end
+
+    local nowTime = GetGameTimeMillis() / 1000
+
+    for id in pairs(focusByID) do
+        if (auraLookup['player'][id] == nil) then -- never touch an existing aura (real buff or grey placeholder), only place missing placeholders
+            local isProminent, pFrame, pType = false, nil, nil
+
+            if (Srendarr.prominentIDs[id] ~= nil and Srendarr.prominentPlayer[id] ~= nil) then -- mirror GetProminent(id, 1) for player-cast auras
+                pFrame = Srendarr.prominentPlayer[id].frame
+                pType = Srendarr.prominentPlayer[id].type
+                isProminent = (pFrame ~= 0)
+            end
+
+            AuraHandler(false, zo_strformat('<<t:1>>', GetAbilityName(id)), 'player', nowTime - 19, nowTime - 1, GetAbilityIcon(id), BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, id, 1, 0, nil, isProminent, nil, pType, pFrame)
+        end
+    end
+end
+--	@Chicor patch end
+
 -- ------------------------
 -- EVENT: EVENT_PLAYER_ACTIVATED, EVENT_PLAYER_ALIVE
 do ------------------------
@@ -658,6 +686,10 @@ do ------------------------
             AuraHandler(true, zo_strformat('<<t:1>>', GetAbilityName(sId)), 'player', currentTime, currentTime, GetAbilityIcon(sId), BUFF_EFFECT_TYPE_BUFF, ABILITY_TYPE_NONE, sId, 1, 0, nil, isProminent, nil, pType, pFrame)
         end
 
+        --	@Chicor patch start
+        Srendarr.InjectFocuslistAuras() -- re-place grey placeholder icons for focuslisted auras
+        --	@Chicor patch end
+
         for x = 1, NUM_DISPLAY_FRAMES do
             Srendarr.displayFrames[x]:UpdateDisplay() -- update the display for all frames
         end
@@ -682,6 +714,10 @@ do ------------------------
                 aura:Release(true)
             end
         end
+
+        --	@Chicor patch start
+        Srendarr.InjectFocuslistAuras() -- fix: death wipes all auras, so re-place the grey focuslist icons here or they stay gone until the next zone change
+        --	@Chicor patch end
 
         for x = 1, NUM_DISPLAY_FRAMES do
             Srendarr.displayFrames[x]:UpdateDisplay() -- update the display for all frames
@@ -1203,6 +1239,16 @@ do ------------------------
             if rUnit and auraLookup[rUnit] and auraLookup[rUnit][rAbility] then
                 local rAura = auraLookup[rUnit][rAbility]
                 if rAura then
+                    --	@Chicor patch start
+                    if (not fast) then -- fast releases are always followed by an immediate re-add (refresh), let those through untouched
+                        local focusByID = Srendarr.db.focuslist and Srendarr.db.focuslist[Srendarr.STR_BLOCKBYID]
+                        if (rUnit == 'player' and focusByID and focusByID[rAbility])
+                            and (rAura.auraType ~= AURA_TYPE_TIMED and rAura.auraType ~= DEBUFF_TYPE_TIMED) then
+                            rAura:SetExpired() -- focuslisted non-timed auras turn grey in place instead of being released (no icon reflow)
+                            return
+                        end
+                    end
+                    --	@Chicor patch end
                     if (fast) then
                         rAura:Release()
                     else
@@ -1852,6 +1898,16 @@ do ------------------------
             if rUnit and auraLookup[rUnit] and auraLookup[rUnit][rAbility] then
                 local rAura = auraLookup[rUnit][rAbility]
                 if rAura then
+                    --	@Chicor patch start
+                    if (not fast) then -- fast releases are always followed by an immediate re-add (refresh), let those through untouched
+                        local focusByID = Srendarr.db.focuslist and Srendarr.db.focuslist[Srendarr.STR_BLOCKBYID]
+                        if (rUnit == 'player' and focusByID and focusByID[rAbility])
+                            and (rAura.auraType ~= AURA_TYPE_TIMED and rAura.auraType ~= DEBUFF_TYPE_TIMED) then
+                            rAura:SetExpired() -- focuslisted non-timed auras turn grey in place instead of being released (no icon reflow)
+                            return
+                        end
+                    end
+                    --	@Chicor patch end
                     if (fast) then
                         rAura:Release()
                     else

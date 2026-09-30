@@ -65,6 +65,12 @@ L.Blacklist_AuraAddSuccess = 'a été ajouté à la liste noire et ne sera plus 
 L.Blacklist_AuraAddFail = "n'a pas été trouvé et ne peux être ajouté."
 L.Blacklist_AuraAddFailByID = "ne constitue pas une abilityID valide et n'a pas pu être ajouté à la liste noire."
 L.Blacklist_AuraRemoved = 'a été supprimé de la liste noire.'
+-- @Chicor patch start
+L.Focuslist_AuraAddSuccess = 'has been added to the Player Focuslist and will always be displayed.'
+L.Focuslist_AuraAddFail = 'was not found and could not be added.'
+L.Focuslist_AuraAddFailByID = 'is not a valid abilityID.'
+L.Focuslist_AuraRemoved = 'has been removed from the Focuslist.'
+-- @Chicor patch end
 L.Group_AuraAddSuccess = 'a été ajouté à la liste blanche du groupe de groupe.'
 L.Group_AuraAddSuccess2 = 'a été ajouté à la liste blanche de Debuff du groupe.'
 L.Group_AuraRemoved = 'a été supprimé de la liste blanche de la buff de groupe.'
@@ -284,6 +290,14 @@ L.Filter_BlacklistAdd = 'Ajouter un effet à blacklister'
 L.Filter_BlacklistAddTip = "L'effet que vous souhaitez blacklister doit être écrit exactement tel qu'il apparait en jeu. Validez par Entrée pour ajouter l'effet à la liste des effets blacklistés."
 L.Filter_BlacklistList = 'Effets actuellement blacklistées'
 L.Filter_BlacklistListTip = 'Liste de tous les effets actuellement blacklistés. Pour supprimer un effet de la blacklis, sélectionnez le et cliquez sur le bouton Supprimer de la liste.'
+-- @Chicor patch start
+L.Filter_FocuslistHeader = 'Player Aura Focuslist'
+L.Filter_FocuslistDesc = 'Here you can set Focus auras. they will be always displayed, even if player donnot have these auras, and in this case they will be show in grey mode.'
+L.Filter_FocuslistAdd = 'Add Player Focus aura. Only Player Auras'
+L.Filter_FocuslistAddTip = 'When adding an aura by name, it requires scanning all auras in the game to find the ability\'s internal ID number(s). This can cause the game to hang for a moment while searching.'
+L.Filter_FocuslistList = 'Current Focuslisted Auras'
+L.Filter_FocuslistListTip = 'List of all auras currently focuslisted. To remove an aura from the focuslist, select it from the list and click the Remove button.'
+-- @Chicor patch end
 
 -- filters (prominent auras)
 L.Filter_ProminentHead = "Affectations de l'aura proéminentes"
