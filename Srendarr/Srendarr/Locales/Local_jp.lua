@@ -65,6 +65,12 @@ L.Blacklist_AuraAddSuccess = 'は、ブラックリストに追加され、表�
 L.Blacklist_AuraAddFail = 'は、見つからなかったためブラックリストには追加されませんでした。'
 L.Blacklist_AuraAddFailByID = 'は、有効なabilityIDではなく、ブラックリストに追加されませんでした。'
 L.Blacklist_AuraRemoved = 'は、ブラックリストから外されました。'
+-- @Chicor patch start
+L.Focuslist_AuraAddSuccess = 'has been added to the Player Focuslist and will always be displayed.'
+L.Focuslist_AuraAddFail = 'was not found and could not be added.'
+L.Focuslist_AuraAddFailByID = 'is not a valid abilityID.'
+L.Focuslist_AuraRemoved = 'has been removed from the Focuslist.'
+-- @Chicor patch end
 L.Group_AuraAddSuccess = 'がグループバフホワイトリストに追加されました。'
 L.Group_AuraAddSuccess2 = 'はグループデバフホワイトリストに追加されました。'
 L.Group_AuraRemoved = 'はグループバフホワイトリストから削除されました。'
@@ -287,6 +293,14 @@ L.Filter_BlacklistAdd = 'オーラをブラックリストに追加する'
 L.Filter_BlacklistAddTip = 'ブラックリストに追加したいオーラはゲーム内に表示されている名前を正確に入力するか、内部的なAbilityID（わかれば）を入力することにより、特定のオーラをブロックすることができます。\n\nエンターキーを押すことにより、ブラックリストに追加することができます。'
 L.Filter_BlacklistList = '現在ブラックリストに登録されているオーラ'
 L.Filter_BlacklistListTip = 'ブラックリストに設定されている全てのオーラのリストです。設定されているオーラを外したい場合はリストから選択し、「ブラックリストから外す」ボタンを押してください。'
+-- @Chicor patch start
+L.Filter_FocuslistHeader = 'Player Aura Focuslist'
+L.Filter_FocuslistDesc = 'Here you can set Focus auras. they will be always displayed, even if player donnot have these auras, and in this case they will be show in grey mode.'
+L.Filter_FocuslistAdd = 'Add Player Focus aura. Only Player Auras'
+L.Filter_FocuslistAddTip = 'When adding an aura by name, it requires scanning all auras in the game to find the ability\'s internal ID number(s). This can cause the game to hang for a moment while searching.'
+L.Filter_FocuslistList = 'Current Focuslisted Auras'
+L.Filter_FocuslistListTip = 'List of all auras currently focuslisted. To remove an aura from the focuslist, select it from the list and click the Remove button.'
+-- @Chicor patch end
 
 -- filters (prominent auras)
 L.Filter_ProminentHead = '著名なオーラ割り当て'

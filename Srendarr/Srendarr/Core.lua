@@ -1274,6 +1274,23 @@ do -----------------------------------------------------------------------------
                             else
                                 CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Blacklist_AuraAddFail))    -- inform user of failed addition
                             end
+                            -- @Chicor patch start
+                            -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                            -- Global Focuslist
+                            -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+                        elseif list == 5 then
+                            if next(matchedIDs) ~= nil then      -- matches were found
+                                self.db.focuslist[auraName] = {} -- add a new focuslist entry
+                                for _, id in ipairs(matchedIDs) do
+                                    self.db.focuslist[auraName][id] = true
+                                end
+                                Srendarr:PopulateFilteredAuras()                                                                     -- update filtered aura IDs
+                                Srendarr:PopulateFocuslistAurasDropdown()
+                                CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Focuslist_AuraAddSuccess)) -- inform user of successful addition
+                            else
+                                CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Focuslist_AuraAddFail))    -- inform user of failed addition
+                            end
+                            -- @Chicor patch end
                         end
                     end
                     return
@@ -1353,6 +1370,30 @@ do -----------------------------------------------------------------------------
         end
     end
 
+    -- @Chicor patch start
+    function Srendarr:FocuslistAuraAdd(auraName)
+        auraName = zo_strformat('<<t:1>>', auraName)                     -- strip out any control characters player may have entered
+        if auraName == STR_BLOCKBYID then return end                     -- make sure we don't mess with internal table
+        if (tonumber(auraName)) then                                     -- number entered, assume is an abilityID
+            auraName = tonumber(auraName)
+            if (auraName > 0 and auraName < maxAbilityID + 5000000) then -- sanity check on the ID given
+                -- add 4000000 to allow to focuslist individual proc cooldowns so you can still track the ones you care about (Phinix)
+                if (not self.db.focuslist[STR_BLOCKBYID]) then
+                    self.db.focuslist[STR_BLOCKBYID] = {} -- ensure the by ID table is present
+                end
+                self.db.focuslist[STR_BLOCKBYID][auraName] = true
+                Srendarr:PopulateFilteredAuras()                                                                                               -- update filtered aura IDs
+                CHAT_SYSTEM:AddMessage(string.format('%s: [%d] (%s) %s', L.Srendarr, auraName, ZOSName(auraName), L.Focuslist_AuraAddSuccess)) -- inform user of successful addition
+            else
+                CHAT_SYSTEM:AddMessage(string.format('%s: [%s] %s', L.Srendarr, auraName, L.Focuslist_AuraAddFailByID))                        -- inform user of failed addition
+            end
+        else
+            if (self.db.focuslist[auraName]) then return end -- already added this aura
+            Srendarr:FindIDByName(auraName, 1, 5)
+        end
+    end
+    -- @Chicor patch end
+
     function Srendarr:GroupAuraRemove(auraName)
         auraName = zo_strformat('<<t:1>>', auraName)                                                          -- strip out any control characters player may have entered
         if auraName == STR_GROUPBUFFBYID then return end                                                      -- make sure we don't mess with internal table
@@ -1415,6 +1456,29 @@ do -----------------------------------------------------------------------------
             CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Blacklist_AuraRemoved)) -- inform user of removal
         end
     end
+
+    -- @Chicor patch start
+    function Srendarr:FocuslistAuraRemove(auraName)
+        auraName = zo_strformat('<<t:1>>', auraName)                     -- strip out any control characters player may have entered
+        if auraName == STR_BLOCKBYID then return end                     -- make sure we don't mess with internal table
+        if (tonumber(auraName)) then                                     -- trying to remove by number, assume is an abilityID
+            auraName = tonumber(auraName)
+            if (self.db.focuslist[STR_BLOCKBYID][auraName]) then         -- ID is in list, remove and inform user
+                self.db.focuslist[STR_BLOCKBYID][auraName] = nil
+                Srendarr:PopulateFilteredAuras()                                                                                          -- update filtered aura IDs
+                CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Focuslist_AuraRemoved))                         -- inform user of removal
+            end
+        else
+            if (not self.db.focuslist[auraName]) then return end -- not in focuslist, abort
+            for id in pairs(self.db.focuslist[auraName]) do
+                self.db.focuslist[auraName][id] = nil              -- clean out focuslist entry
+            end
+            self.db.focuslist[auraName] = nil                      -- remove focuslist entrys
+            Srendarr:PopulateFilteredAuras()                       -- update filtered aura IDs
+            CHAT_SYSTEM:AddMessage(string.format('%s: %s %s', L.Srendarr, auraName, L.Focuslist_AuraRemoved)) -- inform user of removal
+        end
+    end
+    -- @Chicor patch end
 end
 
 
