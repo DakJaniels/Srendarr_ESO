@@ -1,3 +1,7 @@
+[b]v2.5.52 ~DakJaniels (01-October-2026)[/b]
+[list][*]Update api version in manifest to 101051/101052. And bump version to 2552; No code chages.
+[/list]
+
 [b]v2.5.51 ~DakJaniels (28-September-2026)[/b]
 [list][*]Fixed unlocking display frames crashing when an aura group assigned to that window has no display name.
 [/list]
